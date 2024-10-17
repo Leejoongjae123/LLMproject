@@ -16,7 +16,12 @@ import {
   cn,
 } from "@nextui-org/react";
 import { FaChevronRight } from "react-icons/fa";
-import TextEditor from "../components/TextEditor";
+import dynamic from 'next/dynamic';
+
+// TextEditor를 동적으로 불러오기
+const TextEditor = dynamic(() => import('../components/TextEditor'), {
+  ssr: false,
+});
 import {
   Tabs,
   Tab,
@@ -29,7 +34,7 @@ import {
 } from "@nextui-org/react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 
-function page() {
+function Page() {
   const [selected, setSelected] = React.useState("가이드");
   const defaultContent =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
@@ -47,51 +52,60 @@ function page() {
               <ListboxItem
                 key="financial-planning"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
+                textValue="Introduction"
               >
                 Introduction
               </ListboxItem>
               <ListboxItem
                 key="email-template"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
+                textValue="General Requirements"
               >
                 General Requirements
               </ListboxItem>
               <ListboxItem
+
                 key="react-19-example"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 endContent={
                   <FaChevronRight className="text-gray-400 text-medium" />
                 }
+                textValue="Climate-related Disclosures"
               >
                 Climate-related Disclosures
               </ListboxItem>
               <ListboxItem
                 key="custom-support-message"
                 className=" my-3 group h-12 text-[#1c9ea6]  rounded-lg ml-5"
+                textValue="Governance"
               >
                 Governance
               </ListboxItem>
               <ListboxItem
                 key="resignation-letter"
                 className=" my-3 group h-12 text-[#1c9ea6]  rounded-lg ml-5"
+                textValue="Strategy"
               >
                 Strategy
               </ListboxItem>
               <ListboxItem
                 key="design-test-review"
                 className=" my-3 group h-12 text-[#1c9ea6]  rounded-lg ml-5"
+                textValue="Risk Management"
               >
                 Risk Management
               </ListboxItem>
               <ListboxItem
                 key="design-system-modules"
-                className=" my-3 group h-12 text-[#1c9ea6] rounded-lg ml-5"
+                className=" m y-3 group h-12 text-[#1c9ea6] rounded-lg ml-5"
+                textValue="Metric and Target"
               >
                 Metric and Target
               </ListboxItem>
               <ListboxItem
                 key="how-a-taximeter-works"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
+                textValue="Appendix"
               >
                 Appendix
               </ListboxItem>
@@ -140,7 +154,14 @@ function page() {
                         Sign up
                       </Link>
                     </p>
-
+                    <div className="flex gap-2 justify-end">
+                      <Button
+                        radius="full"
+                        className="w-full bg-[#f25b2b] text-white"
+                      >
+                        Button
+                      </Button>
+                    </div>
                   </form>
                 </Tab>
                 <Tab key="AI 진단" title="AI 진단">
@@ -191,6 +212,7 @@ function page() {
                     >
                       {defaultContent}
                     </AccordionItem>
+                    
                   </Accordion>
                 </Tab>
               </Tabs>
@@ -202,4 +224,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
