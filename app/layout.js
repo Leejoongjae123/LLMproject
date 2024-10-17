@@ -1,6 +1,8 @@
 import localFont from "next/font/local";
 import "./globals.css";
-
+// 1. import `NextUIProvider` component
+import { NextUIProvider } from "@nextui-org/react";
+import SideBar from "./components/SideBar";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -21,9 +23,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full`}
       >
-        {children}
+        <NextUIProvider>
+          <SideBar children={children} header={"AI 기업 보고서"}/>
+          
+        </NextUIProvider>
       </body>
     </html>
   );
