@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState,useEffect } from "react";
 import {
   Avatar,
   ScrollShadow,
@@ -33,11 +33,31 @@ import {
   CardHeader,
 } from "@nextui-org/react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
+import TipTap from '../components/TipTap'
+import { dummyData } from './components/guide';
+
 
 function Page() {
-  const [selected, setSelected] = React.useState("가이드");
-  const defaultContent =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+  const [selected, setSelected] = useState("가이드");
+  const [content, setContent] = useState({'guide':"",'sample':''});
+  
+
+  const [category, setCategory] = useState("");
+  console.log('category:',category);
+
+  const handleContentChange = () => {
+  const selectedData = dummyData.find(item => item.label === category);
+  if (selectedData) {
+    setContent({'guide':selectedData.guide,'sample':selectedData.sample});
+  } else {
+    setContent({'guide':"",'sample':''});
+  }
+  };
+  useEffect(() => {
+    handleContentChange();
+  }, [category]);
+  console.log('content:',content);
+
   return (
     <div className="w-full h-full grid grid-cols-4 gap-4">
       <div className="col-span-1 border-r px-5">
@@ -114,7 +134,8 @@ function Page() {
         </ScrollShadow>
       </div>
       <div className="col-span-2 ">
-        <TextEditor></TextEditor>
+        {/* <TextEditor></TextEditor> */}
+        <TipTap category={category} setCategory={setCategory}></TipTap>
       </div>
       <div className="col-span-1">
         <div className="flex flex-col w-full h-full">
@@ -196,21 +217,21 @@ function Page() {
                   </form>
                 </Tab>
                 <Tab key="가이드" title="가이드">
-                  <Accordion variant="splitted">
+                  <Accordion variant="splitted" defaultExpandedKeys={["1","2"]}>
                     <AccordionItem
                       key="1"
                       aria-label="Accordion 1"
-                      title="가이드라인 보기"
+                      title={<strong>가이드라인 보기</strong>}
                       className=""
                     >
-                      {defaultContent}
+                      <p className="text-sm">{content.guide}</p>
                     </AccordionItem>
                     <AccordionItem
                       key="2"
                       aria-label="Accordion 2"
-                      title="샘플 보기"
+                      title={<strong>샘플 보기</strong>}
                     >
-                      {defaultContent}
+                      <p className="text-sm">{content.sample}</p>
                     </AccordionItem>
                     
                   </Accordion>
