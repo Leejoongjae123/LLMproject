@@ -232,15 +232,15 @@ export default function Component({
   );
 
   return (
-    <div className="w-screen h-screen flex py-4 px-4">
+    <div className="w-screen h-screen flex py-4 px-4 overflow-hidden">
       <SidebarDrawer
-        className="h-full  rounded-[14px] bg-default-50 overflow-hidden"
+        className="h-full rounded-[14px] bg-default-50 overflow-hidden"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
       >
         {content}
       </SidebarDrawer>
-      <div className="flex w-full flex-col px-4 ">
+      <div className="flex w-full h-full flex-col px-4 overflow-hidden">
         <header
           className={cn(
             "flex h-16 min-h-16 items-center justify-between gap-2 rounded-none rounded-t-medium border-small border-divider px-4 py-3",
@@ -273,11 +273,14 @@ export default function Component({
           )}
 
           <p className="text-2xl font-bold px-3">{header}</p>
-          <Button radius="full" className="w-[10vw] h-full font-bold text-lg bg-[#f25b2b] text-white">
+          <Button
+            radius="full"
+            className="w-[10vw] h-full font-bold text-lg bg-[#f25b2b] text-white"
+          >
             저장하기
           </Button>
         </header>
-        <main className="flex h-full">
+        <main className="h-full overflow-auto">
           <div className="flex h-full w-full flex-col gap-4 rounded-none rounded-b-medium border-0 border-b border-l border-r border-divider">
             {children}
           </div>

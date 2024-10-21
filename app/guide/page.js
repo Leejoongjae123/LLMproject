@@ -1,5 +1,5 @@
 "use client";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   ScrollShadow,
@@ -16,10 +16,10 @@ import {
   cn,
 } from "@nextui-org/react";
 import { FaChevronRight } from "react-icons/fa";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
 // TextEditor를 동적으로 불러오기
-const TextEditor = dynamic(() => import('../components/TextEditor'), {
+const TextEditor = dynamic(() => import("../components/TextEditor"), {
   ssr: false,
 });
 import {
@@ -33,30 +33,28 @@ import {
   CardHeader,
 } from "@nextui-org/react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
-import TipTap from '../components/TipTap'
-import { dummyData } from './components/guide';
-
+import TipTap from "../components/TipTap";
+import { dummyData } from "./components/guide";
 
 function Page() {
   const [selected, setSelected] = useState("가이드");
-  const [content, setContent] = useState({'guide':"",'sample':''});
-  
+  const [content, setContent] = useState({ guide: "", sample: "" });
 
   const [category, setCategory] = useState("");
-  console.log('category:',category);
+  console.log("category:", category);
 
   const handleContentChange = () => {
-  const selectedData = dummyData.find(item => item.label === category);
-  if (selectedData) {
-    setContent({'guide':selectedData.guide,'sample':selectedData.sample});
-  } else {
-    setContent({'guide':"",'sample':''});
-  }
+    const selectedData = dummyData.find((item) => item.label === category);
+    if (selectedData) {
+      setContent({ guide: selectedData.guide, sample: selectedData.sample });
+    } else {
+      setContent({ guide: "", sample: "" });
+    }
   };
   useEffect(() => {
     handleContentChange();
   }, [category]);
-  console.log('content:',content);
+  console.log("content:", content);
 
   return (
     <div className="w-full h-full grid grid-cols-4 gap-4">
@@ -84,7 +82,6 @@ function Page() {
                 General Requirements
               </ListboxItem>
               <ListboxItem
-
                 key="react-19-example"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 endContent={
@@ -133,8 +130,7 @@ function Page() {
           </Listbox>
         </ScrollShadow>
       </div>
-      <div className="col-span-2 ">
-        {/* <TextEditor></TextEditor> */}
+      <div className="col-span-2 overflow-y-auto h-full">
         <TipTap category={category} setCategory={setCategory}></TipTap>
       </div>
       <div className="col-span-1">
@@ -217,7 +213,10 @@ function Page() {
                   </form>
                 </Tab>
                 <Tab key="가이드" title="가이드">
-                  <Accordion variant="splitted" defaultExpandedKeys={["1","2"]}>
+                  <Accordion
+                    variant="splitted"
+                    defaultExpandedKeys={["1", "2"]}
+                  >
                     <AccordionItem
                       key="1"
                       aria-label="Accordion 1"
@@ -233,7 +232,6 @@ function Page() {
                     >
                       <p className="text-sm">{content.sample}</p>
                     </AccordionItem>
-                    
                   </Accordion>
                 </Tab>
               </Tabs>
