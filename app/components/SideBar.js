@@ -158,7 +158,7 @@ export default function Component({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const content = (
-    <div className="relative flex h-full w-56 flex-1 flex-col p-6 bg-[#444444]">
+    <div className="relative flex h-full w-40 flex-1 flex-col p-6 bg-[#444444]">
       <div className="flex items-center gap-2 px-2 my-5">
         <span className="text-white text-4xl font-bold uppercase leading-6 text-foreground">
           EDK
@@ -177,7 +177,7 @@ export default function Component({
           >
             <ListboxItem
               key="financial-planning"
-              className="group h-[44px] px-[12px] py-[10px] text-gray-400"
+              className="group h-[44px] px-[12px] py-5 text-gray-400"
             >
               대시보드
             </ListboxItem>

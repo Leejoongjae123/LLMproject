@@ -57,7 +57,7 @@ function Page() {
   console.log("content:", content);
 
   return (
-    <div className="w-full h-full grid grid-cols-4 gap-4">
+    <div className="w-full h-full grid grid-cols-6 gap-4">
       <div className="col-span-1 border-r px-5">
         <ScrollShadow className="-mr-6 h-full max-h-full pr-6 ">
           <Listbox aria-label="Recent chats" variant="flat">
@@ -130,10 +130,10 @@ function Page() {
           </Listbox>
         </ScrollShadow>
       </div>
-      <div className="col-span-2 overflow-y-auto h-full">
+      <div className="col-span-3 overflow-y-auto h-full">
         <TipTap category={category} setCategory={setCategory}></TipTap>
       </div>
-      <div className="col-span-1">
+      <div className="col-span-2">
         <div className="flex flex-col w-full h-full">
           <Card className="flex-1">
             <CardBody className="overflow-hidden">

@@ -105,6 +105,8 @@ const StyledEditorContent = styled(EditorContent)`
   .ProseMirror {
     > * + * {
       margin-top: 0.75em;
+      
+
     }
 
     table {
@@ -646,14 +648,14 @@ const CustomEditor = ({ category, setCategory }) => {
           </Toggle> */}
         </div>
       )}
-      <div className={`editor-container ${isFocused ? "is-focused" : ""}`}>
+      <div className={`editor-container`}>
         <StyledEditorContent editor={editor} />
       </div>
 
-      <div className="selected-text-container">
+      {/* <div className="selected-text-container">
         <h3>선택된 텍스트:</h3>
         <p className="selected-text">{selectedText}</p>
-      </div>
+      </div> */}
       <TableCreationModal
         isOpen={isOpen}
         onOpen={onOpen}
