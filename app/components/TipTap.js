@@ -212,6 +212,8 @@ const CustomEditor = ({ category, setCategory }) => {
       TableCell,
     ],
     content: `
+      <h1 style="font-weight: 700;">거버넌스</h1>
+      <h2 >기후 관련 위험 및 기회에 관한 관리 감독 기구</h2>
       <p>(가) 첫 번째 문단입니다, 두 번째 부분입니다, 세 번째 부분입니다.</p>
       <p>(나) 다른 문단입니다, 이것도 쉼표로 구분됩니다.</p>
     `,
@@ -604,7 +606,7 @@ const CustomEditor = ({ category, setCategory }) => {
   return (
     <div>
       {editor && (
-        <div className="toolbar flex flex-row items-center gap-1 p-1 border border-input bg-transparent rounded-md">
+        <div className="toolbar flex flex-row items-center gap-1 p-1 border border-input bg-transparent rounded-md m-5">
           <ToolbarItem
             icon={<Bold className="h-4 w-4" />}
             label="굵게"
@@ -648,7 +650,7 @@ const CustomEditor = ({ category, setCategory }) => {
           </Toggle> */}
         </div>
       )}
-      <div className={`editor-container`}>
+      <div className={`editor-container p-5`}>
         <StyledEditorContent editor={editor} />
       </div>
 

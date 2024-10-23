@@ -13,10 +13,12 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownSection,
+  Switch,
   cn,
 } from "@nextui-org/react";
 import { FaChevronRight } from "react-icons/fa";
 import dynamic from "next/dynamic";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 // TextEditor를 동적으로 불러오기
 const TextEditor = dynamic(() => import("../components/TextEditor"), {
@@ -67,21 +69,7 @@ function Page() {
                 heading: "py-0 pl-[10px] text-small text-default-400 ",
               }}
             >
-              <ListboxItem
-                key="financial-planning"
-                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
-                textValue="Introduction"
-              >
-                Introduction
-              </ListboxItem>
-              <ListboxItem
-                key="email-template"
-                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
-                textValue="General Requirements"
-              >
-                General Requirements
-              </ListboxItem>
-              <ListboxItem
+                            <ListboxItem
                 key="react-19-example"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 endContent={
@@ -89,156 +77,167 @@ function Page() {
                 }
                 textValue="Climate-related Disclosures"
               >
-                Climate-related Disclosures
+                리스크관리              </ListboxItem>
+
+              <ListboxItem
+                key="email-template"
+                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
+                textValue="General Requirements"
+              >
+                전략
               </ListboxItem>
+
               <ListboxItem
                 key="custom-support-message"
                 className=" my-3 group h-12 text-[#1c9ea6]  rounded-lg ml-5"
                 textValue="Governance"
               >
-                Governance
+                <p className="text-sm pr-5">기후 관련 위험 및 기회에 관한 관리 감독 기구</p>
+                
               </ListboxItem>
               <ListboxItem
                 key="resignation-letter"
-                className=" my-3 group h-12 text-[#1c9ea6]  rounded-lg ml-5"
+                className=" my-3 group h-12 text-[#1c9ea6]  rounded-lg ml-5 "
                 textValue="Strategy"
               >
-                Strategy
+                <p className="text-sm pr-5">경영진의 역할 및 감독 방법</p>
               </ListboxItem>
-              <ListboxItem
-                key="design-test-review"
-                className=" my-3 group h-12 text-[#1c9ea6]  rounded-lg ml-5"
-                textValue="Risk Management"
-              >
-                Risk Management
-              </ListboxItem>
-              <ListboxItem
-                key="design-system-modules"
-                className=" m y-3 group h-12 text-[#1c9ea6] rounded-lg ml-5"
-                textValue="Metric and Target"
-              >
-                Metric and Target
-              </ListboxItem>
+              
+              
               <ListboxItem
                 key="how-a-taximeter-works"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="Appendix"
               >
-                Appendix
+                지표 및 목표
               </ListboxItem>
             </ListboxSection>
           </Listbox>
         </ScrollShadow>
       </div>
-      <div className="col-span-3 overflow-y-auto h-full">
-        <TipTap category={category} setCategory={setCategory}></TipTap>
-      </div>
-      <div className="col-span-2">
-        <div className="flex flex-col w-full h-full">
-          <Card className="flex-1">
-            <CardBody className="overflow-hidden">
-              <Tabs
-                fullWidth
-                size="md"
-                aria-label="Tabs form"
-                selectedKey={selected}
-                onSelectionChange={setSelected}
-                variant="underlined"
-                classNames={{
-                  // tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider",
-                  cursor: "w-full bg-[#f25b2b]",
-                  // tab: "max-w-fit px-0 h-12",
-                  // tabContent: "group-data-[selected=true]:text-[#f25b2b]"
-                }}
-              >
-                <Tab key="AI 매니저" title="AI 매니저">
-                  <form className="flex flex-col gap-4">
-                    <Input
-                      isRequired
-                      label="Email"
-                      placeholder="Enter your email"
-                      type="email"
-                    />
-                    <Input
-                      isRequired
-                      label="Password"
-                      placeholder="Enter your password"
-                      type="password"
-                    />
-                    <p className="text-center text-small">
-                      Need to create an account?{" "}
-                      <Link size="sm" onPress={() => setSelected("sign-up")}>
-                        Sign up
-                      </Link>
-                    </p>
-                    <div className="flex gap-2 justify-end">
-                      <Button
-                        radius="full"
-                        className="w-full bg-[#f25b2b] text-white"
-                      >
-                        Button
-                      </Button>
-                    </div>
-                  </form>
-                </Tab>
-                <Tab key="AI 진단" title="AI 진단">
-                  <form className="flex flex-col gap-4 h-[300px]">
-                    <Input
-                      isRequired
-                      label="Name"
-                      placeholder="Enter your name"
-                      type="password"
-                    />
-                    <Input
-                      isRequired
-                      label="Email"
-                      placeholder="Enter your email"
-                      type="email"
-                    />
-                    <Input
-                      isRequired
-                      label="Password"
-                      placeholder="Enter your password"
-                      type="password"
-                    />
+      <PanelGroup direction="horizontal" className="col-span-5">
+        <Panel defaultSize={60} minSize={30}>
+          <div className="overflow-y-auto h-full">
+            <TipTap category={category} setCategory={setCategory}></TipTap>
+          </div>
+        </Panel>
+        <PanelResizeHandle className="w-1 flex items-center justify-center">
+          <div className="w-1 h-8 bg-gray-300 rounded-full hover:bg-gray-400 transition-colors" />
+        </PanelResizeHandle>
+        <Panel defaultSize={40} minSize={30}>
+          <div className="flex flex-col w-full h-full p-1">
+            <Card className="flex-1 shadow-none border border-gray-300">
+              <CardBody className="overflow-hidden">
+                <Tabs
+                  fullWidth
+                  size="md"
+                  aria-label="Tabs form"
+                  selectedKey={selected}
+                  onSelectionChange={setSelected}
+                  variant="underlined"
+                  classNames={{
+                    // tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+                    cursor: "w-full bg-[#f25b2b]",
+                    // tab: "max-w-fit px-0 h-12",
+                    // tabContent: "group-data-[selected=true]:text-[#f25b2b]"
+                  }}
+                >
+                  <Tab key="AI 매니저" title="AI 매니저">
+                    <form className="flex flex-col gap-4">
+                      <Input
+                        isRequired
+                        label="Email"
+                        placeholder="Enter your email"
+                        type="email"
+                      />
+                      <Input
+                        isRequired
+                        label="Password"
+                        placeholder="Enter your password"
+                        type="password"
+                      />
+                      <p className="text-center text-small">
+                        Need to create an account?{" "}
+                        <Link size="sm" onPress={() => setSelected("sign-up")}>
+                          Sign up
+                        </Link>
+                      </p>
+                      <div className="flex gap-2 justify-end">
+                        <Button
+                          radius="full"
+                          className="w-full bg-[#f25b2b] text-white"
+                        >
+                          Button
+                        </Button>
+                      </div>
+                    </form>
+                  </Tab>
+                  <Tab key="AI 진단" title="AI 진단">
+                    <form className="flex flex-col gap-4 h-[300px]">
+                      <Input
+                        isRequired
+                        label="Name"
+                        placeholder="Enter your name"
+                        type="password"
+                      />
+                      <Input
+                        isRequired
+                        label="Email"
+                        placeholder="Enter your email"
+                        type="email"
+                      />
+                      <Input
+                        isRequired
+                        label="Password"
+                        placeholder="Enter your password"
+                        type="password"
+                      />
 
-                    <div className="flex gap-2 justify-end">
-                      <Button
-                        radius="full"
-                        className="w-full bg-[#f25b2b] text-white"
+                      <div className="flex gap-2 justify-end">
+                        <Button
+                          radius="full"
+                          className="w-full bg-[#f25b2b] text-white"
+                        >
+                          저장하기
+                        </Button>
+                      </div>
+                    </form>
+                  </Tab>
+                  <Tab key="가이드" title="가이드">
+                    <Accordion
+                      variant="splitted"
+                      defaultExpandedKeys={["1", "2"]}
+                    >
+                      <AccordionItem
+                        key="1"
+                        aria-label="Accordion 1"
+                        title={
+                          <div className="flex items-center justify-between ㄹ">
+                            <strong>가이드라인 보기</strong>
+                            <Switch size='sm'>
+                              <p className="text-xs">영문변환</p>
+                            </Switch>
+                          </div>
+                        }
+                        className=""
                       >
-                        저장하기
-                      </Button>
-                    </div>
-                  </form>
-                </Tab>
-                <Tab key="가이드" title="가이드">
-                  <Accordion
-                    variant="splitted"
-                    defaultExpandedKeys={["1", "2"]}
-                  >
-                    <AccordionItem
-                      key="1"
-                      aria-label="Accordion 1"
-                      title={<strong>가이드라인 보기</strong>}
-                      className=""
-                    >
-                      <p className="text-sm">{content.guide}</p>
-                    </AccordionItem>
-                    <AccordionItem
-                      key="2"
-                      aria-label="Accordion 2"
-                      title={<strong>샘플 보기</strong>}
-                    >
-                      <p className="text-sm">{content.sample}</p>
-                    </AccordionItem>
-                  </Accordion>
-                </Tab>
-              </Tabs>
-            </CardBody>
-          </Card>
-        </div>
-      </div>
+                        <p className="text-sm">{content.guide}</p>
+                      </AccordionItem>
+                      <AccordionItem
+                        key="2"
+                        aria-label="Accordion 2"
+                        title={<strong>샘플 보기</strong>}
+                      >
+                        <p className="text-sm">{content.sample}</p>
+                      </AccordionItem>
+                    </Accordion>
+                  </Tab>
+                </Tabs>
+              </CardBody>
+            </Card>
+          </div>
+        </Panel>
+      </PanelGroup>
     </div>
   );
 }
