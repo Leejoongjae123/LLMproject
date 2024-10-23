@@ -15,12 +15,15 @@ import {
   DropdownSection,
   Switch,
   cn,
+  ButtonGroup,
 } from "@nextui-org/react";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft } from "react-icons/fa6";
+import { FaChevronRight } from "react-icons/fa6";
+
 import dynamic from "next/dynamic";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { ListboxWrapper } from "./components/ListboxWrapper";
-
+import { sampleText } from "./components/sampleText";
 // TextEditor를 동적으로 불러오기
 const TextEditor = dynamic(() => import("../components/TextEditor"), {
   ssr: false,
@@ -47,7 +50,9 @@ function Page() {
   const [selectedLanguage, setSelectedLanguage] = useState("kr");
   const [category, setCategory] = useState("");
   const [guideContents, setGuideContents] = useState(null);
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
+  const [selectedKeys, setSelectedKeys] = useState(new Set(["edk"]));
+  const [sampleContents, setSampleContents] = useState(null);
+  const [sampleStep, setSampleStep] = useState(1);
 
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", "),
@@ -67,8 +72,6 @@ function Page() {
   useEffect(() => {
     handleContentChange();
   }, [category]);
-  console.log("content:", content);
-  console.log("selectedItem:", selectedItem);
 
   const guideRef = useRef(null);
 
@@ -94,7 +97,20 @@ function Page() {
       setGuideContents(null);
     }
   }, [selectedLanguage, selectedItem]);
-  console.log("guideContents:", guideContents);
+
+  useEffect(() => {
+    const selectedSample = sampleText.find(
+      (item) =>
+        item.title === selectedItem &&
+        selectedKeys.has(item.key) &&
+        item.text === category
+    );
+    if (selectedSample) {
+      setSampleContents(selectedSample);
+    } else {
+      setSampleContents(null);
+    }
+  }, [selectedItem, selectedKeys, category]);
 
   return (
     <div className="w-full h-full grid grid-cols-6 gap-4">
@@ -366,14 +382,149 @@ function Page() {
                               disallowEmptySelection
                               selectionMode="single"
                               selectedKeys={selectedKeys}
-                              onSelectionChange={setSelectedKeys}
+                              onSelectionChange={(keys) => {
+                                setSelectedKeys(keys);
+                                setSampleStep(1); // Reset sample step to 1 for any selection
+                              }}
                             >
-                              <ListboxItem key="text">EDK샘플</ListboxItem>
-                              <ListboxItem key="number">국내 기업 샘플</ListboxItem>
-                              <ListboxItem key="date">해외 기업 샘플</ListboxItem>
+                              <ListboxItem key="edk">EDK샘플</ListboxItem>
+                              <ListboxItem key="domestic">
+                                국내 기업 샘플
+                              </ListboxItem>
+                              <ListboxItem key="foreign">
+                                해외 기업 샘플
+                              </ListboxItem>
                             </Listbox>
                           </ListboxWrapper>
-                          <p className="text-sm">{content.sample}</p>
+
+                          <div className="text-sm p-3 pb-0">
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  sampleStep === 1
+                                    ? sampleContents?.contents1
+                                    : sampleContents?.contents2,
+                              }}
+                            />
+                            <div className="flex flex-col justify-start items-start gap-2 my-3">
+                              {sampleContents?.link1_1 && (
+                                <div className="flex justify-start items-center gap-2 w-full">
+                                  {(sampleStep === 1
+                                    ? sampleContents.link1_1
+                                    : sampleContents.link2_1) && (
+                                    <>
+                                      <p
+                                        className="w-12 flex-shrink-0 whitespace-nowrap "
+                                        color="primary"
+                                      >
+                                        보고서1
+                                      </p>
+                                      <div className="flex-grow truncate">
+                                        <Link
+                                          target="_blank"
+                                          href={
+                                            sampleStep === 1
+                                              ? sampleContents.link1_1
+                                              : sampleContents.link2_1
+                                          }
+                                          className="block truncate"
+                                        >
+                                          {sampleStep === 1
+                                            ? sampleContents.link1_1
+                                            : sampleContents.link2_1}
+                                        </Link>
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                              )}
+                              {sampleContents?.link1_2 && (
+                                <div className="flex justify-start items-center gap-2 w-full">
+                                  {(sampleStep === 1
+                                    ? sampleContents.link1_2
+                                    : sampleContents.link2_2) && (
+                                    <>
+                                      <p
+                                        className="w-12 flex-shrink-0 whitespace-nowrap "
+                                        color="primary"
+                                      >
+                                        보고서2
+                                      </p>
+                                      <div className="flex-grow truncate">
+                                        <Link
+                                          target="_blank"
+                                          href={
+                                            sampleStep === 1
+                                              ? sampleContents.link1_2
+                                              : sampleContents.link2_2
+                                          }
+                                          className="block truncate"
+                                        >
+                                          {sampleStep === 1
+                                            ? sampleContents.link1_2
+                                            : sampleContents.link2_2}
+                                        </Link>
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                              )}
+                              {sampleContents?.link1_3 && (
+                                <div className="flex justify-start items-center gap-2 w-full">
+                                  {(sampleStep === 1
+                                    ? sampleContents.link1_3
+                                    : sampleContents.link2_3) && (
+                                    <>
+                                      <p
+                                        className="w-12 flex-shrink-0 whitespace-nowrap "
+                                        color="primary"
+                                      >
+                                        전문
+                                      </p>
+                                      <div className="flex-grow truncate">
+                                        <Link
+                                          target="_blank"
+                                          href={
+                                            sampleStep === 1
+                                              ? sampleContents.link1_3
+                                             : sampleContents.link2_3
+                                          }
+                                          className="block truncate"
+                                        >
+                                          {sampleStep === 1
+                                            ? sampleContents.link1_3
+                                            : sampleContents.link2_3}
+                                        </Link>
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {Array.from(selectedKeys).some(
+                            (key) => key === "domestic" || key === "foreign"
+                          ) && (
+                            <ButtonGroup className="w-full justify-end p-3">
+                              <Button
+                                size="sm"
+                                variant="flat"
+                                onClick={() => setSampleStep(1)}
+                                disabled={sampleStep === 1}
+                              >
+                                <FaChevronLeft />
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="flat"
+                                onClick={() => setSampleStep(2)}
+                                disabled={sampleStep === 2}
+                              >
+                                <FaChevronRight />
+                              </Button>
+                            </ButtonGroup>
+                          )}
                         </div>
                       </AccordionItem>
                     </Accordion>
