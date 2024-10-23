@@ -154,7 +154,7 @@ const StyledTable = styled.table`
   }
 `;
 
-const CustomEditor = ({ category, setCategory }) => {
+const CustomEditor = ({ category, setCategory, selectedItem }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [selectedText, setSelectedText] = useState("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -189,6 +189,8 @@ const CustomEditor = ({ category, setCategory }) => {
     handleCategoryChange(category);
   }, [selectedText]);
 
+
+  
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -211,12 +213,7 @@ const CustomEditor = ({ category, setCategory }) => {
       TableHeader,
       TableCell,
     ],
-    content: `
-      <h1 style="font-weight: 700;">거버넌스</h1>
-      <h2 >기후 관련 위험 및 기회에 관한 관리 감독 기구</h2>
-      <p>(가) 첫 번째 문단입니다, 두 번째 부분입니다, 세 번째 부분입니다.</p>
-      <p>(나) 다른 문단입니다, 이것도 쉼표로 구분됩니다.</p>
-    `,
+    content: '', // 초기 내용을 비워둡니다.
     onFocus: () => setIsFocused(true),
     onBlur: () => setIsFocused(false),
   });
@@ -252,6 +249,22 @@ const CustomEditor = ({ category, setCategory }) => {
       };
     }
   }, [editor]);
+
+  // selectedItem이 변경될 때마다 에디터 내용을 업데이트하는 useEffect
+  useEffect(() => {
+    if (editor) {
+      const content = `
+        <h1 style="font-weight: 700;">거버넌스</h1>
+        <h2>${selectedItem === 'custom-support-message' ? '기후 관련 위험 및 기회에 관한 관리 감독 기구' : '경영진의 역할 및 감독 방법'}</h2>
+        <p>(가) 첫 번째 문단입니다, 두 번째 부분입니다, 세 번째 부분입니다.</p>
+        <p>(나) 다른 문단입니다, 이것도 쉼표로 구분됩니다.</p>
+        <p>(다) 세번째로 존재하는 문단입니다.</p>
+        <p>(라) 네번째로 존재하는 문단입니다.</p>
+        
+      `;
+      editor.commands.setContent(content);
+    }
+  }, [editor, selectedItem]);
 
   // 툴바 아이템 컴포넌트 수정
   const ToolbarItem = ({ icon, label, action, isActive }) => (

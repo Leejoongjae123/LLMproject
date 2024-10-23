@@ -41,6 +41,7 @@ import { dummyData } from "./components/guide";
 function Page() {
   const [selected, setSelected] = useState("가이드");
   const [content, setContent] = useState({ guide: "", sample: "" });
+  const [selectedItem, setSelectedItem] = useState("");
 
   const [category, setCategory] = useState("");
   console.log("category:", category);
@@ -57,7 +58,7 @@ function Page() {
     handleContentChange();
   }, [category]);
   console.log("content:", content);
-
+  console.log("selectedItem:", selectedItem);
   return (
     <div className="w-full h-full grid grid-cols-6 gap-4">
       <div className="col-span-1 border-r px-5">
@@ -69,15 +70,13 @@ function Page() {
                 heading: "py-0 pl-[10px] text-small text-default-400 ",
               }}
             >
-                            <ListboxItem
+              <ListboxItem
                 key="react-19-example"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
-                endContent={
-                  <FaChevronRight className="text-gray-400 text-medium" />
-                }
                 textValue="Climate-related Disclosures"
               >
-                리스크관리              </ListboxItem>
+                리스크관리{" "}
+              </ListboxItem>
 
               <ListboxItem
                 key="email-template"
@@ -86,24 +85,48 @@ function Page() {
               >
                 전략
               </ListboxItem>
+              <ListboxItem
+                key="email-template"
+                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
+                textValue="General Requirements"
+                endContent={
+                  <FaChevronRight className="text-gray-400 text-medium" />
+                }
+              >
+                거버넌스
+              </ListboxItem>
 
               <ListboxItem
                 key="custom-support-message"
-                className=" my-3 group h-12 text-[#1c9ea6]  rounded-lg ml-5"
+                className="my-3 group h-12 text-[#1c9ea6] rounded-lg ml-5 hover:none"
                 textValue="Governance"
+                onClick={() => setSelectedItem("custom-support-message")}
               >
-                <p className="text-sm pr-5">기후 관련 위험 및 기회에 관한 관리 감독 기구</p>
-                
+                <p
+                  className={cn(
+                    "text-sm pr-5",
+                    selectedItem === "custom-support-message" && "font-bold"
+                  )}
+                >
+                  기후 관련 위험 및 기회에 관한 관리 감독 기구
+                </p>
               </ListboxItem>
               <ListboxItem
                 key="resignation-letter"
-                className=" my-3 group h-12 text-[#1c9ea6]  rounded-lg ml-5 "
+                className="my-3 group h-12 text-[#1c9ea6] rounded-lg ml-5"
                 textValue="Strategy"
+                onClick={() => setSelectedItem("resignation-letter")}
               >
-                <p className="text-sm pr-5">경영진의 역할 및 감독 방법</p>
+                <p
+                  className={cn(
+                    "text-sm pr-5",
+                    selectedItem === "resignation-letter" && "font-bold"
+                  )}
+                >
+                  경영진의 역할 및 감독 방법
+                </p>
               </ListboxItem>
-              
-              
+
               <ListboxItem
                 key="how-a-taximeter-works"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
@@ -118,7 +141,11 @@ function Page() {
       <PanelGroup direction="horizontal" className="col-span-5">
         <Panel defaultSize={60} minSize={30}>
           <div className="overflow-y-auto h-full">
-            <TipTap category={category} setCategory={setCategory}></TipTap>
+            <TipTap
+              category={category}
+              setCategory={setCategory}
+              selectedItem={selectedItem}
+            ></TipTap>
           </div>
         </Panel>
         <PanelResizeHandle className="w-1 flex items-center justify-center">
@@ -203,7 +230,7 @@ function Page() {
                       </div>
                     </form>
                   </Tab>
-                  <Tab key="가이드" title="가이드">
+                  <Tab key="가이드" title="가이드" className="">
                     <Accordion
                       variant="splitted"
                       defaultExpandedKeys={["1", "2"]}
@@ -214,14 +241,27 @@ function Page() {
                         title={
                           <div className="flex items-center justify-between ㄹ">
                             <strong>가이드라인 보기</strong>
-                            <Switch size='sm'>
+                            <Switch size="sm">
                               <p className="text-xs">영문변환</p>
                             </Switch>
                           </div>
                         }
                         className=""
                       >
-                        <p className="text-sm">{content.guide}</p>
+                        <p>
+                          
+                        </p>
+                        <p>
+
+                        </p>
+                        <p>
+
+                        </p>
+                        <p>
+
+                        </p>
+                        <p></p>
+                        <p></p>
                       </AccordionItem>
                       <AccordionItem
                         key="2"
