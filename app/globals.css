@@ -230,3 +230,8 @@ body {
     border: 1px solid var(--gray-3);
   }
 }
+
+.is-selected {
+  background-color: #FFFACD;
+  border-radius: 4px;
+}

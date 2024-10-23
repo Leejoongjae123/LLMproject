@@ -154,9 +154,9 @@ const StyledTable = styled.table`
   }
 `;
 
-const CustomEditor = ({ category, setCategory, selectedItem }) => {
+const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSelectedText }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedText, setSelectedText] = useState("");
+  
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleCategoryChange = () => {
@@ -254,12 +254,13 @@ const CustomEditor = ({ category, setCategory, selectedItem }) => {
   useEffect(() => {
     if (editor) {
       const content = `
-        <h1 style="font-weight: 700;">거버넌스</h1>
-        <h2>${selectedItem === 'custom-support-message' ? '기후 관련 위험 및 기회에 관한 관리 감독 기구' : '경영진의 역할 및 감독 방법'}</h2>
+        <h1 style="font-weight: 700;">리스크 관리</h1>
+        <h2>${selectedItem === 'weather' ? '기후 관련 위험 및 기회에 관한 관리 감독 기구' : '경영진의 역할 및 감독 방법'}</h2>
         <p>(가) 첫 번째 문단입니다, 두 번째 부분입니다, 세 번째 부분입니다.</p>
         <p>(나) 다른 문단입니다, 이것도 쉼표로 구분됩니다.</p>
         <p>(다) 세번째로 존재하는 문단입니다.</p>
-        <p>(라) 네번째로 존재하는 문단입니다.</p>
+        <p>(라) 네번째로 구분하였습니다.</p>
+        <p>(마) 다섯번째로 존재하는 문단이에요.</p>
         
       `;
       editor.commands.setContent(content);

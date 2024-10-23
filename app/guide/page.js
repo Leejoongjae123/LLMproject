@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import {
   Avatar,
   ScrollShadow,
@@ -19,6 +19,7 @@ import {
 import { FaChevronRight } from "react-icons/fa";
 import dynamic from "next/dynamic";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { ListboxWrapper } from "./components/ListboxWrapper";
 
 // TextEditor를 동적으로 불러오기
 const TextEditor = dynamic(() => import("../components/TextEditor"), {
@@ -37,13 +38,22 @@ import {
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import TipTap from "../components/TipTap";
 import { dummyData } from "./components/guide";
-
+import { guideText } from "./components/guideText";
 function Page() {
   const [selected, setSelected] = useState("가이드");
   const [content, setContent] = useState({ guide: "", sample: "" });
-  const [selectedItem, setSelectedItem] = useState("");
-
+  const [selectedItem, setSelectedItem] = useState("weather");
+  const [selectedText, setSelectedText] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("kr");
   const [category, setCategory] = useState("");
+  const [guideContents, setGuideContents] = useState(null);
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
+
+  const selectedValue = useMemo(
+    () => Array.from(selectedKeys).join(", "),
+    [selectedKeys]
+  );
+
   console.log("category:", category);
 
   const handleContentChange = () => {
@@ -59,6 +69,33 @@ function Page() {
   }, [category]);
   console.log("content:", content);
   console.log("selectedItem:", selectedItem);
+
+  const guideRef = useRef(null);
+
+  useEffect(() => {
+    if (guideRef.current) {
+      const selectedElement = guideRef.current.querySelector(".is-selected");
+      if (selectedElement) {
+        selectedElement.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }
+    }
+  }, [selectedText]);
+
+  useEffect(() => {
+    const selectedGuide = guideText.find(
+      (item) => item.lan === selectedLanguage && item.title === selectedItem
+    );
+    if (selectedGuide) {
+      setGuideContents(selectedGuide.description);
+    } else {
+      setGuideContents(null);
+    }
+  }, [selectedLanguage, selectedItem]);
+  console.log("guideContents:", guideContents);
+
   return (
     <div className="w-full h-full grid grid-cols-6 gap-4">
       <div className="col-span-1 border-r px-5">
@@ -75,7 +112,7 @@ function Page() {
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="Climate-related Disclosures"
               >
-                리스크관리{" "}
+                거버넌스
               </ListboxItem>
 
               <ListboxItem
@@ -93,19 +130,19 @@ function Page() {
                   <FaChevronRight className="text-gray-400 text-medium" />
                 }
               >
-                거버넌스
+                리스크 관리
               </ListboxItem>
 
               <ListboxItem
                 key="custom-support-message"
                 className="my-3 group h-12 text-[#1c9ea6] rounded-lg ml-5 hover:none"
                 textValue="Governance"
-                onClick={() => setSelectedItem("custom-support-message")}
+                onClick={() => setSelectedItem("weather")}
               >
                 <p
                   className={cn(
                     "text-sm pr-5",
-                    selectedItem === "custom-support-message" && "font-bold"
+                    selectedItem === "weather" && "font-bold"
                   )}
                 >
                   기후 관련 위험 및 기회에 관한 관리 감독 기구
@@ -115,12 +152,12 @@ function Page() {
                 key="resignation-letter"
                 className="my-3 group h-12 text-[#1c9ea6] rounded-lg ml-5"
                 textValue="Strategy"
-                onClick={() => setSelectedItem("resignation-letter")}
+                onClick={() => setSelectedItem("manager")}
               >
                 <p
                   className={cn(
                     "text-sm pr-5",
-                    selectedItem === "resignation-letter" && "font-bold"
+                    selectedItem === "manager" && "font-bold"
                   )}
                 >
                   경영진의 역할 및 감독 방법
@@ -145,6 +182,8 @@ function Page() {
               category={category}
               setCategory={setCategory}
               selectedItem={selectedItem}
+              selectedText={selectedText}
+              setSelectedText={setSelectedText}
             ></TipTap>
           </div>
         </Panel>
@@ -241,34 +280,101 @@ function Page() {
                         title={
                           <div className="flex items-center justify-between ㄹ">
                             <strong>가이드라인 보기</strong>
-                            <Switch size="sm">
-                              <p className="text-xs">영문변환</p>
+                            <Switch
+                              size="sm"
+                              onChange={() =>
+                                setSelectedLanguage(
+                                  selectedLanguage === "kr" ? "en" : "kr"
+                                )
+                              }
+                            >
+                              <p className="text-xs">
+                                {selectedLanguage === "kr"
+                                  ? "영문변환"
+                                  : "한글변환"}
+                              </p>
                             </Switch>
                           </div>
                         }
                         className=""
                       >
-                        <p>
-                          
-                        </p>
-                        <p>
+                        <div
+                          className="overflow-y-auto max-h-[30vh]"
+                          ref={guideRef}
+                        >
+                          <h1 className="guide_title_kr text-lg font-semibold">
+                            {guideContents?.title}
+                          </h1>
+                          <br />
+                          <p className={`guide_base_kr`}>
+                            {guideContents?.base}
+                          </p>
+                          <br />
+                          <p
+                            className={`guide_ga_kr ${
+                              selectedText.includes("(가)") ? "is-selected" : ""
+                            }`}
+                          >
+                            {guideContents?.ga}
+                          </p>
+                          <br />
+                          <p
+                            className={`guide_na_kr ${
+                              selectedText.includes("(나)") ? "is-selected" : ""
+                            }`}
+                          >
+                            {guideContents?.na}
+                          </p>
+                          <br />
+                          <p
+                            className={`guide_da_kr ${
+                              selectedText.includes("(다)") ? "is-selected" : ""
+                            }`}
+                          >
+                            {guideContents?.da}
+                          </p>
+                          <br />
 
-                        </p>
-                        <p>
+                          <p
+                            className={`guide_ra_kr ${
+                              selectedText.includes("(라)") ? "is-selected" : ""
+                            }`}
+                          >
+                            {guideContents?.ra}
+                          </p>
+                          <br />
 
-                        </p>
-                        <p>
-
-                        </p>
-                        <p></p>
-                        <p></p>
+                          <p
+                            className={`guide_ma_kr ${
+                              selectedText.includes("(마)") ? "is-selected" : ""
+                            }`}
+                          >
+                            {guideContents?.ma}
+                          </p>
+                        </div>
                       </AccordionItem>
                       <AccordionItem
                         key="2"
                         aria-label="Accordion 2"
                         title={<strong>샘플 보기</strong>}
                       >
-                        <p className="text-sm">{content.sample}</p>
+                        <div className="overflow-y-auto max-h-[30vh]">
+                          <ListboxWrapper className="w-full">
+                            <Listbox
+                              aria-label="Single selection example"
+                              variant="flat"
+                              disallowEmptySelection
+                              selectionMode="single"
+                              selectedKeys={selectedKeys}
+                              onSelectionChange={setSelectedKeys}
+                            >
+                              <ListboxItem key="text">EDK샘플</ListboxItem>
+                              <ListboxItem key="number">국내 기업 샘플</ListboxItem>
+                              <ListboxItem key="date">해외 기업 샘플</ListboxItem>
+                            </Listbox>
+                          </ListboxWrapper>
+                          <p className="text-sm">{content.sample}</p>
+                        </div>
                       </AccordionItem>
                     </Accordion>
                   </Tab>
