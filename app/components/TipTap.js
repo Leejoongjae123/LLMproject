@@ -105,8 +105,6 @@ const StyledEditorContent = styled(EditorContent)`
   .ProseMirror {
     > * + * {
       margin-top: 0.75em;
-      
-
     }
 
     table {
@@ -144,7 +142,8 @@ const StyledTable = styled.table`
   border-collapse: collapse;
   width: 100%;
 
-  td, th {
+  td,
+  th {
     border: 1px solid black;
     padding: 5px;
   }
@@ -154,10 +153,26 @@ const StyledTable = styled.table`
   }
 `;
 
-const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSelectedText }) => {
+const CustomEditor = ({
+  category,
+  setCategory,
+  selectedItem,
+  selectedText,
+  setSelectedText,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [inputContents, setInputContents] = useState('');
+  const [inputContents, setInputContents] = useState("");
   const [years, setYears] = useState(["2024"]);
+  const [subsidiaries, setSubsidiaries] = useState([
+    "종속기업 없음(지배 기업만 공시)",
+  ]);
+  const [categories, setCategories] = useState([
+    "Category 1 제품 서비스 구매",
+    "Category 2 자본",
+    "Category 3 구매연료/에너지",
+    "Category 4 Upstream 운송&유통",
+    "Category 5 사업장 발생 폐기물",
+  ]);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -190,7 +205,7 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
   useEffect(() => {
     handleCategoryChange(category);
   }, [selectedText]);
-  console.log("selectedItem",selectedItem)
+  console.log("selectedItem", selectedItem);
   useEffect(() => {
     if (selectedItem === "weather") {
       setInputContents(`
@@ -202,18 +217,18 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
         <p>(라) 네번째로 구분하였습니다.</p>
         <p>(마) 다섯번째로 존재하는 문단이에요.</p>
       `);
-    } else if(selectedItem === "manager"){
+    } else if (selectedItem === "manager") {
       setInputContents(`
         <h1 style="font-weight: 700;">거버넌스</h1>
         <h2>경영진의 역할 및 감독 방법</h2>
         <p>(가) 첫 번째 문단입니다, 두 번째 부분입니다, 세 번째 부분입니다.</p>
         <p>(나) 다른 문단입니다, 이것도 쉼표로 구분됩니다.</p>
       `);
-    } else if(selectedItem === "indicator"){
+    } else if (selectedItem === "indicator") {
       setInputContents(`
         <h1 style="font-weight: 700;">지표 및 목표</h1>
         <h2>기후 관련 지표</h2>
-        <p>(1)온실가스</p>
+        <p>(1)온실가스 배출량</p>
       `);
     }
   }, [selectedItem]);
@@ -240,7 +255,7 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
       TableHeader,
       TableCell,
     ],
-    content: '', // 초기 내용을 비워둡니다.
+    content: "", // 초기 내용을 비워둡니다.
     onFocus: () => setIsFocused(true),
     onBlur: () => setIsFocused(false),
   });
@@ -256,7 +271,7 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
     return "";
   };
 
-
+  console.log("categories:", categories);
 
   useEffect(() => {
     if (editor) {
@@ -279,15 +294,13 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
     }
   }, [editor]);
 
-
-
   // selectedItem이 변경될 때마다 에디터 내용을 업데이트하는 useEffect
   useEffect(() => {
     if (editor) {
       const content = inputContents;
       editor.commands.setContent(content);
     }
-  }, [editor, selectedItem,inputContents]);
+  }, [editor, selectedItem, inputContents]);
 
   // 툴바 아이템 컴포넌트 수정
   const ToolbarItem = ({ icon, label, action, isActive }) => (
@@ -311,29 +324,138 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
       <TableIcon className="h-4 w-4" />
     </Toggle>
   );
+  console.log(subsidiaries);
 
   const handleCreateDefaultTable = () => {
     if (!editor) return;
 
     // years 배열을 오름차순으로 정렬
     const sortedYears = [...years].sort((a, b) => a - b);
-    
+
+    // subsidiaries에서 특정 회사들을 확인
+    const specialSubsidiaries = ["마이크로소프트"];
+    ["Linkedin", "Github", "Skype"].forEach((sub) => {
+      if (
+        subsidiaries.some((s) => s.toLowerCase().includes(sub.toLowerCase()))
+      ) {
+        specialSubsidiaries.push(sub);
+      }
+    });
 
     const generateYearHeaders = () => {
-      return sortedYears.map(year => ({
-        type: 'tableHeader',
-        attrs: { colspan: 1, rowspan: 1 },
-        content: [{ type: 'paragraph', content: [{ type: 'text', text: year }] }]
+      const headers = sortedYears.map((year) => ({
+        type: "tableHeader",
+        attrs: {
+          colspan:
+            year === sortedYears[sortedYears.length - 1]
+              ? specialSubsidiaries.length + 1
+              : 1,
+          rowspan: 1,
+        },
+        content: [
+          { type: "paragraph", content: [{ type: "text", text: year }] },
+        ],
       }));
+      return headers;
+    };
+
+    const generateSubHeaders = () => {
+      return sortedYears.flatMap((year) => {
+        if (year === sortedYears[sortedYears.length - 1]) {
+          return [
+            {
+              type: "tableHeader",
+              content: [
+                {
+                  type: "paragraph",
+                  content: [{ type: "text", text: "합계" }],
+                },
+              ],
+            },
+            ...specialSubsidiaries.map((sub) => ({
+              type: "tableHeader",
+              content: [
+                { type: "paragraph", content: [{ type: "text", text: sub }] },
+              ],
+            })),
+          ];
+        } else {
+          return [
+            {
+              type: "tableHeader",
+              content: [
+                {
+                  type: "paragraph",
+                  content: [{ type: "text", text: "합계" }],
+                },
+              ],
+            },
+          ];
+        }
+      });
     };
 
     const generateDataCells = (baseValue) => {
-      return years.map((_, index) => {
+      return sortedYears.flatMap((year, index) => {
         const value = (baseValue * (1 + index * 0.1)).toFixed(2);
-        return {
-          type: 'tableCell',
-          content: [{ type: 'paragraph', content: [{ type: 'text', text: value }] }]
-        };
+        if (year === sortedYears[sortedYears.length - 1]) {
+          const totalValue = parseFloat(value);
+          const microsoftValue = (totalValue * 0.5).toFixed(2); // 마이크로소프트는 50%
+
+          // 나머지 회사들의 비율 생성
+          let remainingPercentage = 50;
+          const otherCompaniesPercentages = [];
+          for (let i = 0; i < specialSubsidiaries.length - 2; i++) {
+            const randomPercentage = Math.random() * remainingPercentage;
+            otherCompaniesPercentages.push(randomPercentage);
+            remainingPercentage -= randomPercentage;
+          }
+          otherCompaniesPercentages.push(remainingPercentage);
+
+          // 비율을 섞어서 랜덤성 추가
+          otherCompaniesPercentages.sort(() => Math.random() - 0.5);
+
+          return [
+            {
+              type: "tableCell",
+              content: [
+                { type: "paragraph", content: [{ type: "text", text: value }] },
+              ],
+            },
+            {
+              type: "tableCell",
+              content: [
+                {
+                  type: "paragraph",
+                  content: [{ type: "text", text: microsoftValue }],
+                },
+              ],
+            },
+            ...otherCompaniesPercentages.map((percentage) => ({
+              type: "tableCell",
+              content: [
+                {
+                  type: "paragraph",
+                  content: [
+                    {
+                      type: "text",
+                      text: ((totalValue * percentage) / 100).toFixed(2),
+                    },
+                  ],
+                },
+              ],
+            })),
+          ];
+        } else {
+          return [
+            {
+              type: "tableCell",
+              content: [
+                { type: "paragraph", content: [{ type: "text", text: value }] },
+              ],
+            },
+          ];
+        }
       });
     };
 
@@ -342,92 +464,249 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
       .focus()
       .insertContent([
         {
-          type: 'paragraph',
-          content: [{ type: 'text', text: '◼ Scope 1, 2' }]
+          type: "paragraph",
+          content: [{ type: "text", text: "◼ Scope 1, 2" }],
         },
         {
-          type: 'table',
+          type: "table",
           content: [
             {
-              type: 'tableRow',
+              type: "tableRow",
               content: [
-                { type: 'tableHeader', attrs: { colspan: 1, rowspan: 2 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '구분' }] }] },
-                { type: 'tableHeader', attrs: { colspan: 1, rowspan: 2 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '항목' }] }] },
-                { type: 'tableHeader', attrs: { colspan: 1, rowspan: 2 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '단위' }] }] },
+                {
+                  type: "tableHeader",
+                  attrs: { colspan: 1, rowspan: 2 },
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "구분" }],
+                    },
+                  ],
+                },
+                {
+                  type: "tableHeader",
+                  attrs: { colspan: 1, rowspan: 2 },
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "항목" }],
+                    },
+                  ],
+                },
+                {
+                  type: "tableHeader",
+                  attrs: { colspan: 1, rowspan: 2 },
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "단위" }],
+                    },
+                  ],
+                },
                 ...generateYearHeaders(),
               ],
             },
             {
-              type: 'tableRow',
-              content: [
-                ...years.map(() => ({ type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '합계' }] }] })),
-              ],
+              type: "tableRow",
+              content: generateSubHeaders(),
             },
             // Data rows for Scope 1
             {
-              type: 'tableRow',
+              type: "tableRow",
               content: [
-                { type: 'tableCell', attrs: { colspan: 1, rowspan: 3 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '온실가스 직접배출 (Scope 1)' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'CO2 총 배출량' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'tCO2eq' }] }] },
+                {
+                  type: "tableCell",
+                  attrs: { colspan: 1, rowspan: 3 },
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [
+                        { type: "text", text: "온실가스 직접배출 (Scope 1)" },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "CO2 총 배출량" }],
+                    },
+                  ],
+                },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "tCO2eq" }],
+                    },
+                  ],
+                },
                 ...generateDataCells(128),
               ],
             },
             {
-              type: 'tableRow',
+              type: "tableRow",
               content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '집약도' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '배출 10억원당 기준' }] }] },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "집약도" }],
+                    },
+                  ],
+                },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "배출 10억원당 기준" }],
+                    },
+                  ],
+                },
                 ...generateDataCells(3.37),
               ],
             },
             {
-              type: 'tableRow',
+              type: "tableRow",
               content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '집약도' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '직원1인당 기준' }] }] },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "집약도" }],
+                    },
+                  ],
+                },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "직원1인당 기준" }],
+                    },
+                  ],
+                },
                 ...generateDataCells(0.62),
               ],
             },
             // Data rows for Scope 2
             {
-              type: 'tableRow',
+              type: "tableRow",
               content: [
-                { type: 'tableCell', attrs: { colspan: 1, rowspan: 3 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '온실가스 간접배출 (Scope 2)' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'CO2 총 배출량' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'tCO2eq' }] }] },
+                {
+                  type: "tableCell",
+                  attrs: { colspan: 1, rowspan: 3 },
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [
+                        { type: "text", text: "온실가스 간접배출 (Scope 2)" },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "CO2 총 배출량" }],
+                    },
+                  ],
+                },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "tCO2eq" }],
+                    },
+                  ],
+                },
                 ...generateDataCells(2580),
               ],
             },
             {
-              type: 'tableRow',
+              type: "tableRow",
               content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '집약도' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '배출 10억원당 기준' }] }] },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "집약도" }],
+                    },
+                  ],
+                },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "배출 10억원당 기준" }],
+                    },
+                  ],
+                },
                 ...generateDataCells(67.89),
               ],
             },
             {
-              type: 'tableRow',
+              type: "tableRow",
               content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '집약도' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '직원1인당 기준' }] }] },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "집약도" }],
+                    },
+                  ],
+                },
+                {
+                  type: "tableCell",
+                  content: [
+                    {
+                      type: "paragraph",
+                      content: [{ type: "text", text: "직원1인당 기준" }],
+                    },
+                  ],
+                },
                 ...generateDataCells(12.59),
               ],
             },
           ],
         },
         {
-          type: 'paragraph',
-          content: [{ type: 'text', text: '* 각 연도별 합계 원단위는 A회사의 연결 기준 매출 및 구성원 수 적용' }]
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text: "* 각 연도별 합계 원단위는 A회사의 연결 기준 매출 및 구성원 수 적용",
+            },
+          ],
         },
         {
-          type: 'paragraph',
-          content: [{ type: 'text', text: `각주 1) ${years[0]}년 이전은 관할 당국에서 요구받은 방법으로 산정하였고, ${years[years.length - 1]}년은 GHG 프로토콜로 산정함` }]
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text: `각주 1) ${
+                years[0]
+              }년 이전은 관할 당국에서 요구받은 방법으로 산정하였고, ${
+                years[years.length - 1]
+              }년은 GHG 프로토콜로 산정함`,
+            },
+          ],
         },
         {
-          type: 'paragraph',
-          content: [{ type: 'text', text: '각주 2) 지역 기반 배출량 기준' }]
+          type: "paragraph",
+          content: [{ type: "text", text: "각주 2) 지역 기반 배출량 기준" }],
         },
       ])
       .run();
@@ -436,176 +715,109 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
   const handleCreateOptionalTable = () => {
     if (!editor) return;
 
+    // years 배열을 오름차순으로 정렬
+    const sortedYears = [...years].sort((a, b) => a - b);
+
+    const generateHeaders = () => {
+      return [
+        {
+          type: "tableHeader",
+          content: [
+            { type: "paragraph", content: [{ type: "text", text: "구분" }] },
+          ],
+        },
+        ...sortedYears.map((year) => ({
+          type: "tableHeader",
+          content: [
+            {
+              type: "paragraph",
+              content: [{ type: "text", text: year.toString() }],
+            },
+          ],
+        })),
+      ];
+    };
+
+    const generateRow = (category, baseValue) => {
+      return {
+        type: "tableRow",
+        content: [
+          {
+            type: "tableCell",
+            content: [
+              {
+                type: "paragraph",
+                content: [{ type: "text", text: category }],
+              },
+            ],
+          },
+          ...sortedYears.map((year, index) => {
+            const value = Math.round(baseValue * (1 + index * 0.1));
+            return {
+              type: "tableCell",
+              content: [
+                {
+                  type: "paragraph",
+                  content: [{ type: "text", text: value.toString() }],
+                },
+              ],
+            };
+          }),
+        ],
+      };
+    };
+
+    // categories를 정렬하는 함수
+    const sortCategories = (cats) => {
+      return cats.sort((a, b) => {
+        const aNum = parseInt(a.match(/\d+/)?.[0] || "0");
+        const bNum = parseInt(b.match(/\d+/)?.[0] || "0");
+        return aNum - bNum;
+      });
+    };
+
+    // 기본 값 매핑 (예시)
+    const baseValues = {
+      "Scope3": 3000,
+      "Category 1 제품 서비스 구매": 2000,
+      "Category 2 자본재": 25,
+      "Category 3 구매연료/에너지": 39,
+      "Category 4 Upstream 운송&유통": 41,
+      "Category 5 사업장 발생 폐기물": 18,
+      // ... 다른 카테고리들에 대한 기본값 추가
+    };
+
+    const sortedCategories = sortCategories(categories);
+
+    const tableContent = [
+      { type: "tableRow", content: generateHeaders() },
+      generateRow("Scope3", baseValues["Scope3"] || 3000),
+      ...sortedCategories.map(category => 
+        generateRow(category, baseValues[category] || 100) // 기본값이 없으면 100으로 설정
+      )
+    ];
+
     editor
       .chain()
       .focus()
       .insertContent([
         {
-          type: 'paragraph',
-          content: [{ type: 'text', text: '◼ Scope 3' }]
+          type: "paragraph",
+          content: [{ type: "text", text: "◼ Scope 3" }],
         },
         {
-          type: 'table',
+          type: "table",
+          content: tableContent,
+        },
+        {
+          type: "paragraph",
           content: [
             {
-              type: 'tableRow',
-              content: [
-                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '구분' }] }] },
-                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '2022' }] }] },
-                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '2023' }] }] },
-                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '2024' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Scope3' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '3,133' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '3,218' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '6,897' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 1 제품 서비스 구매' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Not Available' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Not Available' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '2,350' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 2 자본재' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '25' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '30' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '34' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 3 구매연료/에너지' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '39' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '44' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '45' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 4 Upstream 운송&유통' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '41' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '40' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '52' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 5 사업장 발생 폐기물' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '18' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '21' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '25' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 6 임직원 출장' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Not Available' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '55' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '65' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 7 통근' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '110' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '120' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '170' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 8 리스자산(Upstream)' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Not Relevant' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Not Relevant' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Not Relevant' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 9 Downstream 운송&유통' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '290' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '280' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '300' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 10 판매제품 가공' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Not Relevant' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Not Relevant' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Not Relevant' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 11 판매 제품 사용' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '2,021' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '2,045' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '3,241' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 12 판매 제품 폐기' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '60' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '25' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '20' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 13 리스자산(Downstream)' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '130' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '150' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '169' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 14 프랜차이즈' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '357' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '368' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '378' }] }] },
-              ],
-            },
-            {
-              type: 'tableRow',
-              content: [
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Category 15 투자' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '42' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '40' }] }] },
-                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '48' }] }] },
-              ],
+              type: "text",
+              text: "* 집계 범위: A회사 및 자회사(종속기업 1, 2, 3, 4)",
             },
           ],
         },
-        {
-          type: 'paragraph',
-          content: [{ type: 'text', text: '* 집계 범위: A회사 및 자회사(종속기업 1, 2, 3, 4)' }]
-        }
       ])
       .run();
   };
@@ -671,8 +883,12 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
         onOpenChange={onOpenChange}
         createDefaultTable={handleCreateDefaultTable}
         createOptionalTable={handleCreateOptionalTable}
-        years={years} 
+        years={years}
         setYears={setYears}
+        subsidiaries={subsidiaries}
+        setSubsidiaries={setSubsidiaries}
+        categories={categories}
+        setCategories={setCategories}
       />
     </div>
   );

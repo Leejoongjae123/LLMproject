@@ -22,6 +22,10 @@ const TableCreationModal = ({
   createOptionalTable,
   years,
   setYears,
+  subsidiaries,
+  setSubsidiaries,
+  categories,
+  setCategories,
 }) => {
   const [step, setStep] = useState(1);
   const [scopes, setScopes] = useState([
@@ -29,16 +33,16 @@ const TableCreationModal = ({
     "Scope 2(간접 배출)",
   ]);
   // const [years, setYears] = useState(["2024"]);
-  const [subsidiaries, setSubsidiaries] = useState([
-    "종속기업 없음(지배 기업만 공시)",
-  ]);
-  const [categories, setCategories] = useState([
-    "Category 1 제품 서비스 구매",
-    "Category 2 자본",
-    "Category 3 구매연료/에너지",
-    "Category 4 Upstream 운송&유통",
-    "Category 5 사업장 발생 폐기물",
-  ]);
+  // const [subsidiaries, setSubsidiaries] = useState([
+  //   "종속기업 없음(지배 기업만 공시)",
+  // ]);
+  // const [categories, setCategories] = useState([
+  //   "Category 1 제품 서비스 구매",
+  //   "Category 2 자본",
+  //   "Category 3 구매연료/에너지",
+  //   "Category 4 Upstream 운송&유통",
+  //   "Category 5 사업장 발생 폐기물",
+  // ]);
   const [hasScope3, setHasScope3] = useState(false);
 
   const handleNext = () => {
@@ -48,7 +52,7 @@ const TableCreationModal = ({
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
   };
-  console.log(years)
+  
   const renderStepContent = () => {
     switch (step) {
       case 1:
