@@ -9,8 +9,8 @@ import HardBreak from "@tiptap/extension-hard-break";
 import "./EditorStyles.css";
 
 // shadcn UI 컴포넌트 import
-import { Toggle } from "../components/ui/toggle";
-import { Separator } from "../components/ui/separator";
+import { Toggle } from "./ui/toggle";
+import { Separator } from "./ui/separator";
 import {
   Bold,
   Italic,
@@ -157,7 +157,6 @@ const StyledTable = styled.table`
 const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSelectedText }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [inputContents, setInputContents] = useState('');
-  const [years, setYears] = useState(["2024"]);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -202,18 +201,12 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
         <p>(라) 네번째로 구분하였습니다.</p>
         <p>(마) 다섯번째로 존재하는 문단이에요.</p>
       `);
-    } else if(selectedItem === "manager"){
+    } else {
       setInputContents(`
         <h1 style="font-weight: 700;">거버넌스</h1>
         <h2>경영진의 역할 및 감독 방법</h2>
         <p>(가) 첫 번째 문단입니다, 두 번째 부분입니다, 세 번째 부분입니다.</p>
         <p>(나) 다른 문단입니다, 이것도 쉼표로 구분됩니다.</p>
-      `);
-    } else if(selectedItem === "indicator"){
-      setInputContents(`
-        <h1 style="font-weight: 700;">지표 및 목표</h1>
-        <h2>기후 관련 지표</h2>
-        <p>(1)온실가스</p>
       `);
     }
   }, [selectedItem]);
@@ -315,28 +308,6 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
   const handleCreateDefaultTable = () => {
     if (!editor) return;
 
-    // years 배열을 오름차순으로 정렬
-    const sortedYears = [...years].sort((a, b) => a - b);
-    
-
-    const generateYearHeaders = () => {
-      return sortedYears.map(year => ({
-        type: 'tableHeader',
-        attrs: { colspan: 1, rowspan: 1 },
-        content: [{ type: 'paragraph', content: [{ type: 'text', text: year }] }]
-      }));
-    };
-
-    const generateDataCells = (baseValue) => {
-      return years.map((_, index) => {
-        const value = (baseValue * (1 + index * 0.1)).toFixed(2);
-        return {
-          type: 'tableCell',
-          content: [{ type: 'paragraph', content: [{ type: 'text', text: value }] }]
-        };
-      });
-    };
-
     editor
       .chain()
       .focus()
@@ -354,13 +325,22 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
                 { type: 'tableHeader', attrs: { colspan: 1, rowspan: 2 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '구분' }] }] },
                 { type: 'tableHeader', attrs: { colspan: 1, rowspan: 2 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '항목' }] }] },
                 { type: 'tableHeader', attrs: { colspan: 1, rowspan: 2 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '단위' }] }] },
-                ...generateYearHeaders(),
+                { type: 'tableHeader', attrs: { colspan: 1, rowspan: 1 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '2022' }] }] },
+                { type: 'tableHeader', attrs: { colspan: 1, rowspan: 1 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '2023 (각주1)' }] }] },
+                { type: 'tableHeader', attrs: { colspan: 6, rowspan: 1 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '2024 (각주 1)' }] }] },
               ],
             },
             {
               type: 'tableRow',
               content: [
-                ...years.map(() => ({ type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '합계' }] }] })),
+                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '합계' }] }] },
+                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '합계' }] }] },
+                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '합계' }] }] },
+                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'A회사' }] }] },
+                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '중속기업1' }] }] },
+                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '중속기업2' }] }] },
+                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '중속기업3' }] }] },
+                { type: 'tableHeader', content: [{ type: 'paragraph', content: [{ type: 'text', text: '중속기업4' }] }] },
               ],
             },
             // Data rows for Scope 1
@@ -370,7 +350,14 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
                 { type: 'tableCell', attrs: { colspan: 1, rowspan: 3 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '온실가스 직접배출 (Scope 1)' }] }] },
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'CO2 총 배출량' }] }] },
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'tCO2eq' }] }] },
-                ...generateDataCells(128),
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '128.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '154.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '209.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '50.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '70.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '30.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '28.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '31.00' }] }] },
               ],
             },
             {
@@ -378,7 +365,14 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
               content: [
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '집약도' }] }] },
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '배출 10억원당 기준' }] }] },
-                ...generateDataCells(3.37),
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '3.37' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '3.14' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '3.37' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '2.50' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '3.50' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '5.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '4.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '3.44' }] }] },
               ],
             },
             {
@@ -386,7 +380,14 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
               content: [
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '집약도' }] }] },
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '직원1인당 기준' }] }] },
-                ...generateDataCells(0.62),
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '0.62' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '0.73' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '0.99' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '1.11' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '1.27' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '0.94' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '0.93' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '0.62' }] }] },
               ],
             },
             // Data rows for Scope 2
@@ -396,7 +397,14 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
                 { type: 'tableCell', attrs: { colspan: 1, rowspan: 3 }, content: [{ type: 'paragraph', content: [{ type: 'text', text: '온실가스 간접배출 (Scope 2)' }] }] },
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'CO2 총 배출량' }] }] },
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'tCO2eq' }] }] },
-                ...generateDataCells(2580),
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '2,580.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '3,020.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '3,210.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '650.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '700.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '550.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '530.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '780.00' }] }] },
               ],
             },
             {
@@ -404,7 +412,14 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
               content: [
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '집약도' }] }] },
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '배출 10억원당 기준' }] }] },
-                ...generateDataCells(67.89),
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '67.89' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '61.63' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '51.77' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '32.50' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '35.00' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '91.67' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '75.71' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '86.67' }] }] },
               ],
             },
             {
@@ -412,7 +427,14 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
               content: [
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '집약도' }] }] },
                 { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '직원1인당 기준' }] }] },
-                ...generateDataCells(12.59),
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '12.59' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '14.25' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '15.14' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '14.44' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '12.73' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '17.19' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '17.67' }] }] },
+                { type: 'tableCell', content: [{ type: 'paragraph', content: [{ type: 'text', text: '15.60' }] }] },
               ],
             },
           ],
@@ -423,7 +445,7 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
         },
         {
           type: 'paragraph',
-          content: [{ type: 'text', text: `각주 1) ${years[0]}년 이전은 관할 당국에서 요구받은 방법으로 산정하였고, ${years[years.length - 1]}년은 GHG 프로토콜로 산정함` }]
+          content: [{ type: 'text', text: '각주 1) 2023년 이전은 관할 당국에서 요구받은 방법으로 산정하였고, 2024년은 GHG 프로토콜로 산정함' }]
         },
         {
           type: 'paragraph',
@@ -671,8 +693,6 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
         onOpenChange={onOpenChange}
         createDefaultTable={handleCreateDefaultTable}
         createOptionalTable={handleCreateOptionalTable}
-        years={years} 
-        setYears={setYears}
       />
     </div>
   );

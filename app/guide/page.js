@@ -124,21 +124,6 @@ function Page() {
               }}
             >
               <ListboxItem
-                key="react-19-example"
-                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
-                textValue="Climate-related Disclosures"
-              >
-                리스크 관리
-              </ListboxItem>
-
-              <ListboxItem
-                key="email-template"
-                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
-                textValue="General Requirements"
-              >
-                전략
-              </ListboxItem>
-              <ListboxItem
                 key="email-template"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="General Requirements"
@@ -181,11 +166,41 @@ function Page() {
               </ListboxItem>
 
               <ListboxItem
+                key="email-template"
+                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
+                textValue="General Requirements"
+              >
+                전략
+              </ListboxItem>
+
+              <ListboxItem
+                key="react-19-example"
+                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
+                textValue="Climate-related Disclosures"
+              >
+                리스크 관리
+              </ListboxItem>
+              <ListboxItem
                 key="how-a-taximeter-works"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="Appendix"
               >
                 지표 및 목표
+              </ListboxItem>
+              <ListboxItem
+                key="custom-support-message2"
+                className="my-3 group h-12 text-[#1c9ea6] rounded-lg ml-5 hover:none"
+                textValue="Indicator"
+                onClick={() => setSelectedItem("indicator")}
+              >
+                <p
+                  className={cn(
+                    "text-sm pr-5",
+                    selectedItem === "indicator" && "font-bold"
+                  )}
+                >
+                  기후 관련 지표
+                </p>
               </ListboxItem>
             </ListboxSection>
           </Listbox>
@@ -487,7 +502,7 @@ function Page() {
                                           href={
                                             sampleStep === 1
                                               ? sampleContents.link1_3
-                                             : sampleContents.link2_3
+                                              : sampleContents.link2_3
                                           }
                                           className="block truncate"
                                         >

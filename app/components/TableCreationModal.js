@@ -20,13 +20,15 @@ const TableCreationModal = ({
   onOpenChange,
   createDefaultTable,
   createOptionalTable,
+  years,
+  setYears,
 }) => {
   const [step, setStep] = useState(1);
   const [scopes, setScopes] = useState([
     "Scope 1(직접 배출)",
     "Scope 2(간접 배출)",
   ]);
-  const [years, setYears] = useState(["2024"]);
+  // const [years, setYears] = useState(["2024"]);
   const [subsidiaries, setSubsidiaries] = useState([
     "종속기업 없음(지배 기업만 공시)",
   ]);
@@ -46,7 +48,7 @@ const TableCreationModal = ({
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
   };
-
+  console.log(years)
   const renderStepContent = () => {
     switch (step) {
       case 1:
