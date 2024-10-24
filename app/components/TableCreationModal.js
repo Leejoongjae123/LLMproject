@@ -88,7 +88,7 @@ const TableCreationModal = ({
         return (
           <>
             <h3>Step 2: 공시할 데이터의 연도를 선택해 주세요</h3>
-            {["2020", "2021", "2022", "2023", "2024"].map((year) => (
+            {["2022", "2023", "2024"].map((year) => (
               <Checkbox
                 key={year}
                 isSelected={years.includes(year)}
