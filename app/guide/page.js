@@ -128,7 +128,7 @@ function Page() {
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="Climate-related Disclosures"
               >
-                거버넌스
+                리스크 관리
               </ListboxItem>
 
               <ListboxItem
@@ -146,7 +146,7 @@ function Page() {
                   <FaChevronRight className="text-gray-400 text-medium" />
                 }
               >
-                리스크 관리
+                거버넌스
               </ListboxItem>
 
               <ListboxItem

@@ -77,6 +77,7 @@ function decorateGroup(group, startPos, endPos, decorations, selectionState) {
 const CustomEditor = ({category, setCategory}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [selectedText, setSelectedText] = useState('');
+  const [inputContents, setInputContents] = useState('');
 
   const handleCategoryChange = () => {
   setCategory('');
@@ -104,6 +105,8 @@ const CustomEditor = ({category, setCategory}) => {
     }
   }
   };
+
+
   useEffect(() => {
     handleCategoryChange(category);
   }, [selectedText]);

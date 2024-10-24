@@ -197,7 +197,7 @@ export const sampleText = [
     key: "edk",
     text: "다",
     contents1:
-"<p><strong>위험 및 기회 관련 정보 획득 방법 및 빈도</strong></p><br/><p><strong style=\"color: #F25B2B\">[000위원회]</strong>는 분기마다 개최 되어 연간 총 <strong style=\"color: #F25B2B\">00회</strong> 개최됩니다. 기후 관련 위험 및 기회에 대한 안건은 최소 연 <strong style=\"color: #F25B2B\">00</strong>이상 정기적으로 보고되며, 기후변화를 포함해 전사 ESG 전략 및 활동에 대한 중요 안건은 이사회에 보고하고 있습니다. <strong style=\"color: #F25B2B\">[000위원회]</strong>가 기후 변화 관련 위험과 기회를 관리·감독하기 위해 필요한 정보는 주로 기업 내 <strong style=\"color: #F25B2B\">[000부서]</strong>로부터 제공받고 있습니다. 특히, 위원회 개최 시에는 사전 보고 및 다양한 자료를 통해 위원들이 심도 있게 논의할 수 있도록 지원하고 있으며, 필요한 경우 외부 전문가의 자문을 구하여 전문성을 강화하고 있습니다.</p>",
+      '<p><strong>위험 및 기회 관련 정보 획득 방법 및 빈도</strong></p><br/><p><strong style="color: #F25B2B">[000위원회]</strong>는 분기마다 개최 되어 연간 총 <strong style="color: #F25B2B">00회</strong> 개최됩니다. 기후 관련 위험 및 기회에 대한 안건은 최소 연 <strong style="color: #F25B2B">00</strong>이상 정기적으로 보고되며, 기후변화를 포함해 전사 ESG 전략 및 활동에 대한 중요 안건은 이사회에 보고하고 있습니다. <strong style="color: #F25B2B">[000위원회]</strong>가 기후 변화 관련 위험과 기회를 관리·감독하기 위해 필요한 정보는 주로 기업 내 <strong style="color: #F25B2B">[000부서]</strong>로부터 제공받고 있습니다. 특히, 위원회 개최 시에는 사전 보고 및 다양한 자료를 통해 위원들이 심도 있게 논의할 수 있도록 지원하고 있으며, 필요한 경우 외부 전문가의 자문을 구하여 전문성을 강화하고 있습니다.</p>',
     contents2: "",
     link1_1: "",
     link1_2: "",
@@ -235,13 +235,13 @@ export const sampleText = [
       `,
     link1_1:
       "https://drive.google.com/file/d/1eqmcjzl4MVtMKnLqSZY8y0P3tWYR41to/view?usp=drive_link",
-    link1_2:
-      "",
+    link1_2: "",
     link1_3:
       "https://www.lguplus.com/about/ko/sustainability/management-report",
     link2_1:
       "https://drive.google.com/file/d/16tLV3IAIMWO2C84eekIT7vaG2OwAmKmX/view?usp=drive_link",
-    link2_2: "https://drive.google.com/file/d/11iTgt14fnuB2rq_ZfrPr_cqJhtQFAOZj/view?usp=drive_link",
+    link2_2:
+      "https://drive.google.com/file/d/11iTgt14fnuB2rq_ZfrPr_cqJhtQFAOZj/view?usp=drive_link",
     link2_3:
       "https://www.ktng.com/download?CMS_CD=CM0017&fnm=CM0017_30_attc.pdf&orgFnm=KTnG_2023+Report+KOR.pdf",
   },
@@ -301,8 +301,8 @@ export const sampleText = [
     key: "edk",
     text: "라",
     contents1:
-"<p><strong>주요 의사결정과정에서 기후 관련 위험 및 기회를 고려하는 방식</strong></p><br/><p><strong style=\"color: #F25B2B\">[기업명]</strong>은 기업의 전략 수립 및 실행 과정에서 기후 변화가 미치는 영향을 종합적으로 고려하고 있습니다. 특히, <strong style=\"color: #F25B2B\">[000위원회]</strong>는 기후 관련 위험과 기회를 식별하고 관리하기 위해 <strong style=\"color: #F25B2B\">[000부서]</strong>로부터 제공받는 다양한 데이터를 바탕으로 기후 변화가 사업에 미치는 영향을 정기적으로 평가합니다. <strong style=\"color: #F25B2B\">[000위원회]</strong>는 평가 결과를 바탕으로 기후 변화에 대한 대응 전략을 수립하고, 이를 이사회에 보고하여 최종 승인을 받습니다. 대표적인 예로, <strong style=\"color: #F25B2B\">[기업명]</strong>은 <strong style=\"color: #F25B2B\">[Net Zero 추진 경과, 000사업 투자, 000기업의 지분 확보, 000 시설 투자, 000 관련 환경사업 투자 결정 등]</strong>과 같은 중요한 의사결정을 내릴 때 기후 변화 요인을 종합적으로 고려하고 있습니다.</p><p><strong style=\"color: #F25B2B\">[000위원회]</strong>는 기후 변화 관련 의사결정 과정에서 발생할 수 있는 상충되는 이익과 손실을 면밀히 검토하고, 최적의 의사결정을 내리기 위해 노력하고 있습니다. 예를 들어, 단기적인 비용 증가가 예상되는 친환경 투자의 경우, 장기적인 관점에서 기업의 가치를 높이고 위험을 줄일 수 있다는 점을 고려하여 투자를 결정할 수 있습니다. </p>",
-   contents2: "",
+      '<p><strong>주요 의사결정과정에서 기후 관련 위험 및 기회를 고려하는 방식</strong></p><br/><p><strong style="color: #F25B2B">[기업명]</strong>은 기업의 전략 수립 및 실행 과정에서 기후 변화가 미치는 영향을 종합적으로 고려하고 있습니다. 특히, <strong style="color: #F25B2B">[000위원회]</strong>는 기후 관련 위험과 기회를 식별하고 관리하기 위해 <strong style="color: #F25B2B">[000부서]</strong>로부터 제공받는 다양한 데이터를 바탕으로 기후 변화가 사업에 미치는 영향을 정기적으로 평가합니다. <strong style="color: #F25B2B">[000위원회]</strong>는 평가 결과를 바탕으로 기후 변화에 대한 대응 전략을 수립하고, 이를 이사회에 보고하여 최종 승인을 받습니다. 대표적인 예로, <strong style="color: #F25B2B">[기업명]</strong>은 <strong style="color: #F25B2B">[Net Zero 추진 경과, 000사업 투자, 000기업의 지분 확보, 000 시설 투자, 000 관련 환경사업 투자 결정 등]</strong>과 같은 중요한 의사결정을 내릴 때 기후 변화 요인을 종합적으로 고려하고 있습니다.</p><p><strong style="color: #F25B2B">[000위원회]</strong>는 기후 변화 관련 의사결정 과정에서 발생할 수 있는 상충되는 이익과 손실을 면밀히 검토하고, 최적의 의사결정을 내리기 위해 노력하고 있습니다. 예를 들어, 단기적인 비용 증가가 예상되는 친환경 투자의 경우, 장기적인 관점에서 기업의 가치를 높이고 위험을 줄일 수 있다는 점을 고려하여 투자를 결정할 수 있습니다. </p>',
+    contents2: "",
     link1_1: "",
     link1_2: "",
     link1_3: "",
@@ -340,8 +340,7 @@ export const sampleText = [
       `,
     link1_1:
       "https://drive.google.com/file/d/114j1SR0L9rhcShJhAVKyxTqCgtvNk-Gj/view?usp=drive_link",
-    link1_2:
-      "",
+    link1_2: "",
     link1_3:
       "https://www.lguplus.com/about/ko/sustainability/management-report",
     link2_1:
@@ -403,11 +402,10 @@ export const sampleText = [
     title: "weather",
     key: "edk",
     text: "마",
-    contents1:
-`<p><strong>목표 설정 및 진척도에 대한 관리·감독</strong></p><br/>
+    contents1: `<p><strong>목표 설정 및 진척도에 대한 관리·감독</strong></p><br/>
 <p><strong style="color: #F25B2B">[기업명]</strong>은 기후 변화에 대한 체계적인 대응을 위해 <strong style="color: #F25B2B">[000위원회]</strong>를 중심으로 목표 설정 및 달성을 위한 노력을 기울이고 있습니다. <strong style="color: #F25B2B">[000위원회]</strong>는 정기적으로 기후 관련 목표 달성 현황을 점검하고, <strong style="color: #F25B2B">[000부서]</strong>는 목표 달성을 위한 구체적인 실행 계획을 수립합니다. 기후 관련 목표 달성 성과는 임원 평가에 반영되어 있으며, <strong style="color: #F25B2B">[SBTi 목표 설정, 넷제로 목표 설정 등]</strong>과 같은 구체적인 목표를 설정하고 달성하기 위해 노력하고 있습니다. <strong style="color: #F25B2B">[기업명]</strong>은 이러한 노력을 통해 기후 변화에 대한 선제적인 대응과 지속가능한 성장을 추구하고 있습니다.</p>
 <p><strong style="color: #F25B2B">[기업명]</strong>은 기후 변화 대응을 위해 ESG 경영 성과를 사내이사의 보수와 연계하는 시스템을 구축했습니다. <strong style="color: #F25B2B">[ESG 지표 가중치 확대, 장기 성과급에 온실가스 감축 목표 반영]</strong> 등 기후 변화 대응을 위한 책임경영을 강화하고 있습니다.</p>`,
-   contents2: "",
+    contents2: "",
     link1_1: "",
     link1_2: "",
     link1_3: "",
@@ -443,8 +441,7 @@ export const sampleText = [
       `,
     link1_1:
       "https://drive.google.com/file/d/1k30ThvMyeI365yM583U1FNWjUXZcdWxt/view?usp=drive_link",
-    link1_2:
-      "",
+    link1_2: "",
     link1_3:
       "https://www.lguplus.com/about/ko/sustainability/management-report",
     link2_1:
@@ -515,12 +512,239 @@ export const sampleText = [
     `,
     link1_1:
       "https://drive.google.com/file/d/1BbftG2TPa8GT05RO2s-htpKWgKipvlXe/view?usp=drive_link",
-    link1_2: "https://drive.google.com/file/d/1h-kIZLJrNDlPXaCqtJXYUry1R_FP19nl/view?usp=drive_link",
+    link1_2:
+      "https://drive.google.com/file/d/1h-kIZLJrNDlPXaCqtJXYUry1R_FP19nl/view?usp=drive_link",
     link1_3:
       "https://about.bankofamerica.com/content/dam/about/report-center/esg/2024/Sustainability_at_Bank_of_America_2024_Report.pdf",
     link2_1:
       "https://drive.google.com/file/d/1WKM1CfQI5xLG9au6GmWCcRnzbqaDCpk2/view?usp=drive_link",
-    link2_2: "https://drive.google.com/file/d/1u7tBJVUJ4fkfQwz5y3tn5yei-um0FM-f/view?usp=drive_link",
+    link2_2:
+      "https://drive.google.com/file/d/1u7tBJVUJ4fkfQwz5y3tn5yei-um0FM-f/view?usp=drive_link",
+    link2_3:
+      "https://www.bhp.com/-/media/documents/investors/annual-reports/2024/240827_bhpclimatetransitionactionplan2024.pdf",
+  },
+  {
+    title: "manager",
+    key: "edk",
+    text: "가",
+    contents1:
+      '<p><strong>기후 관련 관리·감독 역할 위임</strong></p><br/><p><strong style="color: #F25B2B">[기업명]</strong>은 기후 관련 위험 및 기회를 모니터링, 관리 및 감독하기 위해 경영진 수준의 위원회인 <strong style="color: #F25B2B">[000협의체]</strong>를 운영하고 있습니다. CEO를 위원장으로 주요 조직 임원들이 참여하여 기후 변화를 포함한 관련 이슈 중점 논의하고 구체적인 실행 전략과 목표를 수립합니다. 하위 조직은 관련 부서장을 필두로 실무 실행 팀으로 구성되어 이행 상황을 주기적으로 점검하며 <strong style="color: #F25B2B">[000위원회]</strong>에 정기 보고합니다. <strong style="color: #F25B2B">[000위원회]</strong>는 이사회에 기후 변화 대응 현황과 기후 관련 리스크 평가 및 대응 내용을 정기 보고합니다.</p>',
+    contents2: "",
+    link1_1: "",
+    link1_2: "",
+    link1_3: "",
+    link2_1: "",
+    link2_2: "",
+    link2_3: "",
+  },
+
+  {
+    title: "manager",
+    key: "domestic",
+    text: "가",
+    contents1: `<p><strong>경영진의 역할 및 감독 방법</strong></p><br/>
+     <p>연결회사의 지배기업은 기후 변화 관련 위험 및 기회를 관리 · 감독하기 위해 경영진 수준의 위원회인 ESG임원협의체를 운영하고 있습니다. 전사 차원의 유관 부서 임원진으로 구성된 동 협의체는 기후 변화 대응 강화를 위해 업무 추진 과정에서 발생하는 이슈에 대해 지속적으로 논의하고 있습니다. 이외에도 기후 변화 대응을 위해 실무 조직인 ESG정책팀을 구성하여 추진 과제를 수행하고 있습니다. 이러한 거버넌스 체계는 다음과 같습니다. ESG임원협의체는 ESG정책팀과 협업하여 기후 전환계획의 수립 및 이행, 기후관련 기업 목표의 진행상황 모니터링, 기후변화 관련 위험 및 기회에 대한 평가 등 기후변화 관련 주요 이슈사항에 대한 실무 수준의 모니터링을 수행합니다. ESG 위원회는 이러한 모니터링 결과에 대한 보고를 받으며, 탄소중립을 비롯한 ESG 분야별 리스크 관리 및 성과개선 활동의 관리·감독 역할을 수행하고 있습니다. ESG위원회에서 검토하였거나 관리·감독 결과, 시급을 요하는 주요 리스크 요인, 중장기 사업전략과 연계되어 성과개선이 필요한 사안에 대해서는 이사회 안건으로 상정하고 있습니다.</p>
+    <br/>
+    <p>보고서명: [LG유플러스] 2023 지속가능성 관련 IFRS S1·S2 보고서(Special Report)</p>
+    <p>페이지: p.15-16</p>
+    `,
+    contents2: `
+      <h1><strong>기후 관련 관리·감독 역할 위임</strong></h1>
+      <br/>
+    <p>지속가능경영위원회는 기후 관련 위험 및 기회를 관리·감독하는 책임을 경영진에게 위임하였습니다. KT&amp;G의 CEO는 기후변화 전략 이행 관리·감독을 수행하며 기후변화와 관련된 기업의 경영활동을 총괄합니다.</p>
+    <br/>
+
+    <h2>(가) ESG경영협의회</h2>
+    <p>전사 사업부문 임원진으로 구성된 최고 경영진 의사결정 지원 협의체로 기후변화 대응 강화를 위해 협의를 진행하고 업무 추진 과정에서 발생하는 이슈에 대해 지속적으로 커뮤니케이션하고 있습니다. ESG경영협의회를 통해 논의된 내용을 바탕으로 최고 경영진은 전사 통합 관점에서 ESG 이슈에 대한 의사결정을 진행하고 있습니다.</p>
+<br/>
+    <h2>(나) 전략부문</h2>
+    <p>KT&amp;G의 CSO이자 CFO인 전략부문장은 KT&amp;G의 기후관련 이슈를 포함한 ESG 이슈 및 주요 재무계획, 투자 그리고 예산을 검토하고 관리하는 역할을 수행합니다. 두 가지 중요한 책임을 동시에 수행함으로써 ESG 이슈와 재무적 이슈가 서로 연계되어 논의되도록 검토하며 ESG 관리의 컨트롤타워인 ESG경영실을 통해 주요 기후관련 전략과 성과를 보고받고 세부 과제 이행경과를 점검하고 있습니다.</p>
+<br/>
+    <h2>(다) 실행 조직</h2>
+    <p>KT&amp;G 경영진은 기후 관련 위험 및 기회의 감독을 지원하기 위해 제조본부 산하 에너지환경부를 운영하고 있습니다. 에너지환경부는 환경경영 중장기 목표에 맞춰 전사의 기후 성과를 집계 및 관리하며, 재생 에너지 전환, 에너지 효율 향상, 물 재이용 확대, 폐기물 매립 최소화 등 세부 전략 수립 및 이행을 통해 기후 영향 최소화를 위한 활동을 이행하고 있습니다. 이와 함께 각 기관(본사 본부, 공장, 영업지역본부 등)에 환경 성과 담당자를 지정하여 에너지환경부와 유기적인 협업을 통해 과제를 실행하고 있습니다.</p>
+    <p>또한 KT&amp;G는 환경 규제 및 컴플라이언스를 체계적으로 관리하기 위하여 ‘산업규제법 Compliance 운영 체계’를 운영하고 있습니다. 해당 체계는 공장 운영과 관련한 안전, 물질관리, 환경, 에너지 등 4개 분야의 총 23개 법, 130개 항목에 대한 법규 모니터링 및 업데이트, 규제 컴플라이언스 준수를 위한 자체진단(Self-audit), 이행 주기 도래 이행사항 리마인드로 구성되어 있습니다.</p>
+<br/>
+    <h2>(라) 외부자문단</h2>
+    <p>실무협의체인 에너지환경 Working Group은 경영진의 기후 관련 위험 및 기회의 감독을 지원하기 위해 컨설턴트, 투자 분석가, 교수 등으로 구성된 외부자문단을 활용해 기후 관련 위험 및 기회 요인을 모니터링하고 있습니다. 외부자문단은 기후 시나리오 분석을 통해 전환 및 물리적 위험과 관련된 요인을 검토하였습니다.</p>
+
+
+      <br/>
+      <p>보고서명: [KT&G] 2023 KT&G 통합보고서</p>
+      <p>페이지: p.55</p>
+      `,
+    link1_1:
+      "https://drive.google.com/file/d/1k30ThvMyeI365yM583U1FNWjUXZcdWxt/view?usp=drive_link",
+    link1_2:
+      "https://drive.google.com/file/d/1JSoxfWkB-_3SZjNfENsKCiric3JD6wHs/view?usp=drive_link",
+    link1_3:
+      "https://www.lguplus.com/about/ko/sustainability/management-report",
+    link2_1:
+      "https://drive.google.com/file/d/1yTqjrDxUhZuwjHpT_x3TaU4dFiOF9GNJ/view?usp=drive_link",
+    link2_2: "",
+    link2_3:
+      "https://www.ktng.com/download?CMS_CD=CM0017&fnm=CM0017_30_attc.pdf&orgFnm=KTnG_2023+Report+KOR.pdf",
+  },
+  {
+    title: "manager",
+    key: "foreign",
+    text: "가",
+    contents1: `
+      <h1><strong>Management Oversight</strong></h1>
+         <br/>
+    <p>Supporting the Board in its oversight of climate-related and transition planning activities are management-level committees and councils comprised of senior leaders across every major line of business and control function. Our Transition Plan is aligned with and integrated into key processes across the Company including strategic and financial planning, and assessment and management of climate-related risks. By integrating climate risk and transition planning into our core enterprise routines, the opportunities and risks stemming from climate change are embedded in our core evaluation and decision-making tools and processes to support our and our clients’ transition commitments.</p>
+    <br/>
+    <h2>The Management Risk Committee (MRC)</h2>
+    <p>The MRC, co-chaired by our chief executive officer (CEO) and chief risk officer (CRO), oversees risks facing the Company, taking into consideration climate risk, which spans across all key risk types. The MRC reports to the Board’s ERC and is supported by subcommittees organized by risk type (e.g., credit, market, operational) and line of business, which also review the implications of climate-related risks.</p>
+    <br/>
+    <h2>The Responsible Growth Council (RGC)</h2>
+    <p>The RGC is responsible for overseeing the Company’s mandate to grow in a sustainable manner and our progress on environmental and social initiatives, including climate and our Net Zero goal. The RGC is co-chaired by our chief administrative officer and our vice chair, who was formerly our chief financial officer. Its members are comprised of senior leaders representing each line of business (LOB) and control function. The RGC is accountable to the CEO and is supported by its sub-council, the ESG Disclosure Council, which is responsible for reviewing and providing oversight of our climate and other sustainability-related public disclosures.</p>
+    <p>The Responsible Growth Council, in accordance with its statement of governance principles, escalates sustainability matters and related risks to the CGESC and to the MRC, respectively. It monitors our focus on climate transition and sustainable finance across our LOBs as we work to meet our Net Zero goal. The details on our approach to Net Zero and the 2030 Financing Activity Targets outlined herein were approved by the RGC and reviewed by senior management and the Board.</p>
+    <br/>
+    <h2>The Target Management Forum</h2>
+    <p>The Target Management Forum is directly responsible for reviewing the transition plans of top clients in the sectors where we have set 2030 Financing Activity Targets. The Target Management Forum consists of senior leaders from Global Banking, Enterprise Credit and the Global Environmental Group and is described in more detail in the Understanding Client Transitions section of this document.</p>
+    <br/>
+    <h2>Independent Third-Party Engagement</h2>
+    <p>We enlist many independent third parties, including our National Community Advisory Council, for advice, counsel, perspective, ideas and assistance. These third parties and other stakeholders (including employees, clients, investors/shareholders, communities, regulators, and policymakers) represent a range of diverse perspectives and provide continuous feedback on our actions and progress, holding us accountable. We are transparent and report on our activities, seeking input from our shareholders about the type of information that would be useful to them in assessing our activities, as we have done with this document.</p>
+
+      <br/>
+      <p>보고서명: 보고서명: [Bank of America] Sustainability at Bank of America Report</p>
+      <p>페이지: p.12</p>
+      `,
+    contents2: `
+          <h1><strong>Management</strong></h1>
+          <br/>
+    <p>Management’s involvement in climate-related matters includes:</p>
+    <ul>
+        <li>•The CEO and ELT execute climate-related policies and strategy approved by the Board and are accountable for performance and achievement of BHP’s operational GHG emissions (Scopes 1 and 2 emissions from our operated assets) and value chain GHG emissions (Scope 3 emissions) targets and goals.</li>
+        <li>•The Sustainability and ESG Steering Committee facilitates direction, review, and management decisions on cross-functional, asset and strategic issues relating to BHP’s sustainability and ESG-related positions, including climate change and climate transition planning. The membership of the Sustainability and ESG Steering Committee includes the Chief Legal, Governance and External Affairs Officer, Chief Financial Officer, Chief Operating Officer, Chief Commercial Officer, President Minerals Australia, and President Minerals Americas from the ELT, and sustainability and ESG leaders within BHP, including the Group Sustainability and Social Value Officer.</li>
+        <li>•The Group Sustainability and Social Value Officer, Dr Fiona Wild, is responsible for driving BHP’s climate change strategy, including climate considerations in broader company strategy and portfolio evaluation, operational and value chain decarbonisation, physical climate-related risk and adaptation, equitable change and transition, stakeholder engagement, and disclosure.</li>
+    </ul>
+<br/>
+    <p>The ELT receives progress and performance reports on operational GHG emissions, operational and value chain GHG emission reduction activities, adaptation strategy-related activities, and climate-related risks from our asset and functions teams.</p>
+<br/>
+    <h2>Support from Asset and Function Teams</h2>
+    <ul>
+        <li>•The Group Sustainability and Social Value team is responsible for collaborating with BHP’s asset and function teams, external partners, and industry to develop practical climate change solutions. The team regularly prepares information and advice for management-level and Board-level stakeholders and committees on climate-related strategy, risks (threats and opportunities), and performance against climate-related metrics. The team also uses key risk indicators to help monitor performance against our appetite for climate-related risks and monitors relevant signposts for emerging risks.</li>
+        <li>•The Risk team is responsible for providing expertise, support, monitoring, and challenge on risk-related matters, and our internal audit team is responsible for providing independent and objective assurance over the control environment (governance, risk management, and internal controls) to the Board and ELT. Additional assurance may also be provided by external providers, such as our external auditor, in relevant circumstances.</li>
+        <li>•The asset and function teams are responsible for undertaking climate-related activities.</li>
+    </ul>
+
+    <br/>
+    <p>보고서명: [BHP] Climate Transition Action Plan 2024</p>
+    <p>페이지: p.51</p>
+    `,
+    link1_1:
+      "https://drive.google.com/file/d/1dVoRzkX3Ckiq-149ZLwEUI2GCV6vFQhp/view?usp=drive_link",
+    link1_2:
+      "",
+    link1_3:
+      "https://about.bankofamerica.com/content/dam/about/report-center/esg/2024/Sustainability_at_Bank_of_America_2024_Report.pdf",
+    link2_1:
+      "https://drive.google.com/file/d/1WKM1CfQI5xLG9au6GmWCcRnzbqaDCpk2/view?usp=drive_link",
+    link2_2: "",
+    link2_3:
+      "https://www.bhp.com/-/media/documents/investors/annual-reports/2024/240827_bhpclimatetransitionactionplan2024.pdf",
+  },
+  {
+    title: "manager",
+    key: "edk",
+    text: "나",
+    contents1:
+'<p><strong>경영진의 통제 및 절차 사용</strong></p><br/><p><strong style="color: #F25B2B">[기업명]</strong>은 기후 관련 위험과 기회를 효과적으로 관리하기 위해 다양한 통제 및 절차를 마련하고 있습니다. 경영진은 기후 전략 수립과 실행을 주도하며, 내부 통제 시스템은 <strong style="color: #F25B2B">[시스템명]</strong> 기반으로 구축되어 지속 가능한 경영 활동을 지원합니다. 정보 공유를 통해 이해관계자와 투명하게 소통하고, 내부 교육으로 직원들의 참여를 유도합니다. 또한, 정기적인 재검토와 외부 전문가 자문을 통해 통제 시스템을 지속적으로 개선하여 기후 관련 위험을 효과적으로 관리하고자 합니다.</p>',    contents2: "",
+    link1_1: "",
+    link1_2: "",
+    link1_3: "",
+    link2_1: "",
+    link2_2: "",
+    link2_3: "",
+  },
+
+  {
+    title: "manager",
+    key: "domestic",
+    text: "나",
+    contents1: `<p><strong>경영진의 통제 및 절차</strong></p><br/> 
+     <p>연결회사의 경영진은 기후 변화 관련 위험 및 기회를 모니터링하고 조직 구성원들에게 지속가능성 관련 위험 및 기회에 대해 주기적으로 의사소통하고 있습니다. 이를 위해 CEO는 전사 임직원을 대상으로 연 1회 환경경영방침 및 환경경영 행동지침을 배포하여 기후 변화 대응에 대한 내용을 포함한 경영 원칙과 비전을 공지하고, 이러한 경영 원칙과 비전의 중요성을 강조하고 있습니다. 이외에도 기후 변화 관련 안건의 상정을 포함한 ESG위원회 규정을 제정 · 준수하고 있습니다.</p>
+
+    <p>이러한 규정, 절차, 지침의 효과적인 수행을 위해 업무 수행 당사자 및 책임자에게 적절한 책임과 권한을 부여하고, 적격성 있는 인력을 선발 및 육성하여 관리하고 있습니다. 지배기업의 ESG 정책 총괄 임원은 기후 변화 관련 목표를 설정 · 공시하며, 전략을 목표 이행의 수단으로 활용합니다. 관련 경영 목표를 설정한 뒤, 해당 목표를 부분적으로 또는 완전히 달성하지 못할 수 있는 다양한 상황을 파악하여 이에 대응하기 위한 방법을 개발하고 실행합니다.</p>
+
+    <p>이러한 방법론 개발 시 효과적인 위험 분석을 수행하기 위해 연결회사의 전체 조직 구조(부서 운영 단위, 사업부, 종속 기업 등)를 포괄하여 고려하며, 내부 및 외부 요인을 복합적으로 고려하여 위험을 평가합니다. 지배기업의 ESG 정책 총괄 임원은 기후 변화 관련 위험 및 기회에 대한 정보의 정합성을 제고하기 위해 관련 프로세스의 수행 시 필요한 요소마다 승인, 대사, 검증 등의 통제 활동을 설계하고 운영하고 있으며, 부서별 목표, 계획, 예산에 대한 설계, 프로젝트 진척도에 대한 모니터링 및 필요한 조치 등을 수행하고 있습니다.</p>
+
+    <p>기후 변화 관련 데이터의 신뢰성을 유지하고, 이를 통해 기후 변화 관련 정보를 수집, 처리, 분석, 보고하기 위해 보고 안건별로 보고 빈도를 규정화하여 관리하고 있으며, 이러한 데이터의 적시성 있는 공유를 위해 조직 구성원들과 의사소통하고 있습니다. 내부 이해관계자 외에도, 외부 이해관계자들과 투명하고 효과적인 정보 제공을 위해 지속가능경영보고서를 공시하고 있으며, 대외 커뮤니케이션의 효과성 제고를 위해 외부 의사소통 채널을 구축하고 있습니다.</p>
+
+    <p>지배기업의 ESG 정책 총괄 임원은 상기의 사항들을 고려하여 통제활동의 구조 및 프로세스를 구현한 후, 기후 변화 관련 목표를 달성하는 데 효과적인지 확인하기 위해 주기적으로 재검토하고 있습니다. 이러한 재평가는 예정된 지속적인 평가일 수도 있고, 특정한 필요에 따라 수행될 수도 있습니다. 평가는 정기적으로 예정되거나 지속적으로 이루어질 수 있으며, 상황의 변화로 발생할 수도 있습니다.</p>
+
+    <p>ESG 정책 총괄 임원은 기후 변화에 대한 모니터링을 포함하여 지속 가능성 향상을 위한 정책 및 절차를 재평가한 뒤, 결과를 전달하여 이해관계자들이 조직의 지속 가능한 경영 목표에 부합할 수 있도록 개선과 진전을 위한 방법을 식별하고 있습니다.</p>
+
+    <p>연결회사는 전사 위기관리 체계의 내부통제 통합 프레임워크 적용을 위해 Committee of Sponsoring Organizations of the Treadway Commission (“COSO”)에 기반하여 지속가능한 경영 활동 및 보고에 대한 내부통제체계를 고도화할 예정입니다.</p>
+    <br/>
+    <p>보고서명: [LG유플러스] 2023 지속가능성 관련 IFRS S1·S2 보고서(Special Report)</p>
+    <p>페이지: p.16 </p>
+    `,
+    contents2: `<p><strong>경영진의 통제 및 절차 사용</strong></p><br/><p>KT&G는 사외이사로 구성된 감사위원회를 통해 전사 리스크 관리 현황을 점검하며, 감사위원회 산하 감사단에서 ESG 경영 추진사항에 대한 독립적인 내부감사를 수행하고 있습니다. 내부감사 수행 결과는 감사위원회 및 경영진에 보고되며, 감사결과 통보 후 1개월 이내에 현업부서에서 감사 지적사항에 대한 개선계획을 감사단에 제출하고 있습니다. 감사단에서는 감사 지적사항에 대한 조치 이행여부를 주기적으로 점검하며, 점검 결과를 연 1회 감사위원회에 보고하고 있습니다. 내부감사 주제 선정은 연간 감사계획 수립 시, 감사단 자체 리스크 평가를 통해 이뤄지고 있습니다. 리스크 평가 시, 기회와 위험, 규제변화 등을 종합적으로 고려합니다. 2022년에는 ESG 관리체계 전반의 적정성을 검토하고, 기후변화 대응, 중장기 환경목표 달성방안 등 ESG 관련 단기 및 중장기 과제 추진현황을 점검하였습니다. 2023년에는 ‘KT&G 그린임팩트 비전’ 달성과 관련하여, 폐기물 저감을 통한 환경경영 이행 노력 여부를 중점 점검하였습니다. 향후에도 전사 조직의 ESG 경영 이행 수준과 ESG 관련 중장기 과업 진행 현황을 검토하고, 주요 조직에 부여된 역할과 책임을 점검할 계획입니다.</p>
+      <br/>
+      <p>보고서명: [KT&G] 2023 KT&G 통합보고서</p>
+      <p>페이지: p.55</p>
+      `,
+    link1_1:
+      "https://drive.google.com/file/d/1JSoxfWkB-_3SZjNfENsKCiric3JD6wHs/view?usp=drive_link",
+    link1_2:
+      "k",
+    link1_3:
+      "https://www.lguplus.com/about/ko/sustainability/management-report",
+    link2_1:
+      "https://drive.google.com/file/d/1yTqjrDxUhZuwjHpT_x3TaU4dFiOF9GNJ/view?usp=drive_link",
+    link2_2: "",
+    link2_3:
+      "https://www.ktng.com/download?CMS_CD=CM0017&fnm=CM0017_30_attc.pdf&orgFnm=KTnG_2023+Report+KOR.pdf",
+  },
+  {
+    title: "manager",
+    key: "foreign",
+    text: "나",
+    contents1: `
+      <h1><strong>Board of Directors Oversight</strong></h1>
+      <br/>
+      <p>The Company's Board oversees the business and affairs of the Company, providing active and independent oversight of management, including management's development and execution of our climate-related strategy and activities. Our directors are seasoned leaders who bring deep and diverse experience from a range of industries and backgrounds. Their perspectives, experiences and expertise help inform and guide how we deliver long-term, sustainable value for our shareholders and share success with our communities.</p>
+      <p>Our Board is keenly focused on its composition and succession planning. When evaluating and identifying director candidates, the Board considers the experiences, skills and expertise that are critical to its ability to provide effective oversight of the Company and are directly relevant to our Company's business, strategy and operations. In addition, the Board, through its Corporate Governance, ESG and Sustainability Committee (CGESC), follows applicable regulations in confirming that the Board includes members with an understanding of risk management principles, policies and practices, and experience in identifying, assessing and managing risk exposures. Our Board understands the importance of director education to directors in fulfilling their oversight responsibilities. All new directors participate in our director orientation program during their first six months of service, through a series of meetings with management representing all business and staff areas. Continuing director education is provided as part of formal Board and committee meetings and as stand-alone information sessions outside of those meetings.</p>
+      <p>For example, in 2023, in response to director input, our Board and committees held more frequent discussions with management on implementation of the Company's sustainability initiatives, climate activities and new climate disclosure requirements. In 2024, at the CGESC's request, the Board held a stand-alone information session to review the Company's sustainability initiatives, including its voluntary commitments and the regulatory requirements it is subject to. The Board has adopted thoughtful governance practices and processes consistent with the Company's drive toward Responsible Growth. A key tenet of Responsible Growth is to grow in a sustainable manner. The Board and its committees actively oversee the Company's drive to grow in a sustainable manner through comprehensive governance and risk oversight practices, including through regular review and discussion of climate-related topics.</p>
+      <br/>
+      <h2>Examples of Oversight</h2>
+      <ul>
+          <li>•The Board receives periodic presentations from management on climate topics, including the Company's progress toward its Net Zero goal and sustainable finance target.</li>
+          <li>•The Board's Enterprise Risk Committee (ERC) oversees risk, including reputational risk and climate risk, and receives updates as needed on the continued enhancement to and evolution of the Company's climate risk management efforts and overall climate program. The Board and the ERC receive risk reporting on key and emerging risks, including climate risk.</li>
+          <li>•The Board's CGESC, which has specific responsibility for overseeing the Company's environmental and social sustainability-related activities and practices, reviews (at least annually) the Company's climate-related work, including its sustainable finance activities, 2030 Financing Activity Targets and certain climate reports.</li>
+          <li>•The Board's Audit Committee oversees the integrity of the Company's financial reporting, including sustainability-related disclosures, and reviews the Company's enterprise climate disclosures in its financial reports filed with the U.S. Securities and Exchange Commission. The Audit Committee also receives regular updates on the evolving regulatory landscape and development of climate-related disclosure requirements.</li>
+          <li>•The Board's Compensation and Human Capital Committee oversees the Company's human capital management practices and promotes strong governance of our pay-for-performance compensation philosophy, which includes considerations related to growth in a sustainable manner with focused sustainability leadership, as detailed in the Performance and Remuneration section.</li>
+      </ul>
+      <br/>
+      <p>보고서명: 보고서명: [S&P Global] TCFD Report</p>
+      <p>페이지: p.6 </p>
+      `,
+    contents2: `
+        <h1><strong>Board and Committees</strong></h1>
+        <br/>
+    <p>Climate change is a Board-level issue, including in relation to our strategic approach, risk management, public disclosures, annual budgets and business plans. The Board is responsible for the approval and oversight of BHP’s climate-related risks (threats and opportunities) and BHP’s climate change strategy. The Board has four standing Committees to assist in the discharge of its responsibilities, including in relation to climate-related matters. Each of these Committees reports to the Board on the key issues discussed, including, where applicable, climate-related issues:</p>
+    <ul>
+        <li>•The Board approves BHP’s significant social, community and sustainability policies (upon recommendation from the Nomination and Governance Committee), including those related to climate change and climate transition planning, public sustainability-related goals and targets (including for GHG emission reductions). The Board reviewed and approved BHP’s climate-related targets and goals, and approved this CTAP.</li>
+        <li>•The Nomination and Governance Committee assists the Board with reviewing BHP’s significant social, community and sustainability-related policies (including those related to climate change and climate transition planning), and reviews and makes recommendations to the Board on BHP’s public sustainability-related targets and goals. The Nomination and Governance Committee reviewed and recommended this CTAP to the Board for approval. The Committee also assists with assessing the capability of the Board to deliver on BHP’s strategy by regularly assessing the Board skills matrix and the collective skills, experience and knowledge of the Board to be able to discharge its duties, including on the strategic direction of BHP.</li>
+        <li>•The Sustainability Committee assists the Board with overseeing climate performance, including monitoring implementation of BHP’s climate strategy, policies and processes, and performance against public targets and goals, and reviews and reports to the Board on the Group’s material climate risks. The Committee also makes recommendations to the People and Remuneration Committee on both setting climate performance measures and evaluating performance against those measures for the CEO and other members of the ELT.</li>
+        <li>•The Risk and Audit Committee oversees and assists the Board in reviewing the emerging and principal risks facing BHP. This includes business risk, financial reporting risk and climate risk. The Committee also reviews and recommends to the Board for approval public financial disclosures, including financial information related to sustainability matters and financial information contained in climate change reports and climate transition action plans. The Risk and Audit Committee reviewed the climate-related financial disclosures appearing in this CTAP and the Financial Statements in the BHP Annual Report 2024, both prior to the Board’s approval.</li>
+        <li>•The People and Remuneration Committee assists the Board with reviewing performance measures and performance outcomes for the CEO and approves performance measures and assesses and determines performance outcomes against those performance measures for the ELT. In doing so, the Committee considers recommendations from the Sustainability Committee in relation to climate performance measures.</li>
+    </ul>
+    <br/>
+    <p>보고서명: [BHP] Climate Transition Action Plan 2024</p>
+    <p>페이지: p.51</p>
+    `,
+    link1_1:
+      "https://drive.google.com/file/d/1wLh_jvovIIhm9yW5I41iiPuyaqDRvr-e/view?usp=sharing",
+    link1_2:
+      "https://drive.google.com/file/d/1BbftG2TPa8GT05RO2s-htpKWgKipvlXe/view?usp=drive_link",
+    link1_3:
+      "https://about.bankofamerica.com/content/dam/about/report-center/esg/2024/Sustainability_at_Bank_of_America_2024_Report.pdf",
+    link2_1:
+      "https://drive.google.com/file/d/1E8R1XiBW9ebQEVkhA3aXqjelNso45EMB/view?usp=drive_link",
+    link2_2: "",
     link2_3:
       "https://www.bhp.com/-/media/documents/investors/annual-reports/2024/240827_bhpclimatetransitionactionplan2024.pdf",
   },
