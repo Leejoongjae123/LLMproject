@@ -22,7 +22,7 @@ import { FaChevronRight } from "react-icons/fa";
 
 import { AcmeIcon } from "./acme";
 import SidebarDrawer from "./sidebar-drawer";
-
+import { useRouter } from "next/navigation";
 /**
  * 💡 TIP: You can use the usePathname hook from Next.js App Router to get the current pathname
  * and use it as the active key for the Sidebar component.
@@ -156,7 +156,7 @@ export default function Component({
   classNames = {},
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+  const router = useRouter();
   const content = (
     <div className="relative flex h-full w-40 flex-1 flex-col p-6 bg-[#444444]">
       <div className="flex items-center gap-2 px-2 my-5">
@@ -273,12 +273,23 @@ export default function Component({
           )}
 
           <p className="text-2xl font-bold px-3">{header}</p>
-          <Button
-            radius="full"
-            className="w-[10vw] h-full font-bold text-lg bg-[#f25b2b] text-white"
-          >
-            저장하기
-          </Button>
+          <div className="flex gap-5">
+            <Button
+              radius="full"
+              variant="bordered"
+              className="w-[10vw] h-10 font-bold text-lg text-[#f25b2b] border-primary"
+              onPress={() => router.back()}
+            >
+              이전
+            </Button>
+            <Button
+              radius="full"
+              className="w-[10vw] h-10 font-bold text-lg bg-[#f25b2b] text-white"
+              color="primary"
+            >
+              다음
+            </Button>
+          </div>
         </header>
         <main className="h-full overflow-auto">
           <div className="flex h-full w-full flex-col gap-4 rounded-none rounded-b-medium border-0 border-b border-l border-r border-divider">
