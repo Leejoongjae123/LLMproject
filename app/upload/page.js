@@ -127,8 +127,6 @@ export default function BucketFileManager() {
       }
     }
 
-
-
     const uploadFile = async (bucketId, file) => {
       const ENDPOINT = "/api/v2/documents/by-file";
       const FULL_URL = baseUrl + ENDPOINT;
