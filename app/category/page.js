@@ -85,7 +85,7 @@ export default function Component() {
 
   return (
     <div className="flex w-full h-full flex-col items-center">
-      <div className="flex justify-end items-center gap-x-5 w-full h-24 px-6">
+      <div className="flex justify-end items-center gap-x-5 w-full h-24 px-12">
         <Button
           size="sm"
           radius="full"
