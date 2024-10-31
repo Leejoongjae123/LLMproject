@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon } from "@iconify/react";
 import FeatureCard from "./components/feature-card";
-import { Tooltip, Button } from "@nextui-org/react";
+import { Card, CardHeader, CardTooltip, Button } from "@nextui-org/react";
 
 function page() {
   const featuresCategories = [
@@ -40,7 +40,7 @@ function page() {
   ];
 
   return (
-    <div className="w-full h-full p-5 flex flex-col justify-center items-center overflow-hidden">
+    <div className="w-full h-full p-12 flex flex-col justify-center items-center overflow-hidden">
       <div className="w-full h-1/10 flex justify-start items-center">
         <h1 className="text-start text-lg">기업의 2024년 공시할 보고서 기준을 선택하실 수 있습니다.</h1>
       </div>

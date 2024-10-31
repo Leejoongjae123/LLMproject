@@ -15,6 +15,7 @@ import {
   TableRow,
   TableCell,
   Tooltip,
+  CardFooter,
 } from "@nextui-org/react";
 import { FaRegFolder } from "react-icons/fa6";
 import {
@@ -53,10 +54,16 @@ export default function BucketFileManager() {
   const [selectedBucket, setSelectedBucket] = useState(null);
   const [files, setFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  const { isOpen: isOpen1, onOpen: onOpen1, onOpenChange: onOpenChange1 } =
-    useDisclosure();
-  const { isOpen: isOpen2, onOpen: onOpen2, onOpenChange: onOpenChange2 } =
-    useDisclosure();
+  const {
+    isOpen: isOpen1,
+    onOpen: onOpen1,
+    onOpenChange: onOpenChange1,
+  } = useDisclosure();
+  const {
+    isOpen: isOpen2,
+    onOpen: onOpen2,
+    onOpenChange: onOpenChange2,
+  } = useDisclosure();
   const [newBucketName, setNewBucketName] = useState(""); // New state for bucket name
   const [isLoading, setIsLoading] = useState(false);
   const tooltipContent = `첨부된 파일은 AI 초안을 완성하는데 활용돼요. 공시자료 파일을 업로드해주세요.\n
@@ -101,27 +108,45 @@ export default function BucketFileManager() {
 
   const onDrop = async (acceptedFiles) => {
     if (acceptedFiles.length > 1) {
-      setErrorMessage("한 번에 한 개의 파일만 업로드할 수 있습니다. 파일을 다시 선택해주세요.");
+      setErrorMessage(
+        "한 번에 한 개의 파일만 업로드할 수 있습니다. 파일을 다시 선택해주세요."
+      );
       onOpen2();
       return;
     }
     if (files.length > 0) {
-      setErrorMessage("버킷 한개당 한개 파일만 등록 가능합니다. 기존 파일을 삭제해주세요.");
+      setErrorMessage(
+        "버킷 한개당 한개 파일만 등록 가능합니다. 기존 파일을 삭제해주세요."
+      );
       onOpen2();
       return;
     }
-    const supportedExtensions = ["PDF", "DOCX", "XLSX", "XLS", "PPTX", "PPT", "HWP", "HWPX", "CSV"];
+    const supportedExtensions = [
+      "PDF",
+      "DOCX",
+      "XLSX",
+      "XLS",
+      "PPTX",
+      "PPT",
+      "HWP",
+      "HWPX",
+      "CSV",
+    ];
     const maxFileSize = 10 * 1024 * 1024; // 10MB in bytes
 
     for (const file of acceptedFiles) {
-      const fileExtension = file.name.split('.').pop().toUpperCase();
+      const fileExtension = file.name.split(".").pop().toUpperCase();
       if (!supportedExtensions.includes(fileExtension)) {
-        setErrorMessage("지원되지 않는 파일입니다. PDF, DOCX, XLSX, XLS, PPTX, PPT, HWP, HWPX, CSV 파일만 업로드 가능합니다.");
+        setErrorMessage(
+          "지원되지 않는 파일입니다. PDF, DOCX, XLSX, XLS, PPTX, PPT, HWP, HWPX, CSV 파일만 업로드 가능합니다."
+        );
         onOpen2();
         return;
       }
       if (file.size > maxFileSize) {
-        setErrorMessage("파일 용량이 10MB가 넘습니다. 10MB 이내 파일만 업로드 가능합니다.");
+        setErrorMessage(
+          "파일 용량이 10MB가 넘습니다. 10MB 이내 파일만 업로드 가능합니다."
+        );
         onOpen2();
         return;
       }
@@ -265,18 +290,20 @@ export default function BucketFileManager() {
   console.log("buckets:", buckets);
 
   return (
-    <div className="flex h-screen  p-4">
+    <div className="flex h-[calc(100vh-6rem)] p-12">
       {/* 좌측 버킷 리스트 */}
-      <Card className="w-1/4 mr-4">
+      <Card className="w-1/4 mr-4 p-3">
         <CardHeader>
           <h2 className="text-lg font-bold">버킷명</h2>
         </CardHeader>
-        <CardBody>
+        <CardBody className="overflow-y-auto h-[calc(100vh-12rem)]">
           {buckets.map((bucket) => (
             <Button
               key={bucket.id}
-              className={`mb-2 w-full justify-start bg-gray-100 ${
-                selectedBucket.id === bucket.id ? "bg-primary text-white" : ""
+              className={`mb-2 w-full justify-start min-h-12 ${
+                selectedBucket.id === bucket.id
+                  ? "bg-primary text-white"
+                  : "bg-gray-100"
               }`}
               startContent={
                 <FaRegFolder
@@ -292,18 +319,20 @@ export default function BucketFileManager() {
               {bucket.name}
             </Button>
           ))}
+        </CardBody>
+        <CardFooter>
           <Button
             variant="bordered"
-            className="mt-4 w-full"
-            onPress={openAddBucketModal} // Open modal on button press
+            className="mt-4 w-full min-h-12"
+            onPress={openAddBucketModal}
           >
             버킷 추가
           </Button>
-        </CardBody>
+        </CardFooter>
       </Card>
 
       {/* 우측 파일 리스트 및 업로드 영역 */}
-      <Card className="w-3/4">
+      <Card className="w-3/4 p-3">
         <CardHeader>
           <div className="w-full flex justify-between items-center">
             <div>
@@ -458,9 +487,7 @@ export default function BucketFileManager() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                에러
-              </ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">에러</ModalHeader>
               <ModalBody>
                 <p>버킷 생성에 실패했습니다.</p>
                 <p>{errorMessage}</p>

@@ -12,14 +12,15 @@ const FeatureCard = React.forwardRef(
 
     return (
       <Card
-        ref={ref}
-        className={`bg-content2 w-full h-full transition-transform transform ${
-          isNonInteractiveTitle ? "" : "hover:scale-105"
-        } border border-transparent ${
-          isNonInteractiveTitle ? "" : "hover:border-[#F25B2B] hover:border-2"
-        }`}
-        shadow="none"
-        {...props}
+        // ref={ref}
+        // className={`bg-content2 w-full h-full transition-transform transform ${
+        //   isNonInteractiveTitle ? "" : "hover:scale-105"
+        // } border border-transparent ${
+        //   isNonInteractiveTitle ? "" : "hover:border-[#F25B2B] hover:border-2"
+        // }`}
+        className="w-full h-full transition-transform transform hover:scale-105 border border-transparent hover:border-primary hover:border-2"
+        
+
       >
         <CardHeader className="w-full h-1/2 flex flex-col gap-2 px-4 pb-4 pt-6">
           <div className="flex ">
