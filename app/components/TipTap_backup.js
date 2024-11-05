@@ -194,19 +194,16 @@ const CustomEditor = ({ category, setCategory, selectedItem,selectedText,setSele
     if (selectedItem === "weather") {
       setInputContents(`
         <h1 style="font-weight: 700;">거버넌스</h1>
-        <h2>기후 관련 위험 및 기회에 관한 관리 감독 기구</h2>
-        <p>(가) 첫 번째 문단입니다, 두 번째 부분입니다, 세 번째 부분입니다.</p>
-        <p>(나) 다른 문단입니다, 이것도 쉼표로 구분됩니다.</p>
-        <p>(다) 세번째로 존재하는 문단입니다.</p>
-        <p>(라) 네번째로 구분하였습니다.</p>
-        <p>(마) 다섯번째로 존재하는 문단이에요.</p>
+        <h2>기후 관련 위험 및 기회에 관한 이사회 차원의 감독</h2>
+        <p>이사회의 역할 및 책임</p>
+        <p>관리 감독 체계</p>
       `);
     } else {
       setInputContents(`
         <h1 style="font-weight: 700;">거버넌스</h1>
-        <h2>경영진의 역할 및 감독 방법</h2>
-        <p>(가) 첫 번째 문단입니다, 두 번째 부분입니다, 세 번째 부분입니다.</p>
-        <p>(나) 다른 문단입니다, 이것도 쉼표로 구분됩니다.</p>
+        <h2>기후 관련 위험 및 기회에 관한 경영진의 역할</h2>
+        <p>경영진의 역할 및 감독 프로세스</p>
+        
       `);
     }
   }, [selectedItem]);

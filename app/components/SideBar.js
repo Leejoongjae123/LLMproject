@@ -16,26 +16,23 @@ import {
   DropdownItem,
   DropdownSection,
   cn,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Checkbox,
+  CheckboxGroup,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { FaChevronRight } from "react-icons/fa";
-
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import axios from "axios";
 import { AcmeIcon } from "./acme";
 import SidebarDrawer from "./sidebar-drawer";
 import { useRouter } from "next/navigation";
-/**
- * 💡 TIP: You can use the usePathname hook from Next.js App Router to get the current pathname
- * and use it as the active key for the Sidebar component.
- *
- * ```tsx
- * import {usePathname} from "next/navigation";
- *
- * const pathname = usePathname();
- * const currentPath = pathname.split("/")?.[1]
- *
- * <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} />
- * ```
- */
+import { useState, useEffect } from "react";
 
 function AvatarDropdownIcon(props) {
   return (
@@ -155,13 +152,73 @@ export default function Component({
   subTitle,
   classNames = {},
 }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isOpen1,
+    onOpen: onOpen1,
+    onOpenChange: onOpenChange1,
+  } = useDisclosure();
+  const {
+    isOpen: isOpen2,
+    onOpen: onOpen2,
+    onOpenChange: onOpenChange2,
+  } = useDisclosure();
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const apiKey = process.env.NEXT_PUBLIC_SCIONIC_API_KEY;
+  const baseUrl = process.env.NEXT_PUBLIC_SCIONIC_BASE_URL;
+  const agentId = process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID;
+  const [buckets, setBuckets] = useState([]);
+  const [selectedBucket, setSelectedBucket] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+
+  const fetchBuckets = async () => {
+    const ENDPOINT = `/api/v2/buckets`;
+    const FULL_URL = baseUrl + ENDPOINT;
+    const params = {
+      agentId: agentId,
+      page: 1,
+      size: 100,
+    };
+
+    try {
+      setIsLoading(true);
+      const response = await axios.get(FULL_URL, {
+        headers: {
+          "storm-api-key": apiKey,
+        },
+        params: params,
+      });
+
+      setBuckets(response.data.data.data);
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAIReport = () => {
+    fetchBuckets();
+    onOpen2();
+  };
+
+  const handleCheckboxChange = (values) => {
+    const selectedBuckets = buckets
+      .filter(bucket => values.includes(bucket.id))
+      .map(bucket => ({
+        id: bucket.id,
+        name: bucket.name || bucket.fileName || bucket.title || '제목 없음'
+      }));
+    setSelectedBucket(selectedBuckets);
+  };
+
   const content = (
     <div className="relative flex h-full w-40 flex-1 flex-col p-6 bg-[#444444]">
       <div className="flex items-center gap-2 px-2 my-5">
         <span className="text-white text-4xl font-bold uppercase leading-6 text-foreground">
-          EDK
+          <Link href="/select">EDK</Link>
         </span>
       </div>
 
@@ -230,13 +287,48 @@ export default function Component({
       <Spacer y={8} />
     </div>
   );
-
+  console.log("buckets222", buckets);
   return (
     <div className="w-screen h-screen flex py-4 px-4 overflow-hidden">
+      <Modal isOpen={isOpen2} onOpenChange={onOpenChange2}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                업로드 파일 목록
+              </ModalHeader>
+              <ModalBody>
+                <CheckboxGroup
+                  label="파일선택"
+                  defaultValue={[]}
+                  className="max-h-[300px] overflow-y-auto"
+                  onChange={handleCheckboxChange}
+                >
+                  {buckets.map((bucket) => (
+                    <Checkbox key={bucket.id} value={bucket.id}>
+                      {bucket.name || bucket.fileName || bucket.title || '제목 없음'}
+                    </Checkbox>
+                  ))}
+                </CheckboxGroup>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onPress={() => {
+                  onClose();
+                  if (selectedBucket.length > 0) {
+                    router.push("/guide?bucketId=" + selectedBucket.map(b => b.id).join('&'));
+                  }
+                }}>
+                  AI 초안 생성
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <SidebarDrawer
         className="h-full rounded-[14px] bg-default-50 overflow-hidden"
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        isOpen={isOpen1}
+        onOpenChange={onOpenChange1}
       >
         {content}
       </SidebarDrawer>
@@ -252,7 +344,7 @@ export default function Component({
             className="flex sm:hidden"
             size="sm"
             variant="light"
-            onPress={onOpen}
+            onPress={onOpen1}
           >
             <Icon
               className="text-default-500"
@@ -286,6 +378,7 @@ export default function Component({
               radius="full"
               className="w-[10vw] h-10 font-bold text-lg bg-[#f25b2b] text-white"
               color="primary"
+              onPress={handleAIReport}
             >
               다음
             </Button>

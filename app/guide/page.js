@@ -1,49 +1,23 @@
 "use client";
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import {
-  Avatar,
-  ScrollShadow,
-  Listbox,
-  ListboxItem,
-  ListboxSection,
-  Spacer,
-  useDisclosure,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  DropdownSection,
-  Switch,
-  cn,
-  ButtonGroup,
-} from "@nextui-org/react";
+import {  Avatar,  ScrollShadow,  Listbox,  ListboxItem,  ListboxSection,  Spacer,  useDisclosure,  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem,  DropdownSection,  Switch,  cn,  ButtonGroup,} from "@nextui-org/react";
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight } from "react-icons/fa6";
-
+import AIManager from "./components/AIManager";
 import dynamic from "next/dynamic";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { ListboxWrapper } from "./components/ListboxWrapper";
 import { sampleText } from "./components/sampleText";
-// TextEditor를 동적으로 불러오기
-const TextEditor = dynamic(() => import("../components/TextEditor"), {
-  ssr: false,
-});
-import {
-  Tabs,
-  Tab,
-  Input,
-  Link,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-} from "@nextui-org/react";
+import {  Tabs,  Tab,  Input,  Link,  Button,  Card,  CardBody,  CardHeader} from "@nextui-org/react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import TipTap from "../components/TipTap";
 import { dummyData } from "./components/guide";
 import { guideText } from "./components/guideText";
+import AIAnalysis from "./components/AIAnalysis";
+import { useSearchParams,useRouter,usePathname } from "next/navigation";
+
 function Page() {
-  const [selected, setSelected] = useState("가이드");
+  const [selected, setSelected] = useState("AI 매니저");
   const [content, setContent] = useState({ guide: "", sample: "" });
   const [selectedItem, setSelectedItem] = useState("weather");
   const [selectedText, setSelectedText] = useState("");
@@ -111,6 +85,8 @@ function Page() {
       setSampleContents(null);
     }
   }, [selectedItem, selectedKeys, category]);
+
+
 
   return (
     <div className="w-full h-full grid grid-cols-6 gap-4">
@@ -239,66 +215,11 @@ function Page() {
                     // tabContent: "group-data-[selected=true]:text-[#f25b2b]"
                   }}
                 >
-                  <Tab key="AI 매니저" title="AI 매니저">
-                    <form className="flex flex-col gap-4">
-                      <Input
-                        isRequired
-                        label="Email"
-                        placeholder="Enter your email"
-                        type="email"
-                      />
-                      <Input
-                        isRequired
-                        label="Password"
-                        placeholder="Enter your password"
-                        type="password"
-                      />
-                      <p className="text-center text-small">
-                        Need to create an account?{" "}
-                        <Link size="sm" onPress={() => setSelected("sign-up")}>
-                          Sign up
-                        </Link>
-                      </p>
-                      <div className="flex gap-2 justify-end">
-                        <Button
-                          radius="full"
-                          className="w-full bg-[#f25b2b] text-white"
-                        >
-                          Button
-                        </Button>
-                      </div>
-                    </form>
+                  <Tab className="w-full h-full" key="AI 매니저" title="AI 매니저">
+                    <AIManager></AIManager>
                   </Tab>
                   <Tab key="AI 진단" title="AI 진단">
-                    <form className="flex flex-col gap-4 h-[300px]">
-                      <Input
-                        isRequired
-                        label="Name"
-                        placeholder="Enter your name"
-                        type="password"
-                      />
-                      <Input
-                        isRequired
-                        label="Email"
-                        placeholder="Enter your email"
-                        type="email"
-                      />
-                      <Input
-                        isRequired
-                        label="Password"
-                        placeholder="Enter your password"
-                        type="password"
-                      />
-
-                      <div className="flex gap-2 justify-end">
-                        <Button
-                          radius="full"
-                          className="w-full bg-[#f25b2b] text-white"
-                        >
-                          저장하기
-                        </Button>
-                      </div>
-                    </form>
+                    <AIAnalysis></AIAnalysis>
                   </Tab>
                   <Tab key="가이드" title="가이드" className="">
                     <Accordion
