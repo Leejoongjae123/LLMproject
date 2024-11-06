@@ -171,7 +171,7 @@ export default function Component({
   const [selectedBucket, setSelectedBucket] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const supabase = createClient();
-
+  
   const fetchBuckets = async () => {
     const ENDPOINT = `/api/v2/buckets`;
     const FULL_URL = baseUrl + ENDPOINT;
@@ -304,8 +304,7 @@ export default function Component({
       <Spacer y={8} />
     </div>
   );
-  console.log("buckets222", buckets);
-  console.log("selectedBucket:", selectedBucket);
+
   return (
     <div className="w-screen h-screen flex py-4 px-4 overflow-hidden">
       <Modal isOpen={isOpen2} onOpenChange={onOpenChange2}>
@@ -396,7 +395,7 @@ export default function Component({
               radius="full"
               className="w-[10vw] h-10 font-bold text-lg bg-[#f25b2b] text-white"
               color="primary"
-              onPress={handleAIReport}
+              onPress={() => pathname === '/upload' ? handleAIReport() : router.push('/upload')}
             >
               다음
             </Button>
