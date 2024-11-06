@@ -28,6 +28,7 @@ export default function TextInputs() {
             innerWrapper: "relative",
             input: "pt-1 pl-2 pb-6 !pr-10 text-medium",
           }}
+          
           endContent={
             <div className="flex items-end gap-2">
               <Tooltip showArrow content="Send message">
@@ -58,10 +59,7 @@ export default function TextInputs() {
           onValueChange={setPrompt}
         />
 
-        <div className="flex w-full flex-wrap items-center justify-between gap-2 px-4 pb-4">
-          
-          <p className="py-1 text-tiny text-default-400">{prompt.length}/2000</p>
-        </div>
+      
       </form>
     </div>
   );

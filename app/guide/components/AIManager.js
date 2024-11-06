@@ -9,6 +9,8 @@ import {
   cn,
   CardHeader,
   CardFooter,
+  Accordion,
+  AccordionItem,
 } from "@nextui-org/react";
 import { AiOutlineShrink } from "react-icons/ai";
 import { AiOutlineExpandAlt } from "react-icons/ai";
@@ -68,7 +70,29 @@ function AIManager() {
           경영진이 기후 리스크 평가를 어떻게 하고 있는지 내용을 추가해줘
         </p>
       </div>
+
       <div className="w-full h-full flex flex-col justify-end">
+        <Accordion isCompact className="w-full my-2 bg-gray-100 text-sm border-2 border-gray-200 rounded-lg">
+          <AccordionItem
+            className="w-full text-sm"
+            title={
+              <span className="text-sm">
+                초안 생성 출처(Reference) 확인하기
+              </span>
+            }
+            css={{
+              overflow: "hidden",
+              transformOrigin: "top",
+              transition: "transform 0.3s ease",
+              "&[data-state='open']": {
+                transform: "scaleY(-1)", // 위쪽으로 펼쳐지도록 애니메이션 조절
+              },
+            }}
+          >
+            <p>위로 펼쳐지는 컨텐츠 내용입니다.</p>
+            <p>위로 펼쳐지는 컨텐츠 내용입니다.</p>
+          </AccordionItem>
+        </Accordion>
         <TextInputs></TextInputs>
       </div>
     </div>

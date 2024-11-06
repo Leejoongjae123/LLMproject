@@ -31,7 +31,7 @@ import {
 import axios from "axios";
 import { IoMdRefresh } from "react-icons/io";
 import { IoMdInformationCircleOutline } from "react-icons/io";
-
+import { createClient } from "@/utils/supabase/client";
 // 가상의 버킷 및 파일 데이터
 const initialBuckets = [
   { id: 1, name: "버킷1" },
@@ -56,6 +56,7 @@ export default function BucketFileManager() {
   const [selectedBucket, setSelectedBucket] = useState(null);
   const [files, setFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const supabase = createClient();
   const {
     isOpen: isOpen1,
     onOpen: onOpen1,
@@ -183,6 +184,7 @@ export default function BucketFileManager() {
 
     // Fetch the updated file list after all uploads are complete
     fetchFileList(agentId, selectedBucket.id);
+
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -193,6 +195,9 @@ export default function BucketFileManager() {
   };
 
   const createBucket = async () => {
+
+
+
     if (newBucketName.trim() === "") return; // Prevent empty bucket names
 
     const ENDPOINT = `/api/v2/buckets`;
@@ -217,6 +222,27 @@ export default function BucketFileManager() {
         id: results.data.id, // Assuming the response contains the new bucket ID
         name: newBucketName,
       };
+
+      const { data: existingBucket, error: fetchError } = await supabase
+        .from('buckets')
+        .select('bucketId')
+        .eq('bucketId', newBucket.id)
+        .single();
+
+      if (!existingBucket) {
+        const { data: insertData, error: insertError } = await supabase
+          .from('buckets')
+          .insert([{ bucketId: newBucket.id, bucketName: newBucketName }]);
+
+        if (insertError) {
+          console.error("Error inserting new bucket into Supabase:", insertError);
+        } else {
+          console.log("New bucket inserted into Supabase:", insertData);
+        }
+      } else if (fetchError) {
+        console.error("Error fetching bucket from Supabase:", fetchError);
+      }
+
       fetchBuckets();
     } catch (error) {
       console.error("Error creating bucket:", error);
@@ -246,7 +272,32 @@ export default function BucketFileManager() {
       });
 
       const results = response.data;
-      console.log("results:", results);
+      console.log('results:',results)
+      const { data: existingBucket, error: fetchError } = await supabase
+        .from('buckets')
+        .select('*')
+        .eq('bucketId', bucketId)
+      console.log("existingBucket:", existingBucket);
+      if (existingBucket.length > 0) {
+        const documents = results.data.data.map((file) => ({
+          documentId: file.id,
+          documentName: file.name,
+        }));
+        console.log("업데이트시작")
+        const { data: updateData, error: updateError } = await supabase
+          .from('buckets')
+          .update({ documents: documents })
+          .eq('bucketId', bucketId);
+
+        if (updateError) {
+          console.error("Error updating documents in Supabase:", updateError);
+        } else {
+          console.log("Documents updated in Supabase:", updateData);
+        }
+      } else if (fetchError) {
+        console.error("Error fetching bucket from Supabase:", fetchError);
+      }
+
       setFiles(results.data.data); // Optionally, you can return the results to be used elsewhere in your component
       return results;
     } catch (error) {
@@ -293,7 +344,6 @@ export default function BucketFileManager() {
 
   return (
     <div className="flex h-[calc(100vh-6rem)] p-12">
-      {/* 좌측 버킷 리스트 */}
       <Card className="w-1/4 mr-4 p-3">
         <CardHeader>
           <h2 className="text-lg font-bold">버킷명</h2>

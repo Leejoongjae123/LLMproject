@@ -33,7 +33,7 @@ import { AcmeIcon } from "./acme";
 import SidebarDrawer from "./sidebar-drawer";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-
+import { createClient } from "@/utils/supabase/client";
 function AvatarDropdownIcon(props) {
   return (
     <svg
@@ -171,7 +171,7 @@ export default function Component({
   const [buckets, setBuckets] = useState([]);
   const [selectedBucket, setSelectedBucket] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const supabase = createClient();
 
   const fetchBuckets = async () => {
     const ENDPOINT = `/api/v2/buckets`;
@@ -198,18 +198,36 @@ export default function Component({
       setIsLoading(false);
     }
   };
+  const fetchBucketsFromSupabase = async () => {
+    const { data: existingBucket, error: fetchError } = await supabase
+      .from('buckets')
+      .select('*')
+      .eq('agentId', agentId);
+
+    if (existingBucket) {
+      const processedBuckets = existingBucket
+        .filter(bucket => bucket.documents && bucket.documents.length > 0)
+        .map(bucket => ({
+          bucketId: bucket.bucketId,
+          documentName: bucket.documents[0].documentName || '제목 없음'
+        }));
+      setBuckets(processedBuckets);
+    } else if (fetchError) {
+      console.error("Error fetching bucket from Supabase:", fetchError);
+    }
+  };
 
   const handleAIReport = () => {
-    fetchBuckets();
+    fetchBucketsFromSupabase();
     onOpen2();
   };
 
   const handleCheckboxChange = (values) => {
     const selectedBuckets = buckets
-      .filter(bucket => values.includes(bucket.id))
+      .filter(bucket => values.includes(bucket.bucketId))
       .map(bucket => ({
-        id: bucket.id,
-        name: bucket.name || bucket.fileName || bucket.title || '제목 없음'
+        bucketId: bucket.bucketId,
+        documentName: bucket.documentName
       }));
     setSelectedBucket(selectedBuckets);
   };
@@ -288,6 +306,7 @@ export default function Component({
     </div>
   );
   console.log("buckets222", buckets);
+  console.log("selectedBucket:", selectedBucket);
   return (
     <div className="w-screen h-screen flex py-4 px-4 overflow-hidden">
       <Modal isOpen={isOpen2} onOpenChange={onOpenChange2}>
@@ -304,9 +323,9 @@ export default function Component({
                   className="max-h-[300px] overflow-y-auto"
                   onChange={handleCheckboxChange}
                 >
-                  {buckets.map((bucket) => (
-                    <Checkbox key={bucket.id} value={bucket.id}>
-                      {bucket.name || bucket.fileName || bucket.title || '제목 없음'}
+                  {buckets.map((bucket, index) => (
+                    <Checkbox key={index} value={bucket.bucketId}>
+                      {bucket.documentName}
                     </Checkbox>
                   ))}
                 </CheckboxGroup>
@@ -315,7 +334,7 @@ export default function Component({
                 <Button color="primary" onPress={() => {
                   onClose();
                   if (selectedBucket.length > 0) {
-                    router.push("/guide?bucketId=" + selectedBucket.map(b => b.id).join('&'));
+                    router.push("/guide?bucketId=" + selectedBucket.map(b => b.bucketId).join('&'));
                   }
                 }}>
                   AI 초안 생성
