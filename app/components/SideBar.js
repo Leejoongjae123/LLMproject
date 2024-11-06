@@ -27,7 +27,7 @@ import {
 import { Icon } from "@iconify/react";
 import { FaChevronRight } from "react-icons/fa";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname} from "next/navigation";
 import axios from "axios";
 import { AcmeIcon } from "./acme";
 import SidebarDrawer from "./sidebar-drawer";
@@ -164,7 +164,6 @@ export default function Component({
   } = useDisclosure();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const apiKey = process.env.NEXT_PUBLIC_SCIONIC_API_KEY;
   const baseUrl = process.env.NEXT_PUBLIC_SCIONIC_BASE_URL;
   const agentId = process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID;

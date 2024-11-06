@@ -14,8 +14,7 @@ import TipTap from "../components/TipTap";
 import { dummyData } from "./components/guide";
 import { guideText } from "./components/guideText";
 import AIAnalysis from "./components/AIAnalysis";
-import { useSearchParams,useRouter,usePathname } from "next/navigation";
-
+import { createClient } from "@/utils/supabase/client";
 function Page() {
   const [selected, setSelected] = useState("AI 매니저");
   const [content, setContent] = useState({ guide: "", sample: "" });
