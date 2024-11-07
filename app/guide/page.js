@@ -85,35 +85,41 @@ function Page() {
         throw new Error('API configuration is missing');
       }
   
-      const answers = [];
-      const references = [];
+      // 각 요청을 Promise 배열로 만들되, 딜레이를 포함
+      const promises = questions.map((questionText, index) => 
+        new Promise((resolve) => {
+          // 각 요청 사이에 500ms 딜레이
+          setTimeout(async () => {
+            const response = await axios.post(
+              `${process.env.NEXT_PUBLIC_SCIONIC_BASE_URL}${ENDPOINT}`,
+              {
+                question: questionText,
+                bucketIds: bucketIds,
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'storm-api-key': process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+                },
+              }
+            );
+            resolve(response);
+          }, index * 500); // 각 요청마다 500ms 간격
+        })
+      );
   
-      for (const questionText of questions) {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_SCIONIC_BASE_URL}${ENDPOINT}`,
-          {
-            question: questionText,
-            bucketIds: bucketIds,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'storm-api-key': process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
-            },
-          }
-        );
-  
-        answers.push(response.data.data.chat.answer);
-        
-        const contextRefs = response.data.data.contexts
+      const responses = await Promise.all(promises);
+      
+      const answers = responses.map(response => response.data.data.chat.answer);
+      const references = responses.flatMap(response => 
+        response.data.data.contexts
           .slice(0, 3)
           .map(({ fileName, pageName, context }) => ({
             fileName,
             pageName,
             context,
-          }));
-        references.push(...contextRefs);
-      }
+          }))
+      );
   
       setAnswer(answers);
       setReference(references);
