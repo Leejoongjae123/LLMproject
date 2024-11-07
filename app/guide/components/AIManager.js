@@ -44,6 +44,12 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
   
   
 
+  useEffect(() => {
+    const chatContainer = document.querySelector('.chat-container');
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+  }, [chatList, answerList]);
 
   return (
     <div className="grid grid-rows-12 w-full h-[calc(100vh-11rem)]">
@@ -86,7 +92,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
         </div>
       </div>
       <div className="row-span-7 w-full flex flex-col gap-y-2 overflow-hidden">
-        <div className="h-full overflow-y-auto flex-1">
+        <div className="h-full overflow-y-auto flex-1 chat-container">
           {chatList.length === 0 && (
             <>
               <div className="w-full border border-gray-100 p-2 rounded-lg flex flex-row gap-x-2">

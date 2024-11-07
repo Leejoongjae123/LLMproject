@@ -230,9 +230,9 @@ const CustomEditor = ({
       setInputContents(`
         <h1 style="font-weight: 700;">거버넌스</h1>
         <h2>기후 관련 위험 및 기회에 관한 이사회 차원의 감독</h2>
-        <p>이사회의 역할 및 책임<br/>${answer && answer[0] ? answer[0] : ''}</p>
-        
-        <p>관리 감독 체계<br/>${answer && answer[1] ? answer[1] : ''}</p>
+        <p><b>이사회의 역할 및 책임</b><br/>${answer && answer[0] ? answer[0] : ''}</p>
+        <br/>
+        <p><b>관리 감독 체계</b><br/>${answer && answer[1] ? answer[1] : ''}</p>
         
       `);
     } else if (selectedItem === "manager") {

@@ -145,6 +145,7 @@ export default function Component() {
                     startContent={<FaCheckCircle className="text-gray-700" />}
                     key={feature}
                     className="group"
+                    isDisabled={index===0}
                     endContent={
                       <div className="flex gap-2">
                         <FaRegEdit className="text-red-500 hidden group-hover:block transition-opacity duration-1000 opacity-0 group-hover:opacity-100" />

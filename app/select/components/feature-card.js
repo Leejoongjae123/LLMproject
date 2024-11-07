@@ -53,7 +53,7 @@ const FeatureCard = React.forwardRef(
                 radius='full'
                 className="w-full text-small text-center"
                 onClick={() => {
-                  router.push('/upload');
+                  router.push('/category');
                 }}
               >
                 <p className={`${isNonInteractiveTitle ? "text-gray-500" : ""}`}>{description}</p>
