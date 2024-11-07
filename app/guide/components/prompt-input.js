@@ -31,6 +31,38 @@ const PromptInputContent = React.forwardRef(
     const [selectedBuckets, setSelectedBuckets] = useState([]);
 
     useEffect(() => {
+
+          if (props.writeLonger) {
+            props.setWriteLonger(false);
+            props.setChatList([
+              ...props.chatList,
+              {
+                role: 'user',
+                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 조금 더 길게 작성해줘.'
+              }
+            ]);
+          } else if (props.writeShorter) {
+            props.setWriteShorter(false);
+            props.setChatList([
+              ...props.chatList,
+              {
+                role: 'user',
+                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 더 짧게 작성해줘.'
+              }
+            ]);
+          } else if (props.refineSentence) {
+            props.setRefineSentence(false);
+            props.setChatList([
+              ...props.chatList,
+              {
+                role: 'user',
+                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 paraphrase 해줘'
+              }
+            ]);
+          }
+    }, [props.writeLonger, props.writeShorter, props.refineSentence]);
+
+    useEffect(() => {
       if (searchParams) {
         const params = searchParams
           .getAll("bucketId")
@@ -71,7 +103,7 @@ const PromptInputContent = React.forwardRef(
           const response = await axios.post(
             process.env.NEXT_PUBLIC_SCIONIC_BASE_URL + "/api/v2/answer",
             {
-              question: lastMessage.message,
+              question: props.selectedText + "의 내용에 대하여" + lastMessage.message,
               bucketIds: selectedBuckets,
             },
             {
@@ -83,7 +115,6 @@ const PromptInputContent = React.forwardRef(
 
           const answer = response.data.data.chat.answer;
 
-          // Changed from onUpdateChatList to setChatList
           props.setChatList([
             ...chatList,
             {
@@ -91,6 +122,17 @@ const PromptInputContent = React.forwardRef(
               message: answer,
             },
           ]);
+
+          const references = response.data.data.contexts
+            .slice(0, 3)
+            .map(({ fileName, pageName, context }) => ({
+              fileName,
+              pageName,
+              context,
+            }));
+          props.setReference(references);
+
+          props.setIsLoading(false);
         } catch (error) {
           console.error("Error fetching answer:", error);
         }
@@ -102,6 +144,7 @@ const PromptInputContent = React.forwardRef(
         const lastMessage = props.chatList[props.chatList.length - 1];
         if (lastMessage.role === "user") {
           handleQuery(props.chatList);
+          props.setIsLoading(true);
         }
       }
     }, [props.chatList]);
@@ -119,6 +162,8 @@ const PromptInputContent = React.forwardRef(
     if (!isReady) {
       return null;
     }
+
+    
 
     return (
       <>

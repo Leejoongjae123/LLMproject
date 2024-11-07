@@ -7,7 +7,7 @@ import {cn} from "@nextui-org/react";
 
 import PromptInput from "./prompt-input";
 
-export default function TextInputs({chatList, setChatList, answerList, setAnswerList}) {
+export default function TextInputs({chatList, setChatList, answerList, setAnswerList, isLoading, setIsLoading, reference, setReference, selectedText, setSelectedText, writeLonger, setWriteLonger, writeShorter, setWriteShorter, refineSentence, setRefineSentence}) {
   const [isRegenerating, setIsRegenerating] = React.useState(false);
   const [prompt, setPrompt] = React.useState("");
 
@@ -36,7 +36,18 @@ export default function TextInputs({chatList, setChatList, answerList, setAnswer
         <PromptInput
           chatList={chatList}
           setChatList={setChatList}
-          
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          reference={reference}
+          setReference={setReference}
+          selectedText={selectedText}
+          setSelectedText={setSelectedText}
+          writeLonger={writeLonger}
+          writeShorter={writeShorter}
+          refineSentence={refineSentence}
+          setWriteLonger={setWriteLonger}
+          setWriteShorter={setWriteShorter}
+          setRefineSentence={setRefineSentence}
           classNames={{
             inputWrapper: "!bg-transparent shadow-none",
             innerWrapper: "relative",

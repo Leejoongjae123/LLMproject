@@ -27,7 +27,7 @@ import {
 } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import Conversation from "./conversation";
-function AIManager({ reference }) {
+function AIManager({ reference, setReference, selectedText, setSelectedText }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedReferenceFileName, setSelectedReferenceFileName] =
     useState(null);
@@ -37,7 +37,12 @@ function AIManager({ reference }) {
     useState(null);
   const [chatList, setChatList] = useState([]);
   const [answerList, setAnswerList] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [writeLonger, setWriteLonger] = useState(false);
+  const [writeShorter, setWriteShorter] = useState(false);
+  const [refineSentence, setRefineSentence] = useState(false);
+  
+  
 
 
   return (
@@ -58,6 +63,7 @@ function AIManager({ reference }) {
             variant="bordered"
             startContent={<AiOutlineExpandAlt className="text-lg font-bold" />}
             className=""
+            onPress={() => setWriteLonger(prev => !prev)}
           >
             더 길게 쓰기
           </Button>
@@ -65,6 +71,7 @@ function AIManager({ reference }) {
             variant="bordered"
             startContent={<AiOutlineShrink className="text-lg font-bold" />}
             className=""
+            onPress={() => setWriteShorter(prev => !prev)}
           >
             더 짧게 쓰기
           </Button>
@@ -72,6 +79,7 @@ function AIManager({ reference }) {
             variant="bordered"
             startContent={<MdOutlineEdit className="text-lg font-bold" />}
             className=""
+            onPress={() => setRefineSentence(prev => !prev)}
           >
             문장 다듬기
           </Button>
@@ -122,7 +130,7 @@ function AIManager({ reference }) {
             </>
           )}
           {chatList.length > 0 && (
-            <Conversation chatList={chatList} answerList={answerList} />
+            <Conversation chatList={chatList} answerList={answerList} isLoading={isLoading}/>
           )}
         </div>
       </div>
@@ -162,6 +170,18 @@ function AIManager({ reference }) {
           setChatList={setChatList}
           answerList={answerList}
           setAnswerList={setAnswerList}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          reference={reference}
+          setReference={setReference}
+          selectedText={selectedText}
+          setSelectedText={setSelectedText}
+          writeLonger={writeLonger}
+          writeShorter={writeShorter}
+          refineSentence={refineSentence}
+          setWriteLonger={setWriteLonger}
+          setWriteShorter={setWriteShorter}
+          setRefineSentence={setRefineSentence}
         />
       </div>
 

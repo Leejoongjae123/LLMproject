@@ -326,7 +326,7 @@ function Page() {
                     key="AI 매니저"
                     title="AI 매니저"
                   >
-                    <AIManager className='w-full h-full' reference={reference}></AIManager>
+                    <AIManager className='w-full h-full' reference={reference} setReference={setReference} selectedText={selectedText} setSelectedText={setSelectedText}></AIManager>
                   </Tab>
                   <Tab key="AI 진단" title="AI 진단">
                     <AIAnalysis></AIAnalysis>
