@@ -26,6 +26,7 @@ export default function Component({ chatList, isLoading }) {
         />
       ))}
       {isLoading && <Spinner color="primary" size="sm"></Spinner>}
+      <div className="w-full h-12"></div>
     </div>
   );
 }
