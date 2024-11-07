@@ -395,7 +395,15 @@ export default function Component({
               radius="full"
               className="w-[10vw] h-10 font-bold text-lg bg-[#f25b2b] text-white"
               color="primary"
-              onPress={() => pathname === '/upload' ? handleAIReport() : router.push('/upload')}
+              onPress={() => {
+                if (pathname === '/upload') {
+                  handleAIReport();
+                } else if (pathname === '/category') {
+                  router.push('/upload');
+                } else {
+                  router.push('/upload');
+                }
+              }}
             >
               다음
             </Button>

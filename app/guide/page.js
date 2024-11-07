@@ -50,6 +50,8 @@ import {
   ModalFooter,
   Spinner,
 } from "@nextui-org/react";
+import Lottie from "lottie-react";
+import animationData from "@/public/lottie/ai.json";
 
 function Page() {
   const [selected, setSelected] = useState("AI 매니저");
@@ -70,7 +72,7 @@ function Page() {
   const handleFirstQuestion = async () => {
     if (answer.length > 0) return;
 
-    const requestMade = localStorage.getItem('questionRequestMade');
+    const requestMade = localStorage.getItem("questionRequestMade");
     if (requestMade) return;
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -78,7 +80,7 @@ function Page() {
     const bucketIds = bucketIdParam ? bucketIdParam.split("&") : [];
 
     try {
-      localStorage.setItem('questionRequestMade', 'true');
+      localStorage.setItem("questionRequestMade", "true");
 
       const ENDPOINT = "/api/v2/answer";
       const questions = [question.question1, question.question2];
@@ -120,7 +122,7 @@ function Page() {
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching answers:", error);
-      localStorage.removeItem('questionRequestMade');
+      localStorage.removeItem("questionRequestMade");
     }
   };
 
@@ -189,7 +191,7 @@ function Page() {
 
   useEffect(() => {
     return () => {
-      localStorage.removeItem('questionRequestMade');
+      localStorage.removeItem("questionRequestMade");
     };
   }, []);
 
@@ -326,7 +328,13 @@ function Page() {
                     key="AI 매니저"
                     title="AI 매니저"
                   >
-                    <AIManager className='w-full h-full' reference={reference} setReference={setReference} selectedText={selectedText} setSelectedText={setSelectedText}></AIManager>
+                    <AIManager
+                      className="w-full h-full"
+                      reference={reference}
+                      setReference={setReference}
+                      selectedText={selectedText}
+                      setSelectedText={setSelectedText}
+                    ></AIManager>
                   </Tab>
                   <Tab key="AI 진단" title="AI 진단">
                     <AIAnalysis></AIAnalysis>
@@ -591,7 +599,14 @@ function Page() {
                   AI 기업 보고서
                 </h1>
                 {isLoading ? (
-                  <Spinner className="text-2xl" color="primary" />
+                  <div className="flex justify-center items-center w-full h-full">
+                    <Lottie
+                      animationData={animationData}
+                      loop={true} // 반복 여부 설정
+                      autoplay={true} // 자동 재생 설정
+                      style={{ width: 300, height: 300 }} // 스타일 조정
+                    />
+                  </div>
                 ) : null}
                 <p
                   className={cn(
