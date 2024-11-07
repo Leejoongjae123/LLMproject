@@ -17,62 +17,120 @@ import { AiOutlineExpandAlt } from "react-icons/ai";
 import { MdOutlineEdit } from "react-icons/md";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 import TextInputs from "./TextInputs";
-function AIManager() {
-  return (
-    <div className="flex flex-col gap-4 justify-center items-center h-full">
-      <Card className="bg-gray-200 w-full h-36 flex flex-col justify-center">
-        <div>
-          {" "}
-          <p className="text-center">
-            생성된 초안 박스별로 EDK AI와 협업하실 수 있어요
-          </p>
-          <p className="text-center">
-            퀵 AI 버튼과 대화를 통해서 초안을 수정해 보세요!
-          </p>
-        </div>
-      </Card>
-      <div className="flex flex-row gap-x-5">
-        <Button
-          variant="bordered"
-          startContent={<AiOutlineExpandAlt className="text-lg font-bold" />}
-          className=""
-        >
-          더 길게 쓰기
-        </Button>
-        <Button
-          variant="bordered"
-          startContent={<AiOutlineShrink className="text-lg font-bold" />}
-          className=""
-        >
-          더 짧게 쓰기
-        </Button>
-        <Button
-          variant="bordered"
-          startContent={<MdOutlineEdit className="text-lg font-bold" />}
-          className=""
-        >
-          문장 다듬기
-        </Button>
-      </div>
-      <div className="w-full border border-gray-100 p-2 rounded-lg flex flex-row gap-x-2">
-        <FaWandMagicSparkles className="text-lg font-bold" />
-        <p className="text-start text-sm">
-          혹은 AI 매니저에게 요청을 직접 입력하실 수도 있어요
-        </p>
-      </div>
-      <div className="w-full border border-gray-100 p-1 rounded-lg">
-        <p className="text-start text-sm text-[#247ee3] hover:text-[#4499ff] cursor-pointer transition-colors">
-          기후 관련 이사회의 책임범위를 보다 구체적으로 작성해줘
-        </p>
-      </div>
-      <div className="w-full border border-gray-100 p-1 rounded-lg">
-        <p className="text-start text-sm text-[#247ee3] hover:text-[#4499ff] cursor-pointer transition-colors">
-          경영진이 기후 리스크 평가를 어떻게 하고 있는지 내용을 추가해줘
-        </p>
-      </div>
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/react";
+import { useState, useEffect } from "react";
+import Conversation from "./conversation";
+function AIManager({ reference }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectedReferenceFileName, setSelectedReferenceFileName] =
+    useState(null);
+  const [selectedReferencePageName, setSelectedReferencePageName] =
+    useState(null);
+  const [selectedReferenceContext, setSelectedReferenceContext] =
+    useState(null);
+  const [chatList, setChatList] = useState([]);
+  const [answerList, setAnswerList] = useState([]);
 
-      <div className="w-full h-full flex flex-col justify-end">
-        <Accordion isCompact className="w-full my-2 bg-gray-100 text-sm border-2 border-gray-200 rounded-lg">
+
+
+  return (
+    <div className="grid grid-rows-12 w-full h-[calc(100vh-11rem)]">
+      <div className="row-span-2 w-full h-full flex flex-col gap-y-2">
+        <Card className="bg-gray-200 w-full flex flex-col justify-center p-2">
+          <div className="flex flex-col gap-y-2">
+            <p className="text-center">
+              생성된 초안 박스별로 EDK AI와 협업하실 수 있어요
+            </p>
+            <p className="text-center">
+              퀵 AI 버튼과 대화를 통해서 초안을 수정해 보세요!
+            </p>
+          </div>
+        </Card>
+        <div className="flex flex-row gap-x-5 w-full justify-between py-2">
+          <Button
+            variant="bordered"
+            startContent={<AiOutlineExpandAlt className="text-lg font-bold" />}
+            className=""
+          >
+            더 길게 쓰기
+          </Button>
+          <Button
+            variant="bordered"
+            startContent={<AiOutlineShrink className="text-lg font-bold" />}
+            className=""
+          >
+            더 짧게 쓰기
+          </Button>
+          <Button
+            variant="bordered"
+            startContent={<MdOutlineEdit className="text-lg font-bold" />}
+            className=""
+          >
+            문장 다듬기
+          </Button>
+        </div>
+      </div>
+      <div className="row-span-7 w-full flex flex-col gap-y-2 overflow-hidden">
+        <div className="h-full overflow-y-auto flex-1">
+          {chatList.length === 0 && (
+            <>
+              <div className="w-full border border-gray-100 p-2 rounded-lg flex flex-row gap-x-2">
+                <FaWandMagicSparkles className="text-lg font-bold" />
+                <p className="text-start text-sm">
+                  혹은 AI 매니저에게 요청을 직접 입력하실 수도 있어요
+                </p>
+              </div>
+              <div className="w-full p-1 ">
+                <Button
+                  className="bg-white text-start text-sm text-[#247ee3] hover:text-[#4499ff] cursor-pointer transition-colors"
+                  onClick={() =>
+                    setChatList([
+                      ...chatList,
+                      {
+                        role: "user",
+                        message: "기후 관련 이사회의 책임범위를 보다 구체적으로 작성해줘"
+                      }
+                    ])
+                  }
+                >
+                  기후 관련 이사회의 책임범위를 보다 구체적으로 작성해줘
+                </Button>
+              </div>
+              <div className="w-full p-1 ">
+                <Button
+                  className="bg-white text-start text-sm text-[#247ee3] hover:text-[#4499ff] cursor-pointer transition-colors"
+                  onClick={() =>
+                    setChatList([
+                      ...chatList,
+                      {
+                        role: "user",
+                        message: "경영진이 기후 리스크 평가를 어떻게 하고 있는지 내용을 추가해줘"
+                      }
+                    ])
+                  }
+                >
+                  경영진이 기후 리스크 평가를 어떻게 하고 있는지 내용을 추가해줘
+                </Button>
+              </div>
+            </>
+          )}
+          {chatList.length > 0 && (
+            <Conversation chatList={chatList} answerList={answerList} />
+          )}
+        </div>
+      </div>
+      <div className="row-span-3 w-full flex flex-col justify-end z-50">
+        <Accordion
+          isCompact
+          className="w-full mb-2 bg-gray-100 text-sm border-2 border-gray-200 rounded-lg "
+        >
           <AccordionItem
             className="w-full text-sm"
             title={
@@ -80,21 +138,60 @@ function AIManager() {
                 초안 생성 출처(Reference) 확인하기
               </span>
             }
-            css={{
-              overflow: "hidden",
-              transformOrigin: "top",
-              transition: "transform 0.3s ease",
-              "&[data-state='open']": {
-                transform: "scaleY(-1)", // 위쪽으로 펼쳐지도록 애니메이션 조절
-              },
-            }}
           >
-            <p>위로 펼쳐지는 컨텐츠 내용입니다.</p>
-            <p>위로 펼쳐지는 컨텐츠 내용입니다.</p>
+            {reference.map((item, index) => (
+              <div key={index} className="flex flex-col space-y-2 p-2">
+                <Button
+                  variant="bordered"
+                  size="sm"
+                  onPress={() => {
+                    setSelectedReferenceFileName(item.fileName);
+                    setSelectedReferencePageName(item.pageName);
+                    setSelectedReferenceContext(item.context);
+                    onOpen();
+                  }}
+                >
+                  파일명: {item.fileName} / 페이지: {item.pageName}
+                </Button>
+              </div>
+            ))}
           </AccordionItem>
         </Accordion>
-        <TextInputs></TextInputs>
+        <TextInputs
+          chatList={chatList}
+          setChatList={setChatList}
+          answerList={answerList}
+          setAnswerList={setAnswerList}
+        />
       </div>
+
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                <p className="text-xl font-bold">초안 생성 출처</p>
+                <hr className="my-2" />
+                <p className="font-medium">
+                  파일명: {selectedReferenceFileName}
+                </p>
+                <p className="font-medium">
+                  페이지: {selectedReferencePageName}
+                </p>
+              </ModalHeader>
+              <ModalBody className="max-h-[50vh] overflow-y-auto">
+                <p className="text-xl font-bold">본문 내용</p>
+                <p>{selectedReferenceContext}</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onPress={onClose}>
+                  확인
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

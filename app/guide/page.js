@@ -1,6 +1,22 @@
 "use client";
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import {  Avatar,  ScrollShadow,  Listbox,  ListboxItem,  ListboxSection,  Spacer,  useDisclosure,  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem,  DropdownSection,  Switch,  cn,  ButtonGroup,} from "@nextui-org/react";
+import {
+  Avatar,
+  ScrollShadow,
+  Listbox,
+  ListboxItem,
+  ListboxSection,
+  Spacer,
+  useDisclosure,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  DropdownSection,
+  Switch,
+  cn,
+  ButtonGroup,
+} from "@nextui-org/react";
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight } from "react-icons/fa6";
 import AIManager from "./components/AIManager";
@@ -8,13 +24,33 @@ import dynamic from "next/dynamic";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { ListboxWrapper } from "./components/ListboxWrapper";
 import { sampleText } from "./components/sampleText";
-import {  Tabs,  Tab,  Input,  Link,  Button,  Card,  CardBody,  CardHeader} from "@nextui-org/react";
+import {
+  Tabs,
+  Tab,
+  Input,
+  Link,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+} from "@nextui-org/react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import TipTap from "../components/TipTap";
 import { dummyData } from "./components/guide";
 import { guideText } from "./components/guideText";
 import AIAnalysis from "./components/AIAnalysis";
 import { createClient } from "@/utils/supabase/client";
+import { question } from "./components/question";
+import axios from "axios";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Spinner,
+} from "@nextui-org/react";
+
 function Page() {
   const [selected, setSelected] = useState("AI 매니저");
   const [content, setContent] = useState({ guide: "", sample: "" });
@@ -26,13 +62,77 @@ function Page() {
   const [selectedKeys, setSelectedKeys] = useState(new Set(["edk"]));
   const [sampleContents, setSampleContents] = useState(null);
   const [sampleStep, setSampleStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [answer, setAnswer] = useState([]);
+  const [reference, setReference] = useState([]);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const handleFirstQuestion = async () => {
+    if (answer.length > 0) return;
+
+    const requestMade = localStorage.getItem('questionRequestMade');
+    if (requestMade) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const bucketIdParam = urlParams.get("bucketId");
+    const bucketIds = bucketIdParam ? bucketIdParam.split("&") : [];
+
+    try {
+      localStorage.setItem('questionRequestMade', 'true');
+
+      const ENDPOINT = "/api/v2/answer";
+      const questions = [question.question1, question.question2];
+
+      // 모든 질문을 병렬로 처리
+      const responses = await Promise.all(
+        questions.map((questionText) =>
+          axios.post(
+            process.env.NEXT_PUBLIC_SCIONIC_BASE_URL + ENDPOINT,
+            {
+              question: questionText,
+              bucketIds: bucketIds,
+            },
+            {
+              headers: {
+                "storm-api-key": process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+              },
+            }
+          )
+        )
+      );
+
+      // 답변과 참조 데이터 추출
+      const answers = responses.map(
+        (response) => response.data.data.chat.answer
+      );
+      const references = responses.flatMap((response) =>
+        response.data.data.contexts
+          .slice(0, 3)
+          .map(({ fileName, pageName, context }) => ({
+            fileName,
+            pageName,
+            context,
+          }))
+      );
+
+      setAnswer(answers);
+      setReference(references);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching answers:", error);
+      localStorage.removeItem('questionRequestMade');
+    }
+  };
+
+  useEffect(() => {
+    handleFirstQuestion();
+    onOpen();
+  }, []);
 
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", "),
     [selectedKeys]
   );
-
-  console.log("category:", category);
 
   const handleContentChange = () => {
     const selectedData = dummyData.find((item) => item.label === category);
@@ -85,7 +185,13 @@ function Page() {
     }
   }, [selectedItem, selectedKeys, category]);
 
+  console.log("answer:", answer);
 
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem('questionRequestMade');
+    };
+  }, []);
 
   return (
     <div className="w-full h-full grid grid-cols-6 gap-4">
@@ -190,6 +296,7 @@ function Page() {
               selectedItem={selectedItem}
               selectedText={selectedText}
               setSelectedText={setSelectedText}
+              answer={answer}
             ></TipTap>
           </div>
         </Panel>
@@ -214,8 +321,12 @@ function Page() {
                     // tabContent: "group-data-[selected=true]:text-[#f25b2b]"
                   }}
                 >
-                  <Tab className="w-full h-full" key="AI 매니저" title="AI 매니저">
-                    <AIManager></AIManager>
+                  <Tab
+                    className="w-full h-full "
+                    key="AI 매니저"
+                    title="AI 매니저"
+                  >
+                    <AIManager className='w-full h-full' reference={reference}></AIManager>
                   </Tab>
                   <Tab key="AI 진단" title="AI 진단">
                     <AIAnalysis></AIAnalysis>
@@ -470,6 +581,47 @@ function Page() {
           </div>
         </Panel>
       </PanelGroup>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1"></ModalHeader>
+              <ModalBody>
+                <h1 className="text-2xl font-semibold text-center mb-4">
+                  AI 기업 보고서
+                </h1>
+                {isLoading ? (
+                  <Spinner className="text-2xl" color="primary" />
+                ) : null}
+                <p
+                  className={cn(
+                    "text-center text-lg font-bold transition-transform duration-500 ease-in-out",
+                    isLoading
+                      ? "opacity-70 scale-100"
+                      : "opacity-100 scale-110 text-primary text-2xl"
+                  )}
+                >
+                  {isLoading ? "생성중..." : "완료"}
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  variant="bordered"
+                  color="primary"
+                  onPress={() => {
+                    window.location.reload();
+                  }}
+                >
+                  재시도
+                </Button>
+                <Button color="primary" onPress={onClose}>
+                  확인
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

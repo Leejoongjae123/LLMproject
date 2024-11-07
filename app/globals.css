@@ -46,7 +46,8 @@ body {
 
 .has-focus {
   border-radius: 2px;
-  border: 2px solid orange; /* 주황색 테두리선 추가 */
+  border: 3px solid orange; /* 주황색 테두리선 추가 */
+  padding:5px;
 }
 
 .tiptap {

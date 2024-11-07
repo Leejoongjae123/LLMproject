@@ -7,7 +7,7 @@ import {cn} from "@nextui-org/react";
 
 import PromptInput from "./prompt-input";
 
-export default function TextInputs() {
+export default function TextInputs({chatList, setChatList, answerList, setAnswerList}) {
   const [isRegenerating, setIsRegenerating] = React.useState(false);
   const [prompt, setPrompt] = React.useState("");
 
@@ -19,10 +19,24 @@ export default function TextInputs() {
     }, 1000);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!prompt.trim()) return;
+    
+    setChatList([...chatList, {
+      role: 'user',
+      message: prompt
+    }]);
+    setPrompt("");
+  };
+  console.log("chatList:",chatList);
   return (
     <div className="flex w-full flex-col gap-4">
-      <form className="flex w-full flex-col items-start rounded-medium bg-default-100 transition-colors hover:bg-default-200/70">
+      <form onSubmit={handleSubmit} className="flex w-full flex-col items-start rounded-medium bg-default-100 transition-colors hover:bg-default-200/70">
         <PromptInput
+          chatList={chatList}
+          setChatList={setChatList}
+          
           classNames={{
             inputWrapper: "!bg-transparent shadow-none",
             innerWrapper: "relative",
@@ -39,6 +53,7 @@ export default function TextInputs() {
                   radius="lg"
                   size="sm"
                   variant="solid"
+                  onClick={(e) => handleSubmit(e)}
                 >
                   <Icon
                     className={cn(
@@ -56,10 +71,14 @@ export default function TextInputs() {
           radius="lg"
           value={prompt}
           variant="flat"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSubmit(e);
+            }
+          }}
           onValueChange={setPrompt}
         />
-
-      
       </form>
     </div>
   );

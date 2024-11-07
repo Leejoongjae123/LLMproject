@@ -54,25 +54,13 @@ const CustomFocus = Extension.create({
             const { doc, selection } = state;
             const decorations = [];
 
-            // 찾고자 하는 문구들을 배열로 정의
-            const targetPhrases = [
-              "이사회의 역할 및 책임",
-              "관리 감독 체계",
-              "경영진의 역할 및 감독 프로세스"
-            ];
-
             doc.descendants((node, pos) => {
               if (node.type.name === "paragraph") {
                 const from = pos;
                 const to = pos + node.nodeSize;
                 const nodeText = node.textContent;
 
-                // 대상 문구 중 하나라도 포함되어 있는지 확인
-                const hasTargetPhrase = targetPhrases.some(phrase => 
-                  nodeText.includes(phrase)
-                );
-
-                if (hasTargetPhrase) {
+                if (/\([가-하]\)/.test(nodeText)) {
                   const isSelected = selection.from < to && selection.to > from;
                   if (isSelected) {
                     decorations.push(
@@ -94,17 +82,11 @@ const CustomFocus = Extension.create({
 });
 
 function decorateGroup(group, startPos, endPos, decorations, selectionState) {
-  const targetPhrases = [
-    "이사회의 역할 및 책임",
-    "관리 감독 체계",
-    "경영진의 역할 및 감독 프로세스"
-  ];
+  const markerRegex = /\([가-하]\)/;
+  const markerMatch = group.match(markerRegex);
 
-  const hasTargetPhrase = targetPhrases.some(phrase => 
-    group.includes(phrase)
-  );
-
-  if (hasTargetPhrase) {
+  if (markerMatch) {
+    // 선택 영역이 현재 그룹과 겹치는지 확인
     const isSelected =
       selectionState.from < endPos && selectionState.to > startPos;
 
@@ -177,7 +159,6 @@ const CustomEditor = ({
   selectedItem,
   selectedText,
   setSelectedText,
-  answer,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [inputContents, setInputContents] = useState("");
@@ -224,16 +205,14 @@ const CustomEditor = ({
   useEffect(() => {
     handleCategoryChange(category);
   }, [selectedText]);
-  
+  console.log("selectedItem", selectedItem);
   useEffect(() => {
     if (selectedItem === "weather") {
       setInputContents(`
         <h1 style="font-weight: 700;">거버넌스</h1>
         <h2>기후 관련 위험 및 기회에 관한 이사회 차원의 감독</h2>
-        <p>이사회의 역할 및 책임<br/>${answer && answer[0] ? answer[0] : ''}</p>
-        
-        <p>관리 감독 체계<br/>${answer && answer[1] ? answer[1] : ''}</p>
-        
+        <p>이사회의 역할 및 책임</p>
+        <p>관리 감독 체계</p>
       `);
     } else if (selectedItem === "manager") {
       setInputContents(`
@@ -248,7 +227,7 @@ const CustomEditor = ({
         <p>(1)온실가스 배출량</p>
       `);
     }
-  }, [selectedItem,answer]);
+  }, [selectedItem]);
 
   const editor = useEditor({
     extensions: [
