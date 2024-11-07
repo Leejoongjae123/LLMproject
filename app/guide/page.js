@@ -71,42 +71,55 @@ function Page() {
 
   const handleFirstQuestion = async () => {
     if (answer.length > 0) return;
-
+  
     const requestMade = localStorage.getItem("questionRequestMade");
     if (requestMade) return;
-
+  
     const urlParams = new URLSearchParams(window.location.search);
     const bucketIdParam = urlParams.get("bucketId");
     const bucketIds = bucketIdParam ? bucketIdParam.split("&") : [];
-
+  
     try {
       localStorage.setItem("questionRequestMade", "true");
-
+  
       const ENDPOINT = "/api/v2/answer";
       const questions = [question.question1, question.question2];
-
-      // 모든 질문을 병렬로 처리
+      
+      // API URL 확인을 위한 로깅 추가
+      console.log('API URL:', process.env.NEXT_PUBLIC_SCIONIC_BASE_URL + ENDPOINT);
+      
+      // API 키 존재 여부 확인
+      if (!process.env.NEXT_PUBLIC_SCIONIC_API_KEY) {
+        throw new Error('API key is not defined');
+      }
+  
       const responses = await Promise.all(
-        questions.map((questionText) =>
-          axios.post(
-            process.env.NEXT_PUBLIC_SCIONIC_BASE_URL + ENDPOINT,
-            {
-              question: questionText,
-              bucketIds: bucketIds,
-            },
-            {
-              headers: {
-                "storm-api-key": process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+        questions.map(async (questionText) => {
+          try {
+            const response = await axios.post(
+              `${process.env.NEXT_PUBLIC_SCIONIC_BASE_URL}${ENDPOINT}`,
+              {
+                question: questionText,
+                bucketIds: bucketIds,
               },
-            }
-          )
-        )
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'storm-api-key': process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+                  // CORS 이슈 대응
+                  'Access-Control-Allow-Origin': '*',
+                },
+              }
+            );
+            return response;
+          } catch (error) {
+            console.error('Individual request error:', error.response || error);
+            throw error;
+          }
+        })
       );
-
-      // 답변과 참조 데이터 추출
-      const answers = responses.map(
-        (response) => response.data.data.chat.answer
-      );
+  
+      const answers = responses.map((response) => response.data.data.chat.answer);
       const references = responses.flatMap((response) =>
         response.data.data.contexts
           .slice(0, 3)
@@ -116,13 +129,16 @@ function Page() {
             context,
           }))
       );
-
+  
       setAnswer(answers);
       setReference(references);
       setIsLoading(false);
     } catch (error) {
-      console.error("Error fetching answers:", error);
+      console.error("Error details:", error.response || error);
       localStorage.removeItem("questionRequestMade");
+      setIsLoading(false);
+      // 사용자에게 에러 알림 추가
+      alert("데이터를 불러오는데 실패했습니다. 다시 시도해주세요.");
     }
   };
 
