@@ -604,7 +604,7 @@ function Page() {
                       animationData={animationData}
                       loop={true} // 반복 여부 설정
                       autoplay={true} // 자동 재생 설정
-                      style={{ width: 300, height: 300 }} // 스타일 조정
+                      style={{ width: 200, height: 200 }} // 스타일 조정
                     />
                   </div>
                 ) : null}
