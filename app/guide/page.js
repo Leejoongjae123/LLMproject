@@ -81,39 +81,39 @@ function Page() {
       const ENDPOINT = "/api/v2/answer";
       const questions = [question.question1, question.question2];
       
-      // API 설정 확인
       if (!process.env.NEXT_PUBLIC_SCIONIC_BASE_URL || !process.env.NEXT_PUBLIC_SCIONIC_API_KEY) {
         throw new Error('API configuration is missing');
       }
   
-      const responses = await Promise.all(
-        questions.map((questionText) => 
-          axios.post(
-            `${process.env.NEXT_PUBLIC_SCIONIC_BASE_URL}${ENDPOINT}`,
-            {
-              question: questionText,
-              bucketIds: bucketIds,
-            },
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                'storm-api-key': process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
-              },
-            }
-          )
-        )
-      );
+      const answers = [];
+      const references = [];
   
-      const answers = responses.map((response) => response.data.data.chat.answer);
-      const references = responses.flatMap((response) =>
-        response.data.data.contexts
+      for (const questionText of questions) {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_SCIONIC_BASE_URL}${ENDPOINT}`,
+          {
+            question: questionText,
+            bucketIds: bucketIds,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'storm-api-key': process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+            },
+          }
+        );
+  
+        answers.push(response.data.data.chat.answer);
+        
+        const contextRefs = response.data.data.contexts
           .slice(0, 3)
           .map(({ fileName, pageName, context }) => ({
             fileName,
             pageName,
             context,
-          }))
-      );
+          }));
+        references.push(...contextRefs);
+      }
   
       setAnswer(answers);
       setReference(references);
