@@ -161,10 +161,16 @@ function Page() {
       setIsLoadingAIAnalysis(true);
       const ENDPOINT = "/api/v2/answer";
       
-      // input이 있으면 input을 사용하고, 없으면 answer 배열을 사용
+      // input과 answer가 모두 없는 경우 처리
+      if (!input && (!answer || answer.length === 0)) {
+        console.log("No input or answer available");
+        return;
+      }
+      
+      // 안전하게 문자열 생성
       let questions = [
-        `Here is the content generated for the "(1) 이사회의 역할 및 책임" Part.${input[0] || answer[0]}Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(1) 이사회의 역할 및 책임" Part.`,
-        `Here is the content generated for the "(2) 관리 감독 체계" Part.${input[1] || answer[1]}Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(2) 관리 감독 체계" Part.`
+        `Here is the content generated for the "(1) 이사회의 역할 및 책임" Part.${(input && input[0]) || (answer && answer[0]) || ""}Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(1) 이사회의 역할 및 책임" Part.`,
+        `Here is the content generated for the "(2) 관리 감독 체계" Part.${(input && input[1]) || (answer && answer[1]) || ""}Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(2) 관리 감독 체계" Part.`
       ];
 
       if (
