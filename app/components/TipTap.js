@@ -177,7 +177,10 @@ const CustomEditor = ({
   selectedItem,
   selectedText,
   setSelectedText,
+  currentText,
+  setCurrentText,
   answer,
+
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [inputContents, setInputContents] = useState("");
@@ -194,6 +197,33 @@ const CustomEditor = ({
   ]);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        paragraph: {
+          keepMarks: true,
+        },
+      }),
+      CustomFocus,
+      HardBreak.extend({
+        addKeyboardShortcuts() {
+          return {
+            Enter: () => this.editor.commands.setHardBreak(),
+          };
+        },
+      }),
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
+    ],
+    content: "", // 초기 내용을 비워둡니다.
+    onFocus: () => setIsFocused(true),
+    onBlur: () => setIsFocused(false),
+  });
 
   const handleCategoryChange = () => {
     setCategory("");
@@ -225,17 +255,35 @@ const CustomEditor = ({
     handleCategoryChange(category);
   }, [selectedText]);
   
+  // answer의 변경을 감지하여 inputContents를 업데이트하는 useEffect 수정
   useEffect(() => {
-    if (selectedItem === "weather") {
-      setInputContents(`
+    if (selectedItem === "weather" && answer) {
+      const content = `
         <h1 style="font-weight: 700;">거버넌스</h1>
         <h2>기후 관련 위험 및 기회에 관한 이사회 차원의 감독</h2>
-        <p><b>이사회의 역할 및 책임</b><br/>${answer && answer[0] ? answer[0] : ''}</p>
+        <p><b>이사회의 역할 및 책임</b><br/>${answer[0] || ''}</p>
         <br/>
-        <p><b>관리 감독 체계</b><br/>${answer && answer[1] ? answer[1] : ''}</p>
-        
-      `);
-    } else if (selectedItem === "manager") {
+        <p><b>관리 감독 체계</b><br/>${answer[1] || ''}</p>
+      `;
+      setInputContents(content);
+      
+      // answer가 업데이트되면 currentText도 업데이트
+      const sections = [];
+      if (answer[0]) {
+        sections.push(`이사회의 역할 및 책임${answer[0]}`);
+      }
+      if (answer[1]) {
+        sections.push(`관리 감독 체계${answer[1]}`);
+      }
+      if (sections.length > 0) {
+        setCurrentText(sections);
+      }
+    }
+  }, [answer, selectedItem]);
+
+  // selectedItem 변경 시 기본 템플릿 설정
+  useEffect(() => {
+    if (selectedItem === "manager") {
       setInputContents(`
         <h1 style="font-weight: 700;">거버넌스</h1>
         <h2>기후 관련 위험 및 기회에 관한 경영진의 역할</h2>
@@ -248,34 +296,14 @@ const CustomEditor = ({
         <p>(1)온실가스 배출량</p>
       `);
     }
-  }, [selectedItem,answer]);
+  }, [selectedItem]);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        paragraph: {
-          keepMarks: true,
-        },
-      }),
-      CustomFocus,
-      HardBreak.extend({
-        addKeyboardShortcuts() {
-          return {
-            Enter: () => this.editor.commands.setHardBreak(),
-          };
-        },
-      }),
-      Table.configure({
-        resizable: true,
-      }),
-      TableRow,
-      TableHeader,
-      TableCell,
-    ],
-    content: "", // 초기 내용을 비워둡니다.
-    onFocus: () => setIsFocused(true),
-    onBlur: () => setIsFocused(false),
-  });
+  // 에디터 내용 업데이트
+  useEffect(() => {
+    if (editor && inputContents) {
+      editor.commands.setContent(inputContents);
+    }
+  }, [editor, inputContents]);
 
   // 선택된 텍스트를 가져오는 함수
   const getSelectedText = () => {
@@ -838,6 +866,69 @@ const CustomEditor = ({
       .run();
   };
 
+  // 에디터 내용이 변경될 때마다 텍스트를 분석하고 업데이트하는 함수
+  const updateCurrentText = () => {
+    if (editor) {
+      const content = editor.getHTML();
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = content;
+      const text = tempDiv.textContent || '';
+
+      // 구분자 정의
+      const delimiters = [
+        "이사회의 역할 및 책임",
+        "관리 감독 체계",
+        "경영진의 역할 및 감독 프로세스"
+      ];
+
+      let sections = [];
+      let lastIndex = 0;
+
+      delimiters.forEach((delimiter, index) => {
+        const startIndex = text.indexOf(delimiter);
+        if (startIndex !== -1) {
+          // 다음 구분자의 위치 찾기
+          const nextDelimiter = delimiters[index + 1];
+          let endIndex;
+          
+          if (nextDelimiter) {
+            endIndex = text.indexOf(nextDelimiter);
+            endIndex = endIndex === -1 ? text.length : endIndex;
+          } else {
+            endIndex = text.length;
+          }
+
+          // 구분자 이후의 텍스트 추출 (구분자 포함)
+          const sectionText = text.substring(startIndex, endIndex).trim();
+          
+          // 빈 섹션이 아닌 경우에만 추가
+          if (sectionText) {
+            sections.push(sectionText);
+          }
+        }
+      });
+
+      if (sections.length > 0) {
+        setCurrentText(sections);
+      }
+    }
+  };
+
+  // 에디터 내용이 변경될 때마다 실행
+  useEffect(() => {
+    if (editor) {
+      // 초기 내용 로드 시 실행
+      updateCurrentText();
+
+      // 변경 이벤트 리스너 등록
+      editor.on('update', updateCurrentText);
+      
+      return () => {
+        editor.off('update', updateCurrentText);
+      };
+    }
+  }, [editor]);
+  // console.log('currentText:', currentText)
   return (
     <div>
       {editor && (

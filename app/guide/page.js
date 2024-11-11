@@ -68,50 +68,68 @@ function Page() {
   const [answer, setAnswer] = useState([]);
   const [reference, setReference] = useState([]);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isLoadingAIAnalysis, setIsLoadingAIAnalysis] = useState(true);
+  const [analysis, setAnalysis] = useState([]);
+  const [currentText, setCurrentText] = useState([]);
+  const requestMadeRef = useRef(false);
+
+  useEffect(() => {
+    if (answer.length > 2) {
+      setCurrentText(answer);
+    }
+  }, [answer]);
 
   const handleFirstQuestion = async () => {
-    if (answer.length > 0) return;
-  
+    if (answer.length > 0 || requestMadeRef.current) return;
+
+    requestMadeRef.current = true;
+
     const urlParams = new URLSearchParams(window.location.search);
     const bucketIdParam = urlParams.get("bucketId");
     const bucketIds = bucketIdParam ? bucketIdParam.split("&") : [];
-  
+
     try {
       setIsLoading(true);
       const ENDPOINT = "/api/v2/answer";
       const questions = [question.question1, question.question2];
-      
-      if (!process.env.NEXT_PUBLIC_SCIONIC_BASE_URL || !process.env.NEXT_PUBLIC_SCIONIC_API_KEY) {
-        throw new Error('API configuration is missing');
+
+      if (
+        !process.env.NEXT_PUBLIC_SCIONIC_BASE_URL ||
+        !process.env.NEXT_PUBLIC_SCIONIC_API_KEY
+      ) {
+        throw new Error("API configuration is missing");
       }
-  
+
       // 각 요청을 Promise 배열로 만들되, 딜레이를 포함
-      const promises = questions.map((questionText, index) => 
-        new Promise((resolve) => {
-          // 각 요청 사이에 500ms 딜레이
-          setTimeout(async () => {
-            const response = await axios.post(
-              `${process.env.NEXT_PUBLIC_SCIONIC_BASE_URL}${ENDPOINT}`,
-              {
-                question: questionText,
-                bucketIds: bucketIds,
-              },
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'storm-api-key': process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+      const promises = questions.map(
+        (questionText, index) =>
+          new Promise((resolve) => {
+            // 각 요청 사이에 500ms 딜레이
+            setTimeout(async () => {
+              const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SCIONIC_BASE_URL}${ENDPOINT}`,
+                {
+                  question: questionText,
+                  bucketIds: bucketIds,
                 },
-              }
-            );
-            resolve(response);
-          }, index * 500); // 각 요청마다 500ms 간격
-        })
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    "storm-api-key": process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+                  },
+                }
+              );
+              resolve(response);
+            }, index * 500); // 각 요청마다 500ms 간격
+          })
       );
-  
+
       const responses = await Promise.all(promises);
-      
-      const answers = responses.map(response => response.data.data.chat.answer);
-      const references = responses.flatMap(response => 
+
+      const answers = responses.map(
+        (response) => response.data.data.chat.answer
+      );
+      const references = responses.flatMap((response) =>
         response.data.data.contexts
           .slice(0, 3)
           .map(({ fileName, pageName, context }) => ({
@@ -120,9 +138,11 @@ function Page() {
             context,
           }))
       );
-  
+
       setAnswer(answers);
       setReference(references);
+
+
     } catch (error) {
       console.error("API Error:", error);
       if (error.response) {
@@ -134,6 +154,78 @@ function Page() {
       setIsLoading(false);
     }
   };
+
+  const handleSecondQuestion = async (input = null) => {
+    console.log("input:", input);
+    try {
+      setIsLoadingAIAnalysis(true);
+      const ENDPOINT = "/api/v2/answer";
+      
+      // input이 있으면 input을 사용하고, 없으면 answer 배열을 사용
+      let questions = [
+        `Here is the content generated for the "(1) 이사회의 역할 및 책임" Part.${input[0] || answer[0]}Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(1) 이사회의 역할 및 책임" Part.`,
+        `Here is the content generated for the "(2) 관리 감독 체계" Part.${input[1] || answer[1]}Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(2) 관리 감독 체계" Part.`
+      ];
+
+      if (
+        !process.env.NEXT_PUBLIC_SCIONIC_BASE_URL ||
+        !process.env.NEXT_PUBLIC_SCIONIC_API_KEY_AI_ANALYSIS
+      ) {
+        throw new Error("API configuration is missing");
+      }
+
+      console.log("questions:", questions);
+
+      // 각 요청을 Promise 배열로 만들되, 딜레이를 포함
+      const promises = questions.map(
+        (questionText, index) =>
+          new Promise((resolve) => {
+            // 각 요청 사이에 500ms 딜레이
+            setTimeout(async () => {
+              const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SCIONIC_BASE_URL}${ENDPOINT}`,
+                {
+                  question: questionText,
+                },
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    "storm-api-key": process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+                  },
+                }
+              );
+              resolve(response);
+            }, index * 500); // 각 요청마다 500ms 간격
+          })
+      );
+
+      const responses = await Promise.all(promises);
+
+      const analysis = responses.map(
+        (response) => response.data.data.chat.answer
+      );
+
+      setAnalysis(analysis);
+
+    } catch (error) {
+      console.error("API Error:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+      }
+      alert(`데이터를 불러오는데 실패했습니다: ${error.message}`);
+    } finally {
+      setIsLoadingAIAnalysis(false);
+    }
+  };
+
+
+  
+  useEffect(() => {
+    if (answer.length > 0) {
+      handleSecondQuestion();
+    }
+  }, [answer]);
 
   useEffect(() => {
     handleFirstQuestion();
@@ -196,7 +288,7 @@ function Page() {
     }
   }, [selectedItem, selectedKeys, category]);
 
-  console.log("answer:", answer);
+  // console.log("answer:", answer);
 
   useEffect(() => {
     return () => {
@@ -308,6 +400,8 @@ function Page() {
               selectedText={selectedText}
               setSelectedText={setSelectedText}
               answer={answer}
+              currentText={currentText}
+              setCurrentText={setCurrentText}
             ></TipTap>
           </div>
         </Panel>
@@ -345,8 +439,19 @@ function Page() {
                       setSelectedText={setSelectedText}
                     ></AIManager>
                   </Tab>
-                  <Tab key="AI 진단" title="AI 진단">
-                    <AIAnalysis></AIAnalysis>
+                  <Tab className="w-full h-full" key="AI 진단" title="AI 진단">
+                    <AIAnalysis
+                      selectedText={selectedText}
+                      setSelectedText={setSelectedText}
+                      analysis={analysis}
+                      setAnalysis={setAnalysis}
+                      isLoadingAIAnalysis={isLoadingAIAnalysis}
+                      setIsLoadingAIAnalysis={setIsLoadingAIAnalysis}
+                      handleSecondQuestion={handleSecondQuestion}
+                      currentText={currentText} 
+                      setCurrentText={setCurrentText}
+                      className="w-full h-full"
+                    ></AIAnalysis>
                   </Tab>
                   <Tab key="가이드" title="가이드" className="">
                     <Accordion
