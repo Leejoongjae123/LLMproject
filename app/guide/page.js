@@ -173,6 +173,8 @@ function Page() {
         `Here is the content generated for the "(2) 관리 감독 체계" Part.${(input && input[1]) || (answer && answer[1]) || ""}Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(2) 관리 감독 체계" Part.`
       ];
 
+      console.log("questions:", questions);
+
       if (
         !process.env.NEXT_PUBLIC_SCIONIC_BASE_URL ||
         !process.env.NEXT_PUBLIC_SCIONIC_API_KEY_AI_ANALYSIS
@@ -196,7 +198,7 @@ function Page() {
                 {
                   headers: {
                     "Content-Type": "application/json",
-                    "storm-api-key": process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+                    "storm-api-key": process.env.NEXT_PUBLIC_SCIONIC_API_KEY_AI_ANALYSIS,
                   },
                 }
               );
