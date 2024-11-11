@@ -154,7 +154,7 @@ function Page() {
       setIsLoading(false);
     }
   };
-
+  console.log("answer:", answer);
   const handleSecondQuestion = async (input = null) => {
     console.log("input:", input);
     try {
@@ -213,7 +213,7 @@ function Page() {
         console.error("Response data:", error.response.data);
         console.error("Response status:", error.response.status);
       }
-      alert(`데이터를 불러오는데 실패했습니다: ${error.message}`);
+      alert(`데이터를 불러오는데 실패했습니다22: ${error.message}`);
     } finally {
       setIsLoadingAIAnalysis(false);
     }
@@ -226,6 +226,8 @@ function Page() {
       handleSecondQuestion();
     }
   }, [answer]);
+
+  
 
   useEffect(() => {
     handleFirstQuestion();
