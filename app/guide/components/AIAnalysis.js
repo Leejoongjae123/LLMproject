@@ -9,13 +9,23 @@ import { MdRefresh } from "react-icons/md";
 function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoadingAIAnalysis, setIsLoadingAIAnalysis, handleSecondQuestion, selectedText }) {
   const [guideText, setGuideText] = useState("");
   const [analysisText, setAnalysisText] = useState("");
+
+  const formatAnalysisText = (text) => {
+    if (!text) return '';
+    // Bold text between ** markers
+    let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Replace - with line breaks
+    formattedText = formattedText.replace(/\s*-\s*/g, '<br/>- ');
+    return formattedText;
+  };
+
   const handleGuideTextChange = () => {
     const categories = {
       "이사회의 역할 및 책임":
         "기후 관련 위험과 기회에 대한 책임과 역할이 명확히 정의된 의사결정기구의 정보 및 운영 규정이 명확히 설명되어야 해요. 또한, 기후변화 대응을 위한 기업의 전문성과 역량 강화 노력이 어떤지 작성해 주세요.",
       "관리 감독 체계":
         "기후 관련 위험 및 기회 관련 정보를 제공하는 정기적인 보고 체계가 어떻게 구축되어 있는지 설명해 주세요. 또한 이러한 체계가 조직 내 의사결정에 어떻게 기여하는지 구체적으로 작성되면 좋습니다.<br/><br/> 투자 및 경영 계획에 기후 리스크와 기회를 반영하기 위한 역할과 책임이 어떻게 설정되어 있는지, 경영 관련 의사결정 시 기후 요소가 어떻게 연계되는지 명확히 설명해 주세요.<br/><br/> 기후 관련 목표 설정과 이를 모니터링하는 체계가 잘 구축되어 있는지, 성과 기반 보상 정책에 이러한 목표가 반영되고 있는지 작성해 주세요",
-      "경영진의 역할 및 감독프로세스":
+      "경영진의 역할 및 감독 프로세스":
         "기후 변화 대응을 위한 경영진의 보고 및 감독 프로세스가 어떻게 마련되어 있는지 작성해 주세요. 특히, 기후 관련 위험 및 기회 대응을 위해 전담 조직이 지정되어 있는지와 정기적인 보고 체계가 어떻게 운영되는지 설명해 주시면 좋아요.<br/><br/> 또한, 전사 차원의 리스크 관리 체계에 기후 관련 리스크가 어떻게 통합되어 있는지, 내부 통제 시스템을 통해 기후 리스크를 효과적으로 관리하고 있는지 구체적으로 작성해 주세요.",
     };
 
@@ -32,7 +42,7 @@ function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoad
     const categories = [
       "이사회의 역할 및 책임",
       "관리 감독 체계",
-      "경영진의 역할 및 감독프로세스",
+      "경영진의 역할 및 감독 프로세스",
     ];
 
     const matchedCategory = categories.find((category) =>
@@ -41,7 +51,7 @@ function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoad
 
     if (matchedCategory) {
       const index = categories.indexOf(matchedCategory);
-      setAnalysisText(analysis[index]);
+      setAnalysisText(formatAnalysisText(analysis[index]));
     }
   };
 
@@ -56,14 +66,14 @@ function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoad
   return (
     <div className="grid grid-rows-3 gap-5 w-full h-full">
       <div className="row-span-1 flex flex-col gap-3">
-        <h1>해당 박스에는 아래 내용이 주로 작성되어야 해요.</h1>
+        <h1 className="font-bold">해당 박스에는 아래 내용이 주로 작성되어야 해요.</h1>
         {/* <div
           className="block p-2.5 w-full text-sm text-gray-900 bg-gray-100 rounded-lg border border-gray-300"
           dangerouslySetInnerHTML={{ __html: guideText }}
         /> */}
         <Card className="bg-gray-200 w-full flex flex-col justify-center p-2  overflow-y-auto py-5">
           <p
-            className="text-start h-full overflow-y-auto"
+            className="text-start h-full overflow-y-auto text-sm"
             dangerouslySetInnerHTML={{ __html: guideText }}
           />
         </Card>
@@ -71,7 +81,7 @@ function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoad
 
       <div className="row-span-2 flex flex-col gap-3 justify-between items-center w-full h-full py-10">
         <div className="flex gap-3 justify-between items-center w-full">
-          <h1>AI 진단 결과</h1>
+          <h1 className="font-bold">AI 진단 결과</h1>
 
           <div>
             <Button
@@ -109,7 +119,7 @@ function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoad
 
         <Card className="bg-gray-200 w-full flex flex-col p-2 h-full">
           <p
-            className="text-start overflow-y-auto px-2"
+            className="text-start overflow-y-auto px-2 text-sm"
             dangerouslySetInnerHTML={{ __html: analysisText }}
           />
         </Card>

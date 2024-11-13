@@ -91,7 +91,7 @@ function Page() {
     try {
       setIsLoading(true);
       const ENDPOINT = "/api/v2/answer";
-      const questions = [question.question1, question.question2];
+      const questions = [question.question1, question.question2,question.question3];
 
       if (
         !process.env.NEXT_PUBLIC_SCIONIC_BASE_URL ||
@@ -100,16 +100,20 @@ function Page() {
         throw new Error("API configuration is missing");
       }
 
-      // 각 요청을 Promise 배열로 만들되, 딜레이를 포함
-      const promises = questions.map(
-        (questionText, index) =>
+      // 각 질문에 순서 정보를 포함
+      const questionsWithSeq = questions.map((questionText, index) => ({
+        text: questionText,
+        seq: index,
+      }));
+
+      const promises = questionsWithSeq.map(
+        ({ text, seq }, index) =>
           new Promise((resolve) => {
-            // 각 요청 사이에 500ms 딜레이
             setTimeout(async () => {
               const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SCIONIC_BASE_URL}${ENDPOINT}`,
                 {
-                  question: questionText,
+                  question: text,
                   bucketIds: bucketIds,
                 },
                 {
@@ -119,30 +123,39 @@ function Page() {
                   },
                 }
               );
-              resolve(response);
-            }, index * 500); // 각 요청마다 500ms 간격
+              // 응답과 함께 원래 순서 정보를 포함
+              resolve({ response, questionSeq: seq });
+            }, index * 500);
           })
       );
 
       const responses = await Promise.all(promises);
 
-      const answers = responses.map(
-        (response) => response.data.data.chat.answer
-      );
-      const references = responses.flatMap((response) =>
-        response.data.data.contexts
-          .slice(0, 3)
-          .map(({ fileName, pageName, context }) => ({
+      const answers = responses.map(({ response, questionSeq }) => ({
+        answer: response.data.data.chat.answer,
+        questionSeq,
+      }));
+
+      // 순서대로 정렬
+      answers.sort((a, b) => a.questionSeq - b.questionSeq);
+
+      const references = responses.flatMap(({ response, questionSeq }) =>
+        response.data.data.contexts.map(
+          ({ fileName, pageName, context, referenceIdx }) => ({
             fileName,
             pageName,
             context,
-          }))
+            referenceIdx,
+            questionSeq,
+          })
+        )
       );
+
+      // references도 questionSeq 기준으로 정렬하려면 아래 코드 추가
+      references.sort((a, b) => a.questionSeq - b.questionSeq);
 
       setAnswer(answers);
       setReference(references);
-
-
     } catch (error) {
       console.error("API Error:", error);
       if (error.response) {
@@ -160,17 +173,25 @@ function Page() {
     try {
       setIsLoadingAIAnalysis(true);
       const ENDPOINT = "/api/v2/answer";
-      
+
       // input과 answer가 모두 없는 경우 처리
       if (!input && (!answer || answer.length === 0)) {
         console.log("No input or answer available");
         return;
       }
-      
+
       // 안전하게 문자열 생성
       let questions = [
-        `Here is the content generated for the "(1) 이사회의 역할 및 책임" Part.${(input && input[0]) || (answer && answer[0]) || ""}Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(1) 이사회의 역할 및 책임" Part.`,
-        `Here is the content generated for the "(2) 관리 감독 체계" Part.${(input && input[1]) || (answer && answer[1]) || ""}Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(2) 관리 감독 체계" Part.`
+        `Here is the content generated for the "(1) 이사회의 역할 및 책임" Part.${
+          (input && input[0]) || (answer && answer[0]) || ""
+        }Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(1) 이사회의 역할 및 책임" Part.`,
+        `Here is the content generated for the "(2) 관리 감독 체계" Part.${
+          (input && input[1]) || (answer && answer[1]) || ""
+        }Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(2) 관리 감독 체계" Part.`,
+        `Here is the content generated for the "(3) 경영진의 역할 및 감독 프로세스" Part.${
+          (input && input[2]) || (answer && answer[2]) || ""
+        }Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(3) 경영진의 역할 및 감독 프로세스" Part.
+        `
       ];
 
       console.log("questions:", questions);
@@ -198,7 +219,8 @@ function Page() {
                 {
                   headers: {
                     "Content-Type": "application/json",
-                    "storm-api-key": process.env.NEXT_PUBLIC_SCIONIC_API_KEY_AI_ANALYSIS,
+                    "storm-api-key":
+                      process.env.NEXT_PUBLIC_SCIONIC_API_KEY_AI_ANALYSIS,
                   },
                 }
               );
@@ -214,7 +236,6 @@ function Page() {
       );
 
       setAnalysis(analysis);
-
     } catch (error) {
       console.error("API Error:", error);
       if (error.response) {
@@ -227,15 +248,11 @@ function Page() {
     }
   };
 
-
-  
   useEffect(() => {
     if (answer.length > 0) {
       handleSecondQuestion();
     }
   }, [answer]);
-
-  
 
   useEffect(() => {
     handleFirstQuestion();
@@ -459,7 +476,7 @@ function Page() {
                       isLoadingAIAnalysis={isLoadingAIAnalysis}
                       setIsLoadingAIAnalysis={setIsLoadingAIAnalysis}
                       handleSecondQuestion={handleSecondQuestion}
-                      currentText={currentText} 
+                      currentText={currentText}
                       setCurrentText={setCurrentText}
                       className="w-full h-full"
                     ></AIAnalysis>

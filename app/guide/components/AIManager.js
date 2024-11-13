@@ -41,15 +41,28 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
   const [writeLonger, setWriteLonger] = useState(false);
   const [writeShorter, setWriteShorter] = useState(false);
   const [refineSentence, setRefineSentence] = useState(false);
-  
-  
+  const [selectedQuestionSeq, setSelectedQuestionSeq] = useState(null);
 
   useEffect(() => {
-    const chatContainer = document.querySelector('.chat-container');
+    const chatContainer = document.querySelector(".chat-container");
     if (chatContainer) {
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
   }, [chatList, answerList]);
+
+  console.log("reference:", reference);
+
+  useEffect(() => {
+    if (selectedText.includes("이사회의 역할 및 책임")) {
+      setSelectedQuestionSeq(0);
+    } else if (selectedText.includes("관리 감독 체계")) {
+      setSelectedQuestionSeq(1);
+    } else if (selectedText.includes("경영진의 역할 및 감독 프로세스")) {
+      setSelectedQuestionSeq(2);
+    }
+  }, [selectedText]);
+
+  console.log("selectedQuestionSeq:", selectedQuestionSeq);
 
   return (
     <div className="grid grid-rows-12 w-full h-[calc(100vh-11rem)]">
@@ -69,7 +82,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
             variant="bordered"
             startContent={<AiOutlineExpandAlt className="text-lg font-bold" />}
             className=""
-            onPress={() => setWriteLonger(prev => !prev)}
+            onPress={() => setWriteLonger((prev) => !prev)}
           >
             더 길게 쓰기
           </Button>
@@ -77,7 +90,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
             variant="bordered"
             startContent={<AiOutlineShrink className="text-lg font-bold" />}
             className=""
-            onPress={() => setWriteShorter(prev => !prev)}
+            onPress={() => setWriteShorter((prev) => !prev)}
           >
             더 짧게 쓰기
           </Button>
@@ -85,7 +98,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
             variant="bordered"
             startContent={<MdOutlineEdit className="text-lg font-bold" />}
             className=""
-            onPress={() => setRefineSentence(prev => !prev)}
+            onPress={() => setRefineSentence((prev) => !prev)}
           >
             문장 다듬기
           </Button>
@@ -109,8 +122,9 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
                       ...chatList,
                       {
                         role: "user",
-                        message: "기후 관련 이사회의 책임범위를 보다 구체적으로 작성해줘"
-                      }
+                        message:
+                          "기후 관련 이사회의 책임범위를 보다 구체적으로 작성해줘",
+                      },
                     ])
                   }
                 >
@@ -125,8 +139,9 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
                       ...chatList,
                       {
                         role: "user",
-                        message: "경영진이 기후 리스크 평가를 어떻게 하고 있는지 내용을 추가해줘"
-                      }
+                        message:
+                          "경영진이 기후 리스크 평가를 어떻게 하고 있는지 내용을 추가해줘",
+                      },
                     ])
                   }
                 >
@@ -136,14 +151,18 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
             </>
           )}
           {chatList.length > 0 && (
-            <Conversation chatList={chatList} answerList={answerList} isLoading={isLoading}/>
+            <Conversation
+              chatList={chatList}
+              answerList={answerList}
+              isLoading={isLoading}
+            />
           )}
         </div>
       </div>
       <div className="row-span-3 w-full flex flex-col justify-end z-50">
         <Accordion
           isCompact
-          className="w-full mb-2 bg-gray-100 text-sm border-2 border-gray-200 rounded-lg "
+          className="w-full mb-2 bg-gray-100 text-sm border-2 border-gray-200 rounded-lg"
         >
           <AccordionItem
             className="w-full text-sm"
@@ -153,22 +172,27 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
               </span>
             }
           >
-            {reference.map((item, index) => (
-              <div key={index} className="flex flex-col space-y-2 p-2">
-                <Button
-                  variant="bordered"
-                  size="sm"
-                  onPress={() => {
-                    setSelectedReferenceFileName(item.fileName);
-                    setSelectedReferencePageName(item.pageName);
-                    setSelectedReferenceContext(item.context);
-                    onOpen();
-                  }}
-                >
-                  파일명: {item.fileName} / 페이지: {item.pageName}
-                </Button>
-              </div>
-            ))}
+            <div className="max-h-[30vh] overflow-y-auto">
+              {reference
+                .filter((item) => item.questionSeq === selectedQuestionSeq)
+                .map((item, index) => (
+                  <div key={index} className="flex flex-col space-y-2 p-2">
+                    <Button
+                      variant="bordered"
+                      size="sm"
+                      onPress={() => {
+                        setSelectedReferenceFileName(item.fileName);
+                        setSelectedReferencePageName(item.pageName);
+                        setSelectedReferenceContext(item.context);
+                        onOpen();
+                      }}
+                    >
+                      번호: {item.referenceIdx} / 파일명: {item.fileName} /
+                      페이지: {item.pageName}
+                    </Button>
+                  </div>
+                ))}
+            </div>
           </AccordionItem>
         </Accordion>
         <TextInputs

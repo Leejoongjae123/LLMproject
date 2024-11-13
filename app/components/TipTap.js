@@ -261,9 +261,9 @@ const CustomEditor = ({
       const content = `
         <h1 style="font-weight: 700;">거버넌스</h1>
         <h2>기후 관련 위험 및 기회에 관한 이사회 차원의 감독</h2>
-        <p><b>이사회의 역할 및 책임</b><br/>${answer[0] || ''}</p>
+        <p><b>이사회의 역할 및 책임</b><br/>${answer[0]?.answer || ''}</p>
         <br/>
-        <p><b>관리 감독 체계</b><br/>${answer[1] || ''}</p>
+        <p><b>관리 감독 체계</b><br/>${answer[1]?.answer || ''}</p>
       `;
       setInputContents(content);
       
@@ -287,7 +287,7 @@ const CustomEditor = ({
       setInputContents(`
         <h1 style="font-weight: 700;">거버넌스</h1>
         <h2>기후 관련 위험 및 기회에 관한 경영진의 역할</h2>
-        <p>경영진의 역할 및 감독 프로세스</p>
+        <p><b>경영진의 역할 및 감독 프로세스</b><br/>${answer[2]?.answer || ''}</p>
       `);
     } else if (selectedItem === "indicator") {
       setInputContents(`
@@ -928,7 +928,10 @@ const CustomEditor = ({
       };
     }
   }, [editor]);
-  // console.log('currentText:', currentText)
+  
+
+
+
   return (
     <div>
       {editor && (

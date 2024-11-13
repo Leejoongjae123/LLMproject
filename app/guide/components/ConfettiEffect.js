@@ -6,7 +6,7 @@ const ConfettiEffect = () => {
   useEffect(() => {
     // 폭죽을 시작하는 함수
     const startConfetti = () => {
-      const duration = 3 * 1000; // 3초
+      const duration = 1 * 1000; // 3초
       const end = Date.now() + duration;
 
       (function frame() {
@@ -38,7 +38,7 @@ const ConfettiEffect = () => {
     startConfetti();
 
     // 3초 후에 클린업
-    const timeout = setTimeout(() => confetti.reset(), 2000);
+    const timeout = setTimeout(() => confetti.reset(), 1000);
 
     // 컴포넌트 언마운트 시 클린업
     return () => clearTimeout(timeout);

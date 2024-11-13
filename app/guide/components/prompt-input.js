@@ -127,11 +127,11 @@ const PromptInputContent = React.forwardRef(
           ]);
 
           const references = response.data.data.contexts
-            .slice(0, 3)
-            .map(({ fileName, pageName, context }) => ({
+            .map(({ fileName, pageName, context,referenceIdx }) => ({
               fileName,
               pageName,
               context,
+              referenceIdx,
             }));
           props.setReference(references);
 
