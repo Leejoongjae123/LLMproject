@@ -101,12 +101,16 @@ const PromptInputContent = React.forwardRef(
     const handleQuery = async (chatList) => {
       if (chatList && chatList.length > 0) {
         const lastMessage = chatList[chatList.length - 1];
+        
+        const question = props.selectedText?.length > 1 
+          ? `${props.selectedText} ${lastMessage.message}`
+          : lastMessage.message;
 
         try {
           const response = await axios.post(
             process.env.NEXT_PUBLIC_SCIONIC_BASE_URL + "/api/v2/answer",
             {
-              question: props.selectedText + " 의 내용에 대하여" + lastMessage.message,
+              question: question,
               bucketIds: selectedBuckets,
             },
             {
@@ -122,7 +126,7 @@ const PromptInputContent = React.forwardRef(
             ...chatList,
             {
               role: "assistant",
-              message: answer,
+              message: answer.replace(/#/g, ''),
             },
           ]);
 
@@ -166,7 +170,7 @@ const PromptInputContent = React.forwardRef(
       return null;
     }
 
-    
+    console.log("selectedText:", props.selectedText)
 
     return (
       <>

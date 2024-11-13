@@ -228,9 +228,9 @@ const CustomEditor = ({
   const handleCategoryChange = () => {
     setCategory("");
     const categories = {
-      "(가)": "가",
-      "(나)": "나",
-      "(다)": "다",
+      "이사회의 역할 및 책임": "가",
+      "관리 감독 체계": "나",
+      "경영진의 역할 및 감독 프로세스": "다",
       "(라)": "라",
       "(마)": "마",
       "(바)": "바",

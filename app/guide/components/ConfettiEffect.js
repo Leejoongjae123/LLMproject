@@ -6,13 +6,13 @@ const ConfettiEffect = () => {
   useEffect(() => {
     // 폭죽을 시작하는 함수
     const startConfetti = () => {
-      const duration = 1 * 1000; // 3초
+      const duration = 2 * 1000; // 3초
       const end = Date.now() + duration;
 
       (function frame() {
         // 왼쪽에서 발사
         confetti({
-          particleCount: 5,
+          particleCount: 10,
           angle: 60,
           spread: 55,
           origin: { x: 0, y: 0.3 },
@@ -21,7 +21,7 @@ const ConfettiEffect = () => {
 
         // 오른쪽에서 발사
         confetti({
-          particleCount: 5,
+          particleCount: 10,
           angle: 120,
           spread: 55,
           origin: { x: 1, y: 0.3 },

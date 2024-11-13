@@ -132,7 +132,7 @@ function Page() {
       const responses = await Promise.all(promises);
 
       const answers = responses.map(({ response, questionSeq }) => ({
-        answer: response.data.data.chat.answer,
+        answer: response.data.data.chat.answer.replace(/#/g, ''),
         questionSeq,
       }));
 
@@ -183,13 +183,13 @@ function Page() {
       // 안전하게 문자열 생성
       let questions = [
         `Here is the content generated for the "(1) 이사회의 역할 및 책임" Part.${
-          (input && input[0]) || (answer && answer[0]) || ""
+          (input && input[0]) || (answer && answer[0].answer) || ""
         }Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(1) 이사회의 역할 및 책임" Part.`,
         `Here is the content generated for the "(2) 관리 감독 체계" Part.${
-          (input && input[1]) || (answer && answer[1]) || ""
+          (input && input[1]) || (answer && answer[1].answer) || ""
         }Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(2) 관리 감독 체계" Part.`,
         `Here is the content generated for the "(3) 경영진의 역할 및 감독 프로세스" Part.${
-          (input && input[2]) || (answer && answer[2]) || ""
+          (input && input[2]) || (answer && answer[2].answer) || ""
         }Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(3) 경영진의 역할 및 감독 프로세스" Part.
         `
       ];
@@ -263,7 +263,7 @@ function Page() {
     () => Array.from(selectedKeys).join(", "),
     [selectedKeys]
   );
-
+  
   const handleContentChange = () => {
     const selectedData = dummyData.find((item) => item.label === category);
     if (selectedData) {
@@ -301,7 +301,11 @@ function Page() {
     }
   }, [selectedLanguage, selectedItem]);
 
+  console.log('selectedItem:',selectedItem)
+  console.log("sampleText:",sampleText)
+  console.log("category:",category)
   useEffect(() => {
+    
     const selectedSample = sampleText.find(
       (item) =>
         item.title === selectedItem &&
@@ -315,7 +319,6 @@ function Page() {
     }
   }, [selectedItem, selectedKeys, category]);
 
-  // console.log("answer:", answer);
 
   useEffect(() => {
     return () => {
@@ -519,8 +522,7 @@ function Page() {
                           </h1>
                           <br />
                           <p className={`guide_base_kr`}>
-                            {guideContents?.base}
-                          </p>
+                          <div dangerouslySetInnerHTML={{ __html: guideContents?.base }} />                          </p>
                           <br />
                           <p
                             className={`guide_ga_kr ${
@@ -583,7 +585,8 @@ function Page() {
                                 setSampleStep(1); // Reset sample step to 1 for any selection
                               }}
                             >
-                              <ListboxItem key="edk">EDK샘플</ListboxItem>
+                              <ListboxItem key="edkkor">EDK샘플(KOR)</ListboxItem>
+                              <ListboxItem key="edkeng">EDK샘플(ENG)</ListboxItem>
                               <ListboxItem key="domestic">
                                 국내 기업 샘플
                               </ListboxItem>
