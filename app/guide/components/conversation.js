@@ -5,10 +5,10 @@ import { userMessages, assistantMessages } from "./messages";
 import MessageCard from "./message-card";
 import Na from "./na";
 import { Spinner } from "@nextui-org/react";
-export default function Component({ chatList, isLoading }) {
+export default function Component({ chatList, isLoading, currentChatId, setCurrentChatId }) {
   return (
     <div className="flex flex-col gap-4 px-1">
-      {chatList.map(({ role, message,category=null }, index) => (
+      {chatList.map(({ role, message,category=null,chatId }, index) => (
         <MessageCard
           key={index}
           attempts={index === 1 ? 2 : 1}
@@ -23,6 +23,8 @@ export default function Component({ chatList, isLoading }) {
             role === "user" ? "bg-content3 text-content3-foreground" : ""
           }
           showFeedback={role === "assistant"}
+          
+          onClick={() => setCurrentChatId(chatId)}
         />
       ))}
       {isLoading && <Spinner color="primary" size="sm"></Spinner>}

@@ -27,7 +27,8 @@ import {
 } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import Conversation from "./conversation";
-function AIManager({ reference, setReference, selectedText, setSelectedText }) {
+import { v4 as uuidv4 } from 'uuid';
+function AIManager({ reference, setReference, selectedText, setSelectedText, chatReference, setChatReference }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedReferenceFileName, setSelectedReferenceFileName] =
     useState(null);
@@ -42,6 +43,8 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
   const [writeShorter, setWriteShorter] = useState(false);
   const [refineSentence, setRefineSentence] = useState(false);
   const [selectedQuestionSeq, setSelectedQuestionSeq] = useState(null);
+  
+  const [currentChatId, setCurrentChatId] = useState(null);
 
   useEffect(() => {
     const chatContainer = document.querySelector(".chat-container");
@@ -50,7 +53,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
     }
   }, [chatList, answerList]);
 
-  console.log("reference:", reference);
+  // console.log("reference:", reference);
 
   useEffect(() => {
     if (selectedText.includes("이사회의 역할 및 책임")) {
@@ -62,7 +65,14 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
     }
   }, [selectedText]);
 
-  console.log("selectedQuestionSeq:", selectedQuestionSeq);
+  useEffect(() => {
+    if (currentChatId) {
+      const currentChat = chatList.find(chat => chat.chatId === currentChatId);
+      if (currentChat && currentChat.context) {
+        setChatReference(currentChat.context);
+      }
+    }
+  }, [currentChatId, chatList]);
 
   return (
     <div className="grid grid-rows-12 w-full h-[calc(100vh-11rem)]">
@@ -124,6 +134,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
                         role: "user",
                         message:
                           "기후 관련 이사회의 책임범위를 보다 구체적으로 작성해줘",
+                        chatId: uuidv4()
                       },
                     ])
                   }
@@ -141,6 +152,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
                         role: "user",
                         message:
                           "경영진이 기후 리스크 평가를 어떻게 하고 있는지 내용을 추가해줘",
+                        chatId: uuidv4()
                       },
                     ])
                   }
@@ -155,6 +167,8 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
               chatList={chatList}
               answerList={answerList}
               isLoading={isLoading}
+              currentChatId={currentChatId}
+              setCurrentChatId={setCurrentChatId}
             />
           )}
         </div>
@@ -173,9 +187,8 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
             }
           >
             <div className="max-h-[30vh] overflow-y-auto">
-              {reference
-                .filter((item) => item.questionSeq === selectedQuestionSeq)
-                .map((item, index) => (
+              {chatReference.length > 0 ? (
+                chatReference.map((item, index) => (
                   <div key={index} className="flex flex-col space-y-2 p-2">
                     <Button
                       variant="bordered"
@@ -191,7 +204,28 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
                       페이지: {item.pageName}
                     </Button>
                   </div>
-                ))}
+                ))
+              ) : (
+                reference
+                  .filter((item) => item.questionSeq === selectedQuestionSeq)
+                  .map((item, index) => (
+                    <div key={index} className="flex flex-col space-y-2 p-2">
+                      <Button
+                        variant="bordered"
+                        size="sm"
+                        onPress={() => {
+                          setSelectedReferenceFileName(item.fileName);
+                          setSelectedReferencePageName(item.pageName);
+                          setSelectedReferenceContext(item.context);
+                          onOpen();
+                        }}
+                      >
+                        번호: {item.referenceIdx} / 파일명: {item.fileName} /
+                        페이지: {item.pageName}
+                      </Button>
+                    </div>
+                  ))
+              )}
             </div>
           </AccordionItem>
         </Accordion>
@@ -212,6 +246,10 @@ function AIManager({ reference, setReference, selectedText, setSelectedText }) {
           setWriteLonger={setWriteLonger}
           setWriteShorter={setWriteShorter}
           setRefineSentence={setRefineSentence}
+          chatReference={chatReference}
+          setChatReference={setChatReference}
+          currentChatId={currentChatId}
+          setCurrentChatId={setCurrentChatId}
         />
       </div>
 

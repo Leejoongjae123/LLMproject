@@ -4,10 +4,10 @@ import React from "react";
 import {Button, Tooltip} from "@nextui-org/react";
 import {Icon} from "@iconify/react";
 import {cn} from "@nextui-org/react";
-
+import { v4 as uuidv4 } from 'uuid';
 import PromptInput from "./prompt-input";
 
-export default function TextInputs({chatList, setChatList, answerList, setAnswerList, isLoading, setIsLoading, reference, setReference, selectedText, setSelectedText, writeLonger, setWriteLonger, writeShorter, setWriteShorter, refineSentence, setRefineSentence}) {
+export default function TextInputs({chatList, setChatList, answerList, setAnswerList, isLoading, setIsLoading, reference, setReference, selectedText, setSelectedText, writeLonger, setWriteLonger, writeShorter, setWriteShorter, refineSentence, setRefineSentence, chatReference, setChatReference, currentChatId, setCurrentChatId}) {
   const [isRegenerating, setIsRegenerating] = React.useState(false);
   const [prompt, setPrompt] = React.useState("");
 
@@ -25,7 +25,8 @@ export default function TextInputs({chatList, setChatList, answerList, setAnswer
     
     setChatList([...chatList, {
       role: 'user',
-      message: prompt
+      message: prompt,
+      chatId: uuidv4()
     }]);
     setPrompt("");
   };
@@ -48,6 +49,10 @@ export default function TextInputs({chatList, setChatList, answerList, setAnswer
           setWriteLonger={setWriteLonger}
           setWriteShorter={setWriteShorter}
           setRefineSentence={setRefineSentence}
+          chatReference={chatReference}
+          setChatReference={setChatReference}
+          currentChatId={currentChatId}
+          setCurrentChatId={setCurrentChatId}
           classNames={{
             inputWrapper: "!bg-transparent shadow-none",
             innerWrapper: "relative",

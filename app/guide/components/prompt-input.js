@@ -18,6 +18,7 @@ import { useSearchParams } from "next/navigation";
 import { Chip } from "@nextui-org/react";
 import { Suspense } from "react";
 import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
 
 const PromptInputContent = React.forwardRef(
   ({ classNames = {}, ...props }, ref) => {
@@ -29,6 +30,7 @@ const PromptInputContent = React.forwardRef(
 
     const [isReady, setIsReady] = useState(false);
     const [selectedBuckets, setSelectedBuckets] = useState([]);
+    
 
     useEffect(() => {
 
@@ -39,7 +41,9 @@ const PromptInputContent = React.forwardRef(
               {
                 role: 'user',
                 message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 조금 더 길게 작성해줘.',
-                category:'더 길게 쓰기'
+                category:'더 길게 쓰기',
+                chatId: uuidv4()
+
               }
             ]);
           } else if (props.writeShorter) {
@@ -49,7 +53,9 @@ const PromptInputContent = React.forwardRef(
               {
                 role: 'user',
                 message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 더 짧게 작성해줘.',
-                category:'더 짧게 쓰기'
+                category:'더 짧게 쓰기',
+                chatId: uuidv4()
+                
               }
             ]);
           } else if (props.refineSentence) {
@@ -59,7 +65,8 @@ const PromptInputContent = React.forwardRef(
               {
                 role: 'user',
                 message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 paraphrase 해줘',
-                category:"문장 다듬기"
+                category:"문장 다듬기",
+                chatId: uuidv4()
               }
             ]);
           }
@@ -121,23 +128,25 @@ const PromptInputContent = React.forwardRef(
           );
 
           const answer = response.data.data.chat.answer;
-
-          props.setChatList([
-            ...chatList,
-            {
-              role: "assistant",
-              message: answer.replace(/#/g, ''),
-            },
-          ]);
-
           const references = response.data.data.contexts
-            .map(({ fileName, pageName, context,referenceIdx }) => ({
+            .map(({ fileName, pageName, context, referenceIdx }) => ({
               fileName,
               pageName,
               context,
               referenceIdx,
             }));
-          props.setReference(references);
+
+          props.setChatList([
+            ...chatList,
+            {
+              role: "assistant",
+              message: answer,
+              chatId: uuidv4(),
+              context: references
+            },
+          ]);
+
+          props.setChatReference(references);
 
           props.setIsLoading(false);
         } catch (error) {
@@ -170,7 +179,9 @@ const PromptInputContent = React.forwardRef(
       return null;
     }
 
-    console.log("selectedText:", props.selectedText)
+    
+
+    // console.log("selectedText:", props.selectedText)
 
     return (
       <>

@@ -72,7 +72,7 @@ function Page() {
   const [analysis, setAnalysis] = useState([]);
   const [currentText, setCurrentText] = useState([]);
   const requestMadeRef = useRef(false);
-
+  const [chatReference, setChatReference] = useState([]);
   useEffect(() => {
     if (answer.length > 2) {
       setCurrentText(answer);
@@ -178,7 +178,7 @@ function Page() {
       if (!input && (!answer || answer.length === 0)) {
         console.log("No input or answer available");
         return;
-        
+
       }
 
       // 안전하게 문자열 생성
@@ -302,9 +302,9 @@ function Page() {
     }
   }, [selectedLanguage, selectedItem]);
 
-  console.log('selectedItem:',selectedItem)
-  console.log("sampleText:",sampleText)
-  console.log("category:",category)
+  // console.log('selectedItem:',selectedItem)
+  // console.log("sampleText:",sampleText)
+  // console.log("category:",category)
   useEffect(() => {
     
     const selectedSample = sampleText.find(
@@ -434,6 +434,8 @@ function Page() {
               answer={answer}
               currentText={currentText}
               setCurrentText={setCurrentText}
+              chatReference={chatReference}
+              setChatReference={setChatReference}
             ></TipTap>
           </div>
         </Panel>
@@ -469,6 +471,8 @@ function Page() {
                       setReference={setReference}
                       selectedText={selectedText}
                       setSelectedText={setSelectedText}
+                      chatReference={chatReference}
+                      setChatReference={setChatReference}
                     ></AIManager>
                   </Tab>
                   <Tab className="w-full h-full" key="AI 진단" title="AI 진단">

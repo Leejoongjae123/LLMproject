@@ -180,8 +180,7 @@ const CustomEditor = ({
   currentText,
   setCurrentText,
   answer,
-  chatReference,
-  setChatReference
+
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [inputContents, setInputContents] = useState("");
@@ -196,7 +195,6 @@ const CustomEditor = ({
     "Category 4 Upstream 운송&유통",
     "Category 5 사업장 발생 폐기물",
   ]);
-  // console.log('selectedText:',selectedText)
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -227,7 +225,6 @@ const CustomEditor = ({
     onBlur: () => setIsFocused(false),
   });
 
-  
   const handleCategoryChange = () => {
     setCategory("");
     const categories = {
@@ -536,7 +533,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "���목" }],
+                      content: [{ type: "text", text: "항목" }],
                     },
                   ],
                 },
@@ -931,17 +928,6 @@ const CustomEditor = ({
       };
     }
   }, [editor]);
-  
-  // Add state to track previous selectedText
-  const [prevSelectedText, setPrevSelectedText] = useState("");
-
-  // Update useEffect to check for changes
-  useEffect(() => {
-    if (selectedText !== prevSelectedText) {
-      setChatReference([]);
-      setPrevSelectedText(selectedText);
-    }
-  }, [selectedText]);
   
 
 
