@@ -178,6 +178,7 @@ function Page() {
       if (!input && (!answer || answer.length === 0)) {
         console.log("No input or answer available");
         return;
+        
       }
 
       // 안전하게 문자열 생성
