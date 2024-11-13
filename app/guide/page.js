@@ -52,7 +52,7 @@ import {
 } from "@nextui-org/react";
 import Lottie from "lottie-react";
 import animationData from "@/public/lottie/ai.json";
-
+import ConfettiEffect from "./components/ConfettiEffect";
 function Page() {
   const [selected, setSelected] = useState("AI 매니저");
   const [content, setContent] = useState({ guide: "", sample: "" });
@@ -308,6 +308,7 @@ function Page() {
 
   return (
     <div className="w-full h-full grid grid-cols-6 gap-4">
+      {!isLoading && <ConfettiEffect />}
       <div className="col-span-1 border-r px-5">
         <ScrollShadow className="-mr-6 h-full max-h-full pr-6 ">
           <Listbox aria-label="Recent chats" variant="flat">
@@ -340,7 +341,7 @@ function Page() {
                     selectedItem === "weather" && "font-bold"
                   )}
                 >
-                  기후 관련 위험 및 기회에 관한 관리 감독 기구
+                  기후 관련 위험 및 기회에 관한 이사회 차원의 감독
                 </p>
               </ListboxItem>
               <ListboxItem
@@ -355,7 +356,7 @@ function Page() {
                     selectedItem === "manager" && "font-bold"
                   )}
                 >
-                  경영진의 역할 및 감독 방법
+                  기후 관련 위험 및 기회에 관한 경영진의 역할
                 </p>
               </ListboxItem>
 
@@ -720,7 +721,7 @@ function Page() {
               <ModalHeader className="flex flex-col gap-1"></ModalHeader>
               <ModalBody>
                 <h1 className="text-2xl font-semibold text-center mb-4">
-                  AI 기업 보고서
+                  IFRS S2 보고서
                 </h1>
                 {isLoading ? (
                   <div className="flex justify-center items-center w-full h-full">
@@ -740,7 +741,7 @@ function Page() {
                       : "opacity-100 scale-110 text-primary text-2xl"
                   )}
                 >
-                  {isLoading ? "생성중..." : "완료"}
+                  {isLoading ? "생성중..." : "AI 초안 생성 완료 🎉"}
                 </p>
               </ModalBody>
               <ModalFooter>

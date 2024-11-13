@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full`}
       >
         <NextUIProvider>
-          <SideBar children={children} header={"AI 기업 보고서"}/>
+          <SideBar children={children} header={"IFRS S2 보고서"}/>
           
         </NextUIProvider>
       </body>

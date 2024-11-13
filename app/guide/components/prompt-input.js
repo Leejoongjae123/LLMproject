@@ -38,7 +38,8 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 조금 더 길게 작성해줘.'
+                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 조금 더 길게 작성해줘.',
+                category:'더 길게 쓰기'
               }
             ]);
           } else if (props.writeShorter) {
@@ -47,7 +48,8 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 더 짧게 작성해줘.'
+                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 더 짧게 작성해줘.',
+                category:'더 짧게 쓰기'
               }
             ]);
           } else if (props.refineSentence) {
@@ -56,7 +58,8 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 paraphrase 해줘'
+                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 paraphrase 해줘',
+                category:"문장 다듬기"
               }
             ]);
           }
@@ -103,7 +106,7 @@ const PromptInputContent = React.forwardRef(
           const response = await axios.post(
             process.env.NEXT_PUBLIC_SCIONIC_BASE_URL + "/api/v2/answer",
             {
-              question: props.selectedText + "의 내용에 대하여" + lastMessage.message,
+              question: props.selectedText + " 의 내용에 대하여" + lastMessage.message,
               bucketIds: selectedBuckets,
             },
             {

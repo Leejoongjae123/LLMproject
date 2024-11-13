@@ -46,13 +46,14 @@ function page() {
       </div>
       <div className="w-full h-full flex justify-center items-center">
         <div className="w-full h-1/2 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-5">
-          {featuresCategories.map((category) => (
+          {featuresCategories.map((category,index) => (
             <FeatureCard
               key={category.key}
               descriptions={category.descriptions}
               icon={category.icon}
               title={category.title}
               tooltipContent={category.tooltipContent}
+              index={index}
             />
           ))}
         </div>

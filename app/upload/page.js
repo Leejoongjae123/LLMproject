@@ -496,8 +496,8 @@ export default function BucketFileManager() {
                         : "text-red-500"
                     }`}
                   >
-                    {file.status}
-                  </TableCell>
+                    {file.status === "completed" ? "AI 학습 완료" : "AI 학습 중"}
+                    </TableCell>
                   <TableCell className="text-center">
                     <Button
                       variant="light"
