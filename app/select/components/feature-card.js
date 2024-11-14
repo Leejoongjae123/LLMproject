@@ -7,7 +7,10 @@ import { Tooltip, Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 const FeatureCard = React.forwardRef(
-  ({ title, descriptions = [], icon, tooltipContent, index, ...props }, ref) => {
+  (
+    { title,subtitle, descriptions = [], icon, tooltipContent, cardNo, ...props },
+    ref
+  ) => {
     const isNonInteractiveTitle = ["CSRD", "SEC", "GRI"].includes(title);
     const router = useRouter();
 
@@ -40,28 +43,31 @@ const FeatureCard = React.forwardRef(
               </Tooltip>
             )}
           </div>
+          <p className="text-sm text-gray-400">{subtitle}</p>
+          <hr className="w-full border-gray-300" />
         </CardHeader>
 
         <CardBody className="w-full h-full flex flex-col gap-2 justify-center items-center">
-          {/* <div className="flex justify-center items-center h-2/3 relative">
-            <Image 
-              src={`/logo/${title.toLowerCase()}.png`} 
-              alt={`${title} logo`} 
-              fill
-              className="object-contain"
-
-            />
-          </div> */}
-
           {descriptions.map((description, index) => (
             <div
               key={index}
-              className={`flex flex-col w-full h-full justify-center items-center rounded-medium px-3 py-2 ${
+              className={`w-full h-full flex flex-col justify-evenly items-center gap-y-5${
                 isNonInteractiveTitle
                   ? "text-gray-500"
                   : "text-content3-foreground"
               }`}
             >
+              <div className="flex justify-center h-1/3 items-center relative w-full">
+                <Image
+                  src={`/logo/${title.toLowerCase()}.png`}
+                  alt={`${title} logo`}
+                  fill
+                  className={`object-contain ${
+                    cardNo === 1 ? 'py-8' : 
+                    cardNo === 2 ? 'py-4' : 'py-0'
+                  }`}
+                />
+              </div>
               <Button
                 color={["ISSB", "KSSB"].includes(title) ? "primary" : "default"}
                 radius="full"

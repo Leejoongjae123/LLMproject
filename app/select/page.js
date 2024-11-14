@@ -8,6 +8,7 @@ function page() {
     {
       key: "ISSB",
       title: "ISSB",
+      subtitle:"International Sustainability Standard Board",
       descriptions: ["BETA"],
       tooltipContent:
         "글로벌 기준서인 ISSB 보고서는 지속가능성 관련 재무정보 공시에 대한 일반요구사항(S1) 및 기후 관련 공시(S2) 등을 다루는 보고서",
@@ -15,6 +16,7 @@ function page() {
     {
       key: "KSSB",
       title: "KSSB",
+      subtitle:"Korea Sustainability Standards Board",
       descriptions: ["BETA"],
       tooltipContent:
         "한국의 지속가능성 공시 기준서인 KSSB 보고서는 일반사항(제1호), 기후 관련 공시사항(제2호)과 추가공시(제101호) 등을 다루는 보고서",
@@ -22,18 +24,21 @@ function page() {
     {
       key: "CSRD",
       title: "CSRD",
+      subtitle:"Corporate Sustainability Reporting Directive",
       descriptions: ["개발중"],
       tooltipContent: "",
     },
     {
       key: "SEC",
       title: "SEC",
+      subtitle:"International Sustainability Standard Board",
       descriptions: ["개발중"],
       tooltipContent: "",
     },
     {
       key: "GRI",
       title: "GRI",
+      subtitle:"Global Reporting Initiative",
       descriptions: ["개발중"],
       tooltipContent: "",
     },
@@ -46,14 +51,15 @@ function page() {
       </div>
       <div className="w-full h-full flex justify-center items-center">
         <div className="w-full h-1/2 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-5">
-          {featuresCategories.map((category,index) => (
+          {featuresCategories.map((category,cardNo) => (
             <FeatureCard
               key={category.key}
               descriptions={category.descriptions}
               icon={category.icon}
               title={category.title}
+              subtitle={category.subtitle}
               tooltipContent={category.tooltipContent}
-              index={index}
+              cardNo={cardNo}
             />
           ))}
         </div>

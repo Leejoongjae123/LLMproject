@@ -53,6 +53,7 @@ import {
 import Lottie from "lottie-react";
 import animationData from "@/public/lottie/ai.json";
 import ConfettiEffect from "./components/ConfettiEffect";
+import Image from "next/image";
 function Page() {
   const [selected, setSelected] = useState("AI 매니저");
   const [content, setContent] = useState({ guide: "", sample: "" });
@@ -750,12 +751,13 @@ function Page() {
                 </h1>
                 {isLoading ? (
                   <div className="flex justify-center items-center w-full h-full">
-                    <Lottie
+                    {/* <Lottie
                       animationData={animationData}
                       loop={true} // 반복 여부 설정
                       autoplay={true} // 자동 재생 설정
                       style={{ width: 200, height: 200 }} // 스타일 조정
-                    />
+                    /> */}
+                    <Image src="/lottie/loading.gif" alt="loading" width={300} height={300}></Image>
                   </div>
                 ) : null}
                 <p
