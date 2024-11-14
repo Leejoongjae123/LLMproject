@@ -15,7 +15,7 @@ export default function Component({ chatList, isLoading, currentChatId, setCurre
           avatar={
             role === "assistant"
               ? "https://wjnyranqqnagprhqmoer.supabase.co/storage/v1/object/public/images/edk.png"
-              : "/profile/me.png"
+              : "/profile/profile.jpeg"
           }
           currentAttempt={index === 1 ? 2 : 1}
           message={category?category : message}

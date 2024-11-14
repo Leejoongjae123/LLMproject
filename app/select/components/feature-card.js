@@ -42,8 +42,8 @@ const FeatureCard = React.forwardRef(
           </div>
         </CardHeader>
 
-        <CardBody className="w-full h-1/2 flex flex-col gap-2">
-          <div className="flex justify-center items-center h-2/3 relative">
+        <CardBody className="w-full h-full flex flex-col gap-2 justify-center items-center">
+          {/* <div className="flex justify-center items-center h-2/3 relative">
             <Image 
               src={`/logo/${title.toLowerCase()}.png`} 
               alt={`${title} logo`} 
@@ -51,12 +51,12 @@ const FeatureCard = React.forwardRef(
               className="object-contain"
 
             />
-          </div>
+          </div> */}
 
           {descriptions.map((description, index) => (
             <div
               key={index}
-              className={`flex flex-col justify-center items-center rounded-medium px-3 py-2 ${
+              className={`flex flex-col w-full h-full justify-center items-center rounded-medium px-3 py-2 ${
                 isNonInteractiveTitle
                   ? "text-gray-500"
                   : "text-content3-foreground"

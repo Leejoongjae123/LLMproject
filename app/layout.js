@@ -3,6 +3,7 @@ import "./globals.css";
 // 1. import `NextUIProvider` component
 import { NextUIProvider } from "@nextui-org/react";
 import SideBar from "./components/SideBar";
+import DynamicHeader from './components/DynamicHeader';
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -19,6 +20,8 @@ export const metadata = {
   description: "ESG 목표를 확인해보세요",
 };
 
+
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -26,7 +29,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full`}
       >
         <NextUIProvider>
-          <SideBar children={children} header={"IFRS S2 보고서"}/>
+          <SideBar children={children} header={<DynamicHeader/>}/>
           
         </NextUIProvider>
       </body>

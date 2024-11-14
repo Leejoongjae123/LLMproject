@@ -329,7 +329,7 @@ function Page() {
 
   return (
     <div className="w-full h-full grid grid-cols-6 gap-4">
-      {!isLoading && <ConfettiEffect />}
+      {/* {!isLoading && <ConfettiEffect />} */}
       <div className="col-span-1 border-r px-5">
         <ScrollShadow className="-mr-6 h-full max-h-full pr-6 ">
           <Listbox aria-label="Recent chats" variant="flat">
