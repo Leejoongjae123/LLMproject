@@ -4,6 +4,7 @@ import React from "react";
 import {Avatar, Badge, Button, Link, Tooltip} from "@nextui-org/react";
 import {useClipboard} from "@nextui-org/use-clipboard";
 import {Icon} from "@iconify/react";
+import Image from "next/image";
 import {cn} from "@nextui-org/react";
 
 const MessageCard = React.forwardRef(
@@ -119,7 +120,7 @@ const MessageCard = React.forwardRef(
                   {copied ? (
                     <Icon className="text-lg text-default-600" icon="gravity-ui:check" />
                   ) : (
-                    <Icon className="text-lg text-default-600" icon="gravity-ui:copy" />
+                    <Image src="/function/icon_1.png" alt="copy" width={16} height={16} />
                   )}
                 </Button>
                 {/* <Button

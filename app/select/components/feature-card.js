@@ -59,7 +59,7 @@ const FeatureCard = React.forwardRef(
             >
               <div className="flex justify-center h-1/3 items-center relative w-full">
                 <Image
-                  src={`/logo/${title.toLowerCase()}.png`}
+                  src={`/logo2/${title.toLowerCase()}.png`}
                   alt={`${title} logo`}
                   fill
                   className={`object-contain ${

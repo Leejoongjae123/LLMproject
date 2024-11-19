@@ -23,17 +23,22 @@ import {
   ModalFooter,
   Checkbox,
   CheckboxGroup,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { FaChevronRight } from "react-icons/fa";
 import Link from "next/link";
-import { usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 import axios from "axios";
 import { AcmeIcon } from "./acme";
 import SidebarDrawer from "./sidebar-drawer";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { animals } from "./animals";
+import { useLanguageStore } from '@/app/components/languageStore';
+
 function AvatarDropdownIcon(props) {
   return (
     <svg
@@ -170,8 +175,8 @@ export default function Component({
   const [buckets, setBuckets] = useState([]);
   const [selectedBucket, setSelectedBucket] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { language, setLanguage } = useLanguageStore();
   const supabase = createClient();
-  
   const fetchBuckets = async () => {
     const ENDPOINT = `/api/v2/buckets`;
     const FULL_URL = baseUrl + ENDPOINT;
@@ -199,16 +204,16 @@ export default function Component({
   };
   const fetchBucketsFromSupabase = async () => {
     const { data: existingBucket, error: fetchError } = await supabase
-      .from('buckets')
-      .select('*')
-      .eq('agentId', agentId);
+      .from("buckets")
+      .select("*")
+      .eq("agentId", agentId);
 
     if (existingBucket) {
       const processedBuckets = existingBucket
-        .filter(bucket => bucket.documents && bucket.documents.length > 0)
-        .map(bucket => ({
+        .filter((bucket) => bucket.documents && bucket.documents.length > 0)
+        .map((bucket) => ({
           bucketId: bucket.bucketId,
-          documentName: bucket.documents[0].documentName || '제목 없음'
+          documentName: bucket.documents[0].documentName || "제목 없음",
         }));
       setBuckets(processedBuckets);
     } else if (fetchError) {
@@ -223,21 +228,32 @@ export default function Component({
 
   const handleCheckboxChange = (values) => {
     const selectedBuckets = buckets
-      .filter(bucket => values.includes(bucket.bucketId))
-      .map(bucket => ({
+      .filter((bucket) => values.includes(bucket.bucketId))
+      .map((bucket) => ({
         bucketId: bucket.bucketId,
-        documentName: bucket.documentName
+        documentName: bucket.documentName,
       }));
     setSelectedBucket(selectedBuckets);
   };
 
   const content = (
     <div className="relative flex h-full w-40 flex-1 flex-col p-6 bg-[#444444]">
+
       <div className="flex items-center gap-2 px-2 my-5">
         <span className="text-white text-4xl font-bold uppercase leading-6 text-foreground">
           <Link href="/select">EDK</Link>
         </span>
       </div>
+
+      <Select
+        defaultSelectedKeys={["korean"]}
+        className="max-w-xs"
+        onChange={(e) => setLanguage(e.target.value)}
+      >
+        {animals.map((animal) => (
+          <SelectItem key={animal.key}>{animal.label}</SelectItem>
+        ))}
+      </Select>
 
       <Spacer y={8} />
 
@@ -329,12 +345,18 @@ export default function Component({
                 </CheckboxGroup>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onPress={() => {
-                  onClose();
-                  if (selectedBucket.length > 0) {
-                    router.push("/guide?bucketId=" + selectedBucket.map(b => b.bucketId).join('&'));
-                  }
-                }}>
+                <Button
+                  color="primary"
+                  onPress={() => {
+                    onClose();
+                    if (selectedBucket.length > 0) {
+                      router.push(
+                        "/guide?bucketId=" +
+                          selectedBucket.map((b) => b.bucketId).join("&")
+                      );
+                    }
+                  }}
+                >
                   AI 초안 생성
                 </Button>
               </ModalFooter>
@@ -396,12 +418,12 @@ export default function Component({
               className="w-[10vw] h-10 font-bold text-lg bg-[#f25b2b] text-white"
               color="primary"
               onPress={() => {
-                if (pathname === '/upload') {
+                if (pathname === "/upload") {
                   handleAIReport();
-                } else if (pathname === '/category') {
-                  router.push('/upload');
+                } else if (pathname === "/category") {
+                  router.push("/upload");
                 } else {
-                  router.push('/upload');
+                  router.push("/upload");
                 }
               }}
             >

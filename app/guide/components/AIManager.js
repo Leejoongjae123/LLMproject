@@ -28,6 +28,7 @@ import {
 import { useState, useEffect } from "react";
 import Conversation from "./conversation";
 import { v4 as uuidv4 } from 'uuid';
+import Image from "next/image";
 function AIManager({ reference, setReference, selectedText, setSelectedText, chatReference, setChatReference }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedReferenceFileName, setSelectedReferenceFileName] =
@@ -90,7 +91,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
         <div className="flex flex-row gap-x-5 w-full justify-between py-2">
           <Button
             variant="bordered"
-            startContent={<AiOutlineExpandAlt className="text-lg font-bold" />}
+            startContent={<Image src="/function/icon_3.png" alt="copy" width={20} height={20} />}
             className=""
             onPress={() => setWriteLonger((prev) => !prev)}
           >
@@ -98,7 +99,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
           </Button>
           <Button
             variant="bordered"
-            startContent={<AiOutlineShrink className="text-lg font-bold" />}
+            startContent={<Image src="/function/icon_2.png" alt="copy" width={20} height={20} />}
             className=""
             onPress={() => setWriteShorter((prev) => !prev)}
           >
@@ -106,7 +107,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
           </Button>
           <Button
             variant="bordered"
-            startContent={<MdOutlineEdit className="text-lg font-bold" />}
+            startContent={<Image src="/function/icon_4.png" alt="copy" width={20} height={20} />}
             className=""
             onPress={() => setRefineSentence((prev) => !prev)}
           >
@@ -119,9 +120,9 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
           {chatList.length === 0 && (
             <>
               <div className="w-full border border-gray-100 p-2 rounded-lg flex flex-row gap-x-2">
-                <FaWandMagicSparkles className="text-lg font-bold" />
+                
                 <p className="text-start text-sm">
-                  혹은 AI 매니저에게 요청을 직접 입력하실 수도 있어요
+                  AI 매니저에게 요청을 직접 입력하실 수도 있어요
                 </p>
               </div>
               <div className="w-full p-1 ">

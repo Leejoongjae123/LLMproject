@@ -92,7 +92,11 @@ function Page() {
     try {
       setIsLoading(true);
       const ENDPOINT = "/api/v2/answer";
-      const questions = [question.question1, question.question2,question.question3];
+      const questions = [
+        question.question1,
+        question.question2,
+        question.question3,
+      ];
 
       if (
         !process.env.NEXT_PUBLIC_SCIONIC_BASE_URL ||
@@ -133,7 +137,7 @@ function Page() {
       const responses = await Promise.all(promises);
 
       const answers = responses.map(({ response, questionSeq }) => ({
-        answer: response.data.data.chat.answer.replace(/#/g, ''),
+        answer: response.data.data.chat.answer.replace(/#/g, ""),
         questionSeq,
       }));
 
@@ -179,7 +183,6 @@ function Page() {
       if (!input && (!answer || answer.length === 0)) {
         console.log("No input or answer available");
         return;
-
       }
 
       // 안전하게 문자열 생성
@@ -193,7 +196,7 @@ function Page() {
         `Here is the content generated for the "(3) 경영진의 역할 및 감독 프로세스" Part.${
           (input && input[2]) || (answer && answer[2].answer) || ""
         }Evaluate the above content using the given QA Evaluation Criteria and ONLY the "(3) 경영진의 역할 및 감독 프로세스" Part.
-        `
+        `,
       ];
 
       console.log("questions:", questions);
@@ -265,7 +268,7 @@ function Page() {
     () => Array.from(selectedKeys).join(", "),
     [selectedKeys]
   );
-  
+
   const handleContentChange = () => {
     const selectedData = dummyData.find((item) => item.label === category);
     if (selectedData) {
@@ -307,7 +310,6 @@ function Page() {
   // console.log("sampleText:",sampleText)
   // console.log("category:",category)
   useEffect(() => {
-    
     const selectedSample = sampleText.find(
       (item) =>
         item.title === selectedItem &&
@@ -320,7 +322,6 @@ function Page() {
       setSampleContents(null);
     }
   }, [selectedItem, selectedKeys, category]);
-
 
   useEffect(() => {
     return () => {
@@ -528,7 +529,12 @@ function Page() {
                           </h1>
                           <br />
                           <p className={`guide_base_kr`}>
-                          <div dangerouslySetInnerHTML={{ __html: guideContents?.base }} />                          </p>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: guideContents?.base,
+                              }}
+                            />{" "}
+                          </p>
                           <br />
                           <p
                             className={`guide_ga_kr ${
@@ -591,8 +597,12 @@ function Page() {
                                 setSampleStep(1); // Reset sample step to 1 for any selection
                               }}
                             >
-                              <ListboxItem key="edkkor">EDK샘플(KOR)</ListboxItem>
-                              <ListboxItem key="edkeng">EDK샘플(ENG)</ListboxItem>
+                              <ListboxItem key="edkkor">
+                                EDK샘플(KOR)
+                              </ListboxItem>
+                              <ListboxItem key="edkeng">
+                                EDK샘플(ENG)
+                              </ListboxItem>
                               <ListboxItem key="domestic">
                                 국내 기업 샘플
                               </ListboxItem>
@@ -757,7 +767,12 @@ function Page() {
                       autoplay={true} // 자동 재생 설정
                       style={{ width: 200, height: 200 }} // 스타일 조정
                     /> */}
-                    <Image src="/lottie/loading.gif" alt="loading" width={300} height={300}></Image>
+                    <Image
+                      src="/lottie/loading.gif"
+                      alt="loading"
+                      width={300}
+                      height={300}
+                    ></Image>
                   </div>
                 ) : null}
                 <p
@@ -768,22 +783,24 @@ function Page() {
                       : "opacity-100 scale-110 text-primary text-2xl"
                   )}
                 >
-                  {isLoading ? "생성중..." : "AI 초안 생성 완료 🎉"}
+                  {isLoading ? null : "AI 초안 생성 완료"}
                 </p>
               </ModalBody>
-              <ModalFooter>
-                <Button
-                  variant="bordered"
-                  color="primary"
-                  onPress={() => {
-                    window.location.reload();
-                  }}
-                >
-                  재시도
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  확인
-                </Button>
+              <ModalFooter className="mb-5">
+                <div className="flex justify-center items-center gap-2 w-full">
+                  <Button
+                    variant="bordered"
+                    color="primary"
+                    onPress={() => {
+                      window.location.reload();
+                    }}
+                  >
+                    재시도
+                  </Button>
+                  <Button color="primary" onPress={onClose}>
+                    확인
+                  </Button>
+                </div>
               </ModalFooter>
             </>
           )}

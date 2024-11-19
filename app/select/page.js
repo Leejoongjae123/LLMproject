@@ -31,7 +31,7 @@ function page() {
     {
       key: "SEC",
       title: "SEC",
-      subtitle:"International Sustainability Standard Board",
+      subtitle:"Securities and Exchange Commission",
       descriptions: ["개발중"],
       tooltipContent: "",
     },
