@@ -95,7 +95,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
             className=""
             onPress={() => setWriteLonger((prev) => !prev)}
           >
-            더 길게 쓰기
+            자세히 쓰기
           </Button>
           <Button
             variant="bordered"
@@ -103,7 +103,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
             className=""
             onPress={() => setWriteShorter((prev) => !prev)}
           >
-            더 짧게 쓰기
+            간결하게 쓰기
           </Button>
           <Button
             variant="bordered"
@@ -111,7 +111,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
             className=""
             onPress={() => setRefineSentence((prev) => !prev)}
           >
-            문장 다듬기
+            윤문하기(paraphrase)
           </Button>
         </div>
       </div>

@@ -69,17 +69,20 @@ export default function Component() {
     item.toLowerCase().includes(searchTerm1.toLowerCase())
   );
 
-  const filteredTier2List = tiers[1].features?.[selectedTier1]?.filter((item) =>
-    item.toLowerCase().includes(searchTerm2.toLowerCase())
-  ) || [];
+  const filteredTier2List =
+    tiers[1].features?.[selectedTier1]?.filter((item) =>
+      item.toLowerCase().includes(searchTerm2.toLowerCase())
+    ) || [];
 
-  const filteredTier3List = tiers[2].features?.[selectedTier2]?.filter((item) =>
-    item.toLowerCase().includes(searchTerm3.toLowerCase())
-  ) || [];
+  const filteredTier3List =
+    tiers[2].features?.[selectedTier2]?.filter((item) =>
+      item.toLowerCase().includes(searchTerm3.toLowerCase())
+    ) || [];
 
-  const filteredTier4List = tiers[3].features?.[selectedTier3]?.filter((item) =>
-    item.toLowerCase().includes(searchTerm4.toLowerCase())
-  ) || [];
+  const filteredTier4List =
+    tiers[3].features?.[selectedTier3]?.filter((item) =>
+      item.toLowerCase().includes(searchTerm4.toLowerCase())
+    ) || [];
 
   console.log("searchTerm2:", searchTerm2);
 
@@ -142,10 +145,16 @@ export default function Component() {
                 </ListboxItem>
                 {filteredTier1List.map((feature, index) => (
                   <ListboxItem
-                    startContent={<FaCheckCircle className="text-gray-700" />}
+                    startContent={
+                      index === 0 ? (
+                        <FaCircle className="text-gray-700" />
+                      ) : (
+                        <FaCheckCircle className="text-gray-700" />
+                      )
+                    }
                     key={feature}
                     className="group"
-                    isDisabled={index===0}
+                    isDisabled={index === 0}
                     endContent={
                       <div className="flex gap-2">
                         <FaRegEdit className="text-red-500 hidden group-hover:block transition-opacity duration-1000 opacity-0 group-hover:opacity-100" />

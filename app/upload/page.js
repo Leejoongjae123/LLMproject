@@ -73,7 +73,8 @@ export default function BucketFileManager() {
     
     업로드된 데이터를 바탕으로 문장이 생성되며, 좋은 답변을 받기 위한 파트별 추천자료를 안내 드립니다.
     다만, 대외비 문서나 민감한 자료는 업로드를 삼가해 주세요.
-    -추천 데이타 : 사업보고서,지속가능경영보고서,기업지배구조보고서,TCFD,CDP,SASB 등
+    
+    -추천 데이터 : 사업보고서,지속가능경영보고서,기업지배구조보고서,TCFD,CDP,SASB 등
     `;
   const apiKey = process.env.NEXT_PUBLIC_SCIONIC_API_KEY;
   const baseUrl = process.env.NEXT_PUBLIC_SCIONIC_BASE_URL;
@@ -148,7 +149,7 @@ export default function BucketFileManager() {
       }
       if (file.size > maxFileSize) {
         setErrorMessage(
-          "파일 용량이 10MB가 넘습니다. 10MB 이내 파일만 업로드 가능합니다."
+          "파일 용량이 50MB가 넘습니다. 50MB 이내 파일만 업로드 가능합니다."
         );
         onOpen2();
         return;
@@ -346,7 +347,7 @@ export default function BucketFileManager() {
     <div className="flex h-[calc(100vh-6rem)] p-12">
       <Card className="w-1/4 mr-4 p-3">
         <CardHeader>
-          <h2 className="text-lg font-bold">버킷명</h2>
+          <h2 className="text-lg font-bold">폴더명</h2>
         </CardHeader>
         <CardBody className="overflow-y-auto h-[calc(100vh-12rem)]">
           {buckets.map((bucket) => (
@@ -378,7 +379,7 @@ export default function BucketFileManager() {
             className="mt-4 w-full min-h-12"
             onPress={openAddBucketModal}
           >
-            버킷 추가
+            폴더 추가
           </Button>
         </CardFooter>
       </Card>
@@ -424,8 +425,9 @@ export default function BucketFileManager() {
                   <p>
                     다만, 대외비 문서나 민감한 자료는 업로드를 삼가해 주세요.
                   </p>
-                  <p>
-                    -추천 데이타 :
+                  <br/>
+                  <p className="text-xs font-bold">
+                    - 추천 데이터 :
                     사업보고서,지속가능경영보고서,기업지배구조보고서,TCFD,CDP,SASB
                     등
                   </p>
@@ -452,14 +454,14 @@ export default function BucketFileManager() {
             <div className="flex">
               <p className="text-sm text-gray-500">
                 확장자:PDF, DOCX, XLSX, XLS, PPTX, PPT, HWP, HWPX, CSV
-                (최대10MB)
+                (최대50MB)
               </p>
               <Tooltip
                 className="z-50"
                 content={
                   <div className="px-1 py-2">
                     <p>
-                      업로드 하는 파일이 10MB를 초과할 경우 마크스폰
+                      업로드 하는 파일이 50MB를 초과할 경우 마크스폰
                       컨설턴트에게 문의 주세요
                     </p>
                   </div>
@@ -521,7 +523,7 @@ export default function BucketFileManager() {
               </ModalHeader>
               <ModalBody>
                 <Input
-                  label="버킷명"
+                  label="폴더명"
                   value={newBucketName}
                   onChange={(e) => setNewBucketName(e.target.value)} // Update state on input change
                 />

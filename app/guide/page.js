@@ -797,9 +797,11 @@ function Page() {
                   >
                     재시도
                   </Button>
-                  <Button color="primary" onPress={onClose}>
-                    확인
-                  </Button>
+                  {isLoading ? null : (
+                    <Button color="primary" onPress={onClose}>
+                      확인
+                    </Button>
+                  )}
                 </div>
               </ModalFooter>
             </>

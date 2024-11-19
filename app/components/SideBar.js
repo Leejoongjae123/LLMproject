@@ -290,6 +290,12 @@ export default function Component({
               보고서
             </ListboxItem>
             <ListboxItem
+              key="how-a-taximeter-works"
+              className="h-[44px] px-[12px] py-[10px] bg-gradient-to-r bg-gray-600 text-white font-bold rounded-lg hover:scale-105 transition-transform"
+            >
+              AI 보고서
+            </ListboxItem>
+            <ListboxItem
               key="resignation-letter"
               className="h-[44px] px-[12px] py-[10px] text-gray-400"
             >
@@ -307,12 +313,7 @@ export default function Component({
             >
               설정{" "}
             </ListboxItem>
-            <ListboxItem
-              key="how-a-taximeter-works"
-              className="h-[44px] px-[12px] py-[10px] text-gray-400"
-            >
-              AI보고서
-            </ListboxItem>
+
           </ListboxSection>
         </Listbox>
       </ScrollShadow>
