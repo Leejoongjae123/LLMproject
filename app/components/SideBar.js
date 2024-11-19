@@ -37,7 +37,8 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { animals } from "./animals";
-import { useLanguageStore } from '@/app/components/languageStore';
+import { useLanguageStore } from "@/app/components/languageStore";
+import RowSteps from "./row-steps";
 
 function AvatarDropdownIcon(props) {
   return (
@@ -238,7 +239,6 @@ export default function Component({
 
   const content = (
     <div className="relative flex h-full w-40 flex-1 flex-col p-6 bg-[#444444]">
-
       <div className="flex items-center gap-2 px-2 my-5">
         <span className="text-white text-4xl font-bold uppercase leading-6 text-foreground">
           <Link href="/select">EDK</Link>
@@ -402,8 +402,24 @@ export default function Component({
               </div>
             </div>
           )}
-
           <p className="text-2xl font-bold px-3">{header}</p>
+          <RowSteps
+            defaultStep={2}
+            steps={[
+              {
+                title: "기준 선택",
+              },
+              {
+                title: "목차 선택",
+              },
+              {
+                title: "폴더 선택",
+              },
+              {
+                title: "보고서 작성",
+              },
+            ]}
+          />
           <div className="flex gap-5">
             <Button
               radius="full"
