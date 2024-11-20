@@ -26,6 +26,8 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableCreationModal from "./TableCreationModal";
 import { useDisclosure } from "@nextui-org/react";
 import styled from "styled-components";
+import { dictionary } from "@/app/dictionary/dictionary";
+import { useLanguageStore } from "@/app/components/languageStore";
 
 // 선택 상태를 추적하는 새로운 플러그인
 const SelectionPlugin = new Plugin({
@@ -41,9 +43,15 @@ const SelectionPlugin = new Plugin({
   },
 });
 
-// CustomFocus 확장 수정
+// CustomFocus Extension 수정
 const CustomFocus = Extension.create({
   name: "customFocus",
+
+  addOptions() {
+    return {
+      language: 'korean' // 기본값 설정
+    }
+  },
 
   addProseMirrorPlugins() {
     return [
@@ -53,12 +61,12 @@ const CustomFocus = Extension.create({
           decorations: (state) => {
             const { doc, selection } = state;
             const decorations = [];
+            const language = this.options.language; // options에서 language 가져오기
 
-            // 찾고자 하는 문구들을 배열로 정의
             const targetPhrases = [
-              "이사회의 역할 및 책임",
-              "관리 감독 체계",
-              "경영진의 역할 및 감독 프로세스"
+              dictionary.guide.smallTitle1[language],
+              dictionary.guide.smallTitle2[language],
+              dictionary.guide.smallTitle3[language]
             ];
 
             doc.descendants((node, pos) => {
@@ -199,7 +207,7 @@ const CustomEditor = ({
   // console.log('selectedText:',selectedText)
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+  const { language } = useLanguageStore();
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -207,7 +215,9 @@ const CustomEditor = ({
           keepMarks: true,
         },
       }),
-      CustomFocus,
+      CustomFocus.configure({
+        language: language // language 값을 Extension에 전달
+      }),
       HardBreak.extend({
         addKeyboardShortcuts() {
           return {
@@ -262,21 +272,21 @@ const CustomEditor = ({
   useEffect(() => {
     if (selectedItem === "weather" && answer) {
       const content = `
-        <h1 style="font-weight: 700;">거버넌스</h1>
-        <h2>기후 관련 위험 및 기회에 관한 이사회 차원의 감독</h2>
-        <p><b>이사회의 역할 및 책임</b><br/>${answer[0]?.answer || ''}</p>
+        <h1 style="font-weight: 700;">${dictionary.guide.governanceSample[language]}</h1>
+        <h2>${dictionary.guide.governance1[language]}</h2>
+        <p><b>${dictionary.guide.smallTitle1[language]}</b><br/>${answer[0]?.answer || ''}</p>
         <br/>
-        <p><b>관리 감독 체계</b><br/>${answer[1]?.answer || ''}</p>
+        <p><b>${dictionary.guide.smallTitle2[language]}</b><br/>${answer[1]?.answer || ''}</p>
       `;
       setInputContents(content);
       
       // answer가 업데이트되면 currentText도 업데이트
       const sections = [];
       if (answer[0]) {
-        sections.push(`이사회의 역할 및 책임${answer[0]}`);
+        sections.push(`${dictionary.guide.smallTitle1[language]}${answer[0]}`);
       }
       if (answer[1]) {
-        sections.push(`관리 감독 체계${answer[1]}`);
+        sections.push(`${dictionary.guide.smallTitle2[language]}${answer[1]}`);
       }
       if (sections.length > 0) {
         setCurrentText(sections);
@@ -288,15 +298,15 @@ const CustomEditor = ({
   useEffect(() => {
     if (selectedItem === "manager") {
       setInputContents(`
-        <h1 style="font-weight: 700;">거버넌스</h1>
-        <h2>기후 관련 위험 및 기회에 관한 경영진의 역할</h2>
-        <p><b>경영진의 역할 및 감독 프로세스</b><br/>${answer[2]?.answer || ''}</p>
+        <h1 style="font-weight: 700;">${dictionary.guide.governanceSample[language]}</h1>
+        <h2>${dictionary.guide.governance2[language]}</h2>
+        <p><b>${dictionary.guide.smallTitle3[language]}</b><br/>${answer[2]?.answer || ''}</p>
       `);
     } else if (selectedItem === "indicator") {
       setInputContents(`
-        <h1 style="font-weight: 700;">지표 및 목표</h1>
-        <h2>기후 관련 지표</h2>
-        <p>(1)온실가스 배출량</p>
+        <h1 style="font-weight: 700;">${dictionary.guide.metric[language]}</h1>
+        <h2>${dictionary.guide.metric1[language]}</h2>
+        <p>${dictionary.guide.smallTitle4[language]}</p>
       `);
     }
   }, [selectedItem]);
@@ -536,7 +546,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "���목" }],
+                      content: [{ type: "text", text: "목" }],
                     },
                   ],
                 },
@@ -879,9 +889,9 @@ const CustomEditor = ({
 
       // 구분자 정의
       const delimiters = [
-        "이사회의 역할 및 책임",
-        "관리 감독 체계",
-        "경영진의 역할 및 감독 프로세스"
+        dictionary.guide.smallTitle1[language],
+        dictionary.guide.smallTitle2[language],
+        dictionary.guide.smallTitle3[language]
       ];
 
       let sections = [];

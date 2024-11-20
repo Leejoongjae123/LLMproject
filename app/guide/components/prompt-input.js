@@ -19,7 +19,8 @@ import { Chip } from "@nextui-org/react";
 import { Suspense } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
-
+import { dictionary } from "@/app/dictionary/dictionary";
+import { useLanguageStore } from "@/app/components/languageStore";
 const PromptInputContent = React.forwardRef(
   ({ classNames = {}, ...props }, ref) => {
     const supabase = createClient();
@@ -30,7 +31,7 @@ const PromptInputContent = React.forwardRef(
 
     const [isReady, setIsReady] = useState(false);
     const [selectedBuckets, setSelectedBuckets] = useState([]);
-    
+    const { language } = useLanguageStore();
 
     useEffect(() => {
 
@@ -40,8 +41,8 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 조금 더 길게 작성해줘.',
-                category:'더 길게 쓰기',
+                message: dictionary.guide.writeInstruction1[language],
+                category:dictionary.guide.write1[language],
                 chatId: uuidv4()
 
               }
@@ -52,8 +53,8 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 더 짧게 작성해줘.',
-                category:'더 짧게 쓰기',
+                message: dictionary.guide.writeInstruction2[language],
+                category:dictionary.guide.write2[language],
                 chatId: uuidv4()
                 
               }
@@ -64,8 +65,8 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: '방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 paraphrase 해줘',
-                category:"문장 다듬기",
+                message: dictionary.guide.writeInstruction3[language],
+                category:dictionary.guide.write3[language],
                 chatId: uuidv4()
               }
             ]);
@@ -86,7 +87,8 @@ const PromptInputContent = React.forwardRef(
     const fetchBucketsFromSupabase = async () => {
       const { data: existingBucket, error: fetchError } = await supabase
         .from("buckets")
-        .select("*");
+        .select("*")
+        .eq('language',language)
 
       if (existingBucket) {
         const processedBuckets = existingBucket
@@ -110,7 +112,8 @@ const PromptInputContent = React.forwardRef(
         const lastMessage = chatList[chatList.length - 1];
         
         const question = props.selectedText?.length > 1 
-          ? `${props.selectedText} ${lastMessage.message}`
+          // ? `${props.selectedText} ${lastMessage.message}`
+          ? ` ${lastMessage.message}`
           : lastMessage.message;
 
         try {
@@ -122,7 +125,7 @@ const PromptInputContent = React.forwardRef(
             },
             {
               headers: {
-                "storm-api-key": process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+                "storm-api-key": language === "korean" ? process.env.NEXT_PUBLIC_SCIONIC_API_KEY : process.env.NEXT_PUBLIC_SCIONIC_API_KEY_ENGLISH,
               },
             }
           );
@@ -197,7 +200,7 @@ const PromptInputContent = React.forwardRef(
             base: cn("border border-gray-100", classNames?.base),
           }}
           minRows={1}
-          placeholder="EDK AI 매니저에게 무엇이든 물어보세요"
+          placeholder={dictionary.guide.askAnything[language]}
           radius="lg"
           variant="flat"
           {...props}
@@ -211,7 +214,7 @@ const PromptInputContent = React.forwardRef(
                 startContent={<GoPlusCircle className="text-xs" />}
                 className="bg-white border-2 border-gray-200 rounded-lg text-gray-500 text-xs flex-shrink-0"
               >
-                데이터 변경
+                {dictionary.guide.changeData[language]}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="p-4">

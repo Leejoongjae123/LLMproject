@@ -173,42 +173,23 @@ export default function Component({
   const pathname = usePathname();
   const apiKey = process.env.NEXT_PUBLIC_SCIONIC_API_KEY;
   const baseUrl = process.env.NEXT_PUBLIC_SCIONIC_BASE_URL;
-  const agentId = process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID;
+
   const [buckets, setBuckets] = useState([]);
   const [selectedBucket, setSelectedBucket] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {language, setLanguage } = useLanguageStore();
+
+  const agentId = language === 'korean' 
+  ? process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID 
+  : process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID_ENGLISH;
+
   const supabase = createClient();
-  const fetchBuckets = async () => {
-    const ENDPOINT = `/api/v2/buckets`;
-    const FULL_URL = baseUrl + ENDPOINT;
-    const params = {
-      agentId: agentId,
-      page: 1,
-      size: 100,
-    };
-
-    try {
-      setIsLoading(true);
-      const response = await axios.get(FULL_URL, {
-        headers: {
-          "storm-api-key": apiKey,
-        },
-        params: params,
-      });
-
-      setBuckets(response.data.data.data);
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
   const fetchBucketsFromSupabase = async () => {
     const { data: existingBucket, error: fetchError } = await supabase
       .from("buckets")
       .select("*")
-      .eq("agentId", agentId);
+      .eq("agentId", agentId)
+      .eq("language", language);
 
     if (existingBucket) {
       const processedBuckets = existingBucket
@@ -238,6 +219,7 @@ export default function Component({
     setSelectedBucket(selectedBuckets);
   };
 
+
   const content = (
     <div className="relative flex h-full w-40 flex-1 flex-col p-6 bg-[#444444]">
       <div className="flex items-center gap-2 px-2 my-5">
@@ -247,9 +229,12 @@ export default function Component({
       </div>
 
       <Select
-        defaultSelectedKeys={["korean"]}
+        defaultSelectedKeys={[localStorage.getItem('selectedLanguage') || "korean"]}
         className="max-w-xs"
-        onChange={(e) => setLanguage(e.target.value)}
+        onChange={(e) => {
+          setLanguage(e.target.value);
+          localStorage.setItem('selectedLanguage', e.target.value);
+        }}
       >
         {animals.map((animal) => (
           <SelectItem key={animal.key}>{animal.label}</SelectItem>
@@ -330,11 +315,11 @@ export default function Component({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                업로드 파일 목록
+                {dictionary.upload.uploadFileList[language]}
               </ModalHeader>
               <ModalBody>
                 <CheckboxGroup
-                  label="파일선택"
+                  label={dictionary.upload.fileSelect[language]}
                   defaultValue={[]}
                   className="max-h-[300px] overflow-y-auto"
                   onChange={handleCheckboxChange}
@@ -359,7 +344,7 @@ export default function Component({
                     }
                   }}
                 >
-                  다음으로
+                  {dictionary.upload.next[language]}
                 </Button>
               </ModalFooter>
             </>

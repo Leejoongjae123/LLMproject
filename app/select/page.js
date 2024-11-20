@@ -8,7 +8,6 @@ import { dictionary } from "@/app/dictionary/dictionary";
 
 function page() {
   const { language, setLanguage } = useLanguageStore();
-  console.log("language11:", language);
   const featuresCategories = [
     {
       key: "ISSB",

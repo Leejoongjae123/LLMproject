@@ -54,6 +54,8 @@ import Lottie from "lottie-react";
 import animationData from "@/public/lottie/ai.json";
 import ConfettiEffect from "./components/ConfettiEffect";
 import Image from "next/image";
+import { useLanguageStore } from "@/app/components/languageStore";
+import { dictionary } from "@/app/dictionary/dictionary";
 function Page() {
   const [selected, setSelected] = useState("AI 매니저");
   const [content, setContent] = useState({ guide: "", sample: "" });
@@ -74,6 +76,19 @@ function Page() {
   const [currentText, setCurrentText] = useState([]);
   const requestMadeRef = useRef(false);
   const [chatReference, setChatReference] = useState([]);
+  const { language, setLanguage } = useLanguageStore();
+
+  useEffect(() => {
+    if (language === "korean") {
+      setSelectedLanguage("kr");
+    } else {
+      setSelectedLanguage("en");
+    }
+  }, [language]);
+  console.log("language:",language)
+  console.log("selectedLanguage:",selectedLanguage)
+
+
   useEffect(() => {
     if (answer.length > 2) {
       setCurrentText(answer);
@@ -124,7 +139,10 @@ function Page() {
                 {
                   headers: {
                     "Content-Type": "application/json",
-                    "storm-api-key": process.env.NEXT_PUBLIC_SCIONIC_API_KEY,
+                    "storm-api-key":
+                      language === "korean"
+                        ? process.env.NEXT_PUBLIC_SCIONIC_API_KEY
+                        : process.env.NEXT_PUBLIC_SCIONIC_API_KEY_ENGLISH,
                   },
                 }
               );
@@ -224,8 +242,10 @@ function Page() {
                 {
                   headers: {
                     "Content-Type": "application/json",
-                    "storm-api-key":
-                      process.env.NEXT_PUBLIC_SCIONIC_API_KEY_AI_ANALYSIS,
+                    "storm-api-key": 
+                      language === "korean"
+                        ? process.env.NEXT_PUBLIC_SCIONIC_API_KEY_AI_ANALYSIS
+                        : process.env.NEXT_PUBLIC_SCIONIC_API_KEY_AI_ANALYSIS_ENGLISH,
                   },
                 }
               );
@@ -349,7 +369,7 @@ function Page() {
                   <FaChevronRight className="text-gray-400 text-medium" />
                 }
               >
-                거버넌스
+                {dictionary.guide.governance[language]}
               </ListboxItem>
 
               <ListboxItem
@@ -364,7 +384,7 @@ function Page() {
                     selectedItem === "weather" && "font-bold"
                   )}
                 >
-                  기후 관련 위험 및 기회에 관한 이사회 차원의 감독
+                  {dictionary.guide.governance1[language]}
                 </p>
               </ListboxItem>
               <ListboxItem
@@ -379,7 +399,7 @@ function Page() {
                     selectedItem === "manager" && "font-bold"
                   )}
                 >
-                  기후 관련 위험 및 기회에 관한 경영진의 역할
+                  {dictionary.guide.governance2[language]}
                 </p>
               </ListboxItem>
 
@@ -388,7 +408,7 @@ function Page() {
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="General Requirements"
               >
-                전략
+                {dictionary.guide.strategy[language]}
               </ListboxItem>
 
               <ListboxItem
@@ -396,14 +416,14 @@ function Page() {
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="Climate-related Disclosures"
               >
-                리스크 관리
+                {dictionary.guide.riskManagement[language]}
               </ListboxItem>
               <ListboxItem
                 key="how-a-taximeter-works"
                 className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="Appendix"
               >
-                지표 및 목표
+                {dictionary.guide.metric[language]}
               </ListboxItem>
               <ListboxItem
                 key="custom-support-message2"
@@ -417,7 +437,7 @@ function Page() {
                     selectedItem === "indicator" && "font-bold"
                   )}
                 >
-                  기후 관련 지표
+                  {dictionary.guide.metric1[language]}
                 </p>
               </ListboxItem>
             </ListboxSection>
@@ -465,7 +485,7 @@ function Page() {
                   <Tab
                     className="w-full h-full "
                     key="AI 매니저"
-                    title="AI 매니저"
+                    title={dictionary.guide.AIManager[language]}
                   >
                     <AIManager
                       className="w-full h-full"
@@ -477,7 +497,11 @@ function Page() {
                       setChatReference={setChatReference}
                     ></AIManager>
                   </Tab>
-                  <Tab className="w-full h-full" key="AI 진단" title="AI 진단">
+                  <Tab
+                    className="w-full h-full"
+                    key="AI 진단"
+                    title={dictionary.guide.AIDiagnosis[language]}
+                  >
                     <AIAnalysis
                       selectedText={selectedText}
                       setSelectedText={setSelectedText}
@@ -491,7 +515,11 @@ function Page() {
                       className="w-full h-full"
                     ></AIAnalysis>
                   </Tab>
-                  <Tab key="가이드" title="가이드" className="">
+                  <Tab
+                    key="가이드"
+                    title={dictionary.guide.guide[language]}
+                    className=""
+                  >
                     <Accordion
                       variant="splitted"
                       defaultExpandedKeys={["1", "2"]}
@@ -501,9 +529,10 @@ function Page() {
                         aria-label="Accordion 1"
                         title={
                           <div className="flex items-center justify-between ㄹ">
-                            <strong>가이드라인 보기</strong>
+                            <strong>{dictionary.guide.seeGuide[language]}</strong>
                             <Switch
                               size="sm"
+                              isSelected={selectedLanguage === "en"}
                               onChange={() =>
                                 setSelectedLanguage(
                                   selectedLanguage === "kr" ? "en" : "kr"
@@ -512,8 +541,8 @@ function Page() {
                             >
                               <p className="text-xs">
                                 {selectedLanguage === "kr"
-                                  ? "영문변환"
-                                  : "한글변환"}
+                                  ? dictionary.guide.toEnglish[language]
+                                  : dictionary.guide.toKorean[language]}
                               </p>
                             </Switch>
                           </div>
@@ -582,7 +611,7 @@ function Page() {
                       <AccordionItem
                         key="2"
                         aria-label="Accordion 2"
-                        title={<strong>샘플 보기</strong>}
+                        title={<strong>{dictionary.guide.seeSample[language]}</strong>}
                       >
                         <div className="overflow-y-auto max-h-[30vh]">
                           <ListboxWrapper className="w-full">
@@ -757,7 +786,7 @@ function Page() {
               <ModalHeader className="flex flex-col gap-1"></ModalHeader>
               <ModalBody>
                 <h1 className="text-2xl font-semibold text-center mb-4">
-                  IFRS S2 보고서
+                  {dictionary.guide.completeInstruction1[language]}
                 </h1>
                 {isLoading ? (
                   <div className="flex justify-center items-center w-full h-full">
@@ -783,7 +812,7 @@ function Page() {
                       : "opacity-100 scale-110 text-primary text-2xl"
                   )}
                 >
-                  {isLoading ? null : "AI 초안 생성 완료"}
+                  {isLoading ? null : dictionary.guide.completeInstruction4[language]}
                 </p>
               </ModalBody>
               <ModalFooter className="mb-5">
@@ -795,11 +824,11 @@ function Page() {
                       window.location.reload();
                     }}
                   >
-                    재시도
+                    {dictionary.guide.completeInstruction2[language]}
                   </Button>
                   {isLoading ? null : (
                     <Button color="primary" onPress={onClose}>
-                      확인
+                      {dictionary.guide.completeInstruction3[language]}
                     </Button>
                   )}
                 </div>

@@ -29,6 +29,9 @@ import { useState, useEffect } from "react";
 import Conversation from "./conversation";
 import { v4 as uuidv4 } from 'uuid';
 import Image from "next/image";
+import { useLanguageStore } from "@/app/components/languageStore";
+import { dictionary } from "@/app/dictionary/dictionary";
+
 function AIManager({ reference, setReference, selectedText, setSelectedText, chatReference, setChatReference }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedReferenceFileName, setSelectedReferenceFileName] =
@@ -46,6 +49,8 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
   const [selectedQuestionSeq, setSelectedQuestionSeq] = useState(null);
   
   const [currentChatId, setCurrentChatId] = useState(null);
+  const { language } = useLanguageStore();
+
 
   useEffect(() => {
     const chatContainer = document.querySelector(".chat-container");
@@ -57,11 +62,11 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
   // console.log("reference:", reference);
 
   useEffect(() => {
-    if (selectedText.includes("이사회의 역할 및 책임")) {
+    if (selectedText.includes(dictionary.guide.smallTitle1[language])) {
       setSelectedQuestionSeq(0);
-    } else if (selectedText.includes("관리 감독 체계")) {
+    } else if (selectedText.includes(dictionary.guide.smallTitle2[language])) {
       setSelectedQuestionSeq(1);
-    } else if (selectedText.includes("경영진의 역할 및 감독 프로세스")) {
+    } else if (selectedText.includes(dictionary.guide.smallTitle3[language])) {
       setSelectedQuestionSeq(2);
     }
   }, [selectedText]);
@@ -81,10 +86,10 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
         <Card className="bg-gray-200 w-full flex flex-col justify-center p-2">
           <div className="flex flex-col gap-y-2">
             <p className="text-center">
-              생성된 초안 박스별로 EDK AI와 협업하실 수 있어요
+              {dictionary.guide.AIManagerInstruction1[language]}
             </p>
             <p className="text-center">
-              퀵 AI 버튼과 대화를 통해서 초안을 수정해 보세요!
+              {dictionary.guide.AIManagerInstruction2[language]}
             </p>
           </div>
         </Card>
@@ -95,7 +100,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
             className=""
             onPress={() => setWriteLonger((prev) => !prev)}
           >
-            자세히 쓰기
+            {dictionary.guide.write1[language]}
           </Button>
           <Button
             variant="bordered"
@@ -103,7 +108,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
             className=""
             onPress={() => setWriteShorter((prev) => !prev)}
           >
-            간결하게 쓰기
+            {dictionary.guide.write2[language]}
           </Button>
           <Button
             variant="bordered"
@@ -111,7 +116,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
             className=""
             onPress={() => setRefineSentence((prev) => !prev)}
           >
-            윤문하기(paraphrase)
+            {dictionary.guide.write3[language]}
           </Button>
         </div>
       </div>
@@ -122,7 +127,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
               <div className="w-full border border-gray-100 p-2 rounded-lg flex flex-row gap-x-2">
                 
                 <p className="text-start text-sm">
-                  AI 매니저에게 요청을 직접 입력하실 수도 있어요
+                  {dictionary.guide.writeInstruction1[language]}
                 </p>
               </div>
               <div className="w-full p-1 ">
@@ -134,13 +139,13 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
                       {
                         role: "user",
                         message:
-                          "기후 관련 이사회의 책임범위를 보다 구체적으로 작성해줘",
+                          dictionary.guide.writeInstruction2[language],
                         chatId: uuidv4()
                       },
                     ])
                   }
                 >
-                  기후 관련 이사회의 책임범위를 보다 구체적으로 작성해줘
+                  {dictionary.guide.writeInstruction2[language]}
                 </Button>
               </div>
               <div className="w-full p-1 ">
@@ -152,13 +157,13 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
                       {
                         role: "user",
                         message:
-                          "경영진이 기후 리스크 평가를 어떻게 하고 있는지 내용을 추가해줘",
+                          dictionary.guide.writeInstruction3[language],
                         chatId: uuidv4()
                       },
                     ])
                   }
                 >
-                  경영진이 기후 리스크 평가를 어떻게 하고 있는지 내용을 추가해줘
+                  {dictionary.guide.writeInstruction3[language]}
                 </Button>
               </div>
             </>
@@ -183,7 +188,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
             className="w-full text-sm"
             title={
               <span className="text-sm">
-                초안 생성 출처(Reference) 확인하기
+                {dictionary.guide.checkReference[language]}
               </span>
             }
           >
@@ -201,8 +206,8 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
                         onOpen();
                       }}
                     >
-                      번호: {item.referenceIdx} / 파일명: {item.fileName} /
-                      페이지: {item.pageName}
+                      {dictionary.guide.number[language]}: {item.referenceIdx} / {dictionary.guide.fileName[language]}: {item.fileName} /
+                      {dictionary.guide.pageName[language]}: {item.pageName}
                     </Button>
                   </div>
                 ))
@@ -221,8 +226,8 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
                           onOpen();
                         }}
                       >
-                        번호: {item.referenceIdx} / 파일명: {item.fileName} /
-                        페이지: {item.pageName}
+                        {dictionary.guide.number[language]}: {item.referenceIdx} / {dictionary.guide.fileName[language]}: {item.fileName} /
+                        {dictionary.guide.pageName[language]}: {item.pageName}
                       </Button>
                     </div>
                   ))
@@ -259,22 +264,22 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                <p className="text-xl font-bold">초안 생성 출처</p>
+                <p className="text-xl font-bold">{dictionary.guide.checkReference[language]}</p>
                 <hr className="my-2" />
                 <p className="font-medium">
-                  파일명: {selectedReferenceFileName}
+                  {dictionary.guide.fileName[language]}: {selectedReferenceFileName}
                 </p>
                 <p className="font-medium">
-                  페이지: {selectedReferencePageName}
+                  {dictionary.guide.pageName[language]}: {selectedReferencePageName}
                 </p>
               </ModalHeader>
               <ModalBody className="max-h-[50vh] overflow-y-auto">
-                <p className="text-xl font-bold">본문 내용</p>
+                <p className="text-xl font-bold">{dictionary.guide.contents[language]}</p>
                 <p>{selectedReferenceContext}</p>
               </ModalBody>
               <ModalFooter>
                 <Button color="primary" onPress={onClose}>
-                  확인
+                  {dictionary.guide.confirm[language]}
                 </Button>
               </ModalFooter>
             </>

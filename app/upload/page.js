@@ -72,16 +72,13 @@ export default function BucketFileManager() {
   } = useDisclosure();
   const [newBucketName, setNewBucketName] = useState(""); // New state for bucket name
   const [isLoading, setIsLoading] = useState(false);
-  const tooltipContent = `첨부된 파일은 AI 초안을 완성하는데 활용돼요. 공시자료 파일을 업로드해주세요.\n
-    
-    업로드된 데이터를 바탕으로 문장이 생성되며, 좋은 답변을 받기 위한 파트별 추천자료를 안내 드립니다.
-    다만, 대외비 문서나 민감한 자료는 업로드를 삼가해 주세요.
-    
-    -추천 데이터 : 사업보고서,지속가능경영보고서,기업지배구조보고서,TCFD,CDP,SASB 등
-    `;
+
+  
   const apiKey = process.env.NEXT_PUBLIC_SCIONIC_API_KEY;
   const baseUrl = process.env.NEXT_PUBLIC_SCIONIC_BASE_URL;
-  const agentId = process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID;
+  const agentId = language === 'korean' 
+  ? process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID 
+  : process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID_ENGLISH
 
   const fetchBuckets = async () => {
     const ENDPOINT = `/api/v2/buckets`;
@@ -340,7 +337,7 @@ export default function BucketFileManager() {
   }, [selectedBucket]);
   useEffect(() => {
     fetchBuckets();
-  }, []);
+  }, [language]);
 
 
   return (
@@ -414,22 +411,18 @@ export default function BucketFileManager() {
               content={
                 <div className="px-1 py-2">
                   <p>
-                    첨부된 파일은 AI 초안을 완성하는데 활용돼요. 공시자료 파일을
-                    업로드해주세요.
+                    {dictionary.upload.uploadInstruction2[language]}
                   </p>
                   <br />
                   <p>
-                    업로드된 데이터를 바탕으로 문장이 생성되며, 좋은 답변을 받기
-                    위한 파트별 추천자료를 안내 드립니다.
+                    {dictionary.upload.uploadInstruction3[language]}
                   </p>
                   <p>
-                    다만, 대외비 문서나 민감한 자료는 업로드를 삼가해 주세요.
+                    {dictionary.upload.uploadInstruction4[language]}
                   </p>
                   <br/>
                   <p className="text-xs font-bold">
-                    - 추천 데이터 :
-                    사업보고서,지속가능경영보고서,기업지배구조보고서,TCFD,CDP,SASB
-                    등
+                    - {dictionary.upload.uploadInstruction5[language]}
                   </p>
                 </div>
               }
@@ -460,8 +453,7 @@ export default function BucketFileManager() {
                 content={
                   <div className="px-1 py-2">
                     <p>
-                      업로드 하는 파일이 50MB를 초과할 경우 마크스폰
-                      컨설턴트에게 문의 주세요
+                      {dictionary.upload.uploadInstruction1[language]}
                     </p>
                   </div>
                 }

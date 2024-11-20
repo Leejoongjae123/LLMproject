@@ -5,11 +5,13 @@ import { Button } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
 import { Card } from "@nextui-org/react";
 import { MdRefresh } from "react-icons/md";
+import { dictionary } from "@/app/dictionary/dictionary";
+import { useLanguageStore } from "@/app/components/languageStore";
 
 function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoadingAIAnalysis, setIsLoadingAIAnalysis, handleSecondQuestion, selectedText }) {
   const [guideText, setGuideText] = useState("");
   const [analysisText, setAnalysisText] = useState("");
-
+  const { language } = useLanguageStore();
   const formatAnalysisText = (text) => {
     if (!text) return '';
     // Bold text between ** markers
@@ -21,12 +23,12 @@ function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoad
 
   const handleGuideTextChange = () => {
     const categories = {
-      "이사회의 역할 및 책임":
-        "<strong>기후 관련 위험과 기회에 대한 책임과 역할</strong>이 명확히 정의된 <strong>의사결정기구의 정보 및 운영 규정</strong>이 명확히 설명되어야 해요. 또한, <strong>기후변화 대응을 위한 기업의 전문성과 역량 강화</strong> 노력이 어떤지 작성해 주세요.",
-      "관리 감독 체계":
-        "<strong>기후 관련 위험 및 기회 관련 정보</strong>를 제공하는 <strong>정기적인 보고 체계</strong>가 어떻게 구축되어 있는지 설명해 주세요. 또한 이러한 체계가 <strong>조직 내 의사결정에 어떻게 기여하는지</strong> 구체적으로 작성되면 좋습니다.<br/><br/> <strong>투자 및 경영 계획에 기후 리스크와 기회를 반영하기 위한 역할과 책임</strong>이 어떻게 설정되어 있는지, <strong>경영 관련 의사결정 시 기후 요소가 어떻게 연계</strong>되는지 명확히 설명해 주세요.<br/><br/> <strong>기후 관련 목표 설정과 이를 모니터링하는 체계</strong>가 잘 구축되어 있는지, <strong>성과 기반 보상 정책</strong>에 이러한 목표가 반영되고 있는지 작성해 주세요",
-      "경영진의 역할 및 감독 프로세스":
-        "<strong>기후 변화 대응을 위한 경영진의 보고 및 감독 프로세스</strong>가 어떻게 마련되어 있는지 작성해 주세요. 특히, <strong>기후 관련 위험 및 기회 대응을 위해 전담 조직</strong>이 지정되어 있는지와 <strong>정기적인 보고 체계가 어떻게 운영</strong>되는지 설명해 주시면 좋아요.<br/><br/> 또한, <strong>전사 차원의 리스크 관리 체계에 기후 관련 리스크가 어떻게 통합</strong>되어 있는지, <strong>내부 통제 시스템을 통해 기후 리스크를 효과적으로 관리하고 있는지</strong> 구체적으로 작성해 주세요.",
+      [dictionary.guide.smallTitle1[language]]:
+        [dictionary.guide.AIDiagnosisInstructionUpper1[language]],
+      [dictionary.guide.smallTitle2[language]]:
+        [dictionary.guide.AIDiagnosisInstructionUpper2[language]],
+      [dictionary.guide.smallTitle3[language]]:
+        [dictionary.guide.AIDiagnosisInstructionUpper3[language]],
     };
 
     const matchedCategory = Object.keys(categories).find((category) =>
@@ -40,9 +42,9 @@ function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoad
 
   const handleAnalysisText = () => {
     const categories = [
-      "이사회의 역할 및 책임",
-      "관리 감독 체계",
-      "경영진의 역할 및 감독 프로세스",
+      dictionary.guide.smallTitle1[language],
+      dictionary.guide.smallTitle2[language],
+      dictionary.guide.smallTitle3[language]
     ];
 
     const matchedCategory = categories.find((category) =>
@@ -66,7 +68,7 @@ function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoad
   return (
     <div className="grid grid-rows-3 gap-5 w-full h-full">
       <div className="row-span-1 flex flex-col gap-3">
-        <h1 className="font-bold">해당 박스에는 아래 내용이 주로 작성되어야 해요.</h1>
+        <h1 className="font-bold">{dictionary.guide.AIDiagnosisInstruction1[language]}</h1>
         {/* <div
           className="block p-2.5 w-full text-sm text-gray-900 bg-gray-100 rounded-lg border border-gray-300"
           dangerouslySetInnerHTML={{ __html: guideText }}
@@ -81,7 +83,7 @@ function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoad
 
       <div className="row-span-2 flex flex-col gap-3 justify-between items-center w-full h-full py-10">
         <div className="flex gap-3 justify-between items-center w-full">
-          <h1 className="font-bold">AI 진단 결과</h1>
+          <h1 className="font-bold">{dictionary.guide.AIDiagnosisInstruction2[language]}</h1>
 
           <div>
             <Button
@@ -112,7 +114,7 @@ function AIAnalysis({ currentText, setCurrentText, analysis, setAnalysis, isLoad
               variant="bordered"
               onClick={() => handleSecondQuestion(currentText)}
             >
-              <p>AI진단 다시하기</p>
+              <p>{dictionary.guide.again[language]}</p>
             </Button>
           </div>
         </div>
