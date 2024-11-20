@@ -1,10 +1,13 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-
+import { useLanguageStore } from './languageStore'
+import { dictionary } from '@/app/dictionary/dictionary'
 export default function DynamicHeader() {
+  const { language, setLanguage } = useLanguageStore();
+  console.log('dictionary:', dictionary)
   const pathname = usePathname()
-  const title = pathname.includes('select') ? 'AI 보고서' : 'IFRS S2 보고서'
+  const title = pathname.includes('select') ? dictionary?.select['IFRS S2'][language] : dictionary.select['IFRS S2'][language]
   
   return title
 }

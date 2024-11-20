@@ -26,6 +26,8 @@ import { RiArrowUpDownLine } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaCircle } from "react-icons/fa";
+import { useLanguageStore } from "@/app/components/languageStore";
+import { dictionary } from "@/app/dictionary/dictionary";
 
 export default function Component() {
   const [selectedFrequency, setSelectedFrequency] = useState(frequencies[0]);
@@ -41,6 +43,10 @@ export default function Component() {
   const [searchTerm2, setSearchTerm2] = useState("");
   const [searchTerm3, setSearchTerm3] = useState("");
   const [searchTerm4, setSearchTerm4] = useState("");
+  const { language, setLanguage } = useLanguageStore();
+
+
+
   useEffect(() => {
     if (selectedTier2?.length > 0) {
       setTier2List(tiers[1].features?.[selectedTier1]);
@@ -70,7 +76,7 @@ export default function Component() {
   );
 
   const filteredTier2List =
-    tiers[1].features?.[selectedTier1]?.filter((item) =>
+    tiers[1].features?.[selectedTier1]?.[language]?.filter((item) =>
       item.toLowerCase().includes(searchTerm2.toLowerCase())
     ) || [];
 
@@ -95,7 +101,7 @@ export default function Component() {
           className="font-bold text-sm text-white"
           color="primary"
         >
-          담당자 지정
+          {dictionary?.category?.assign1[language]}
         </Button>
         <Button
           size="sm"
@@ -103,14 +109,14 @@ export default function Component() {
           className=" font-bold text-sm bg-[#f25b2b] text-white"
           color="primary"
         >
-          담당자 일괄 지정
+          {dictionary?.category?.assign2[language]}
         </Button>
       </div>
       <div className="w-full h-full grid grid-cols-4 px-12 pb-12 gap-x-6">
         <Card key={tiers[0].key} className="relative p-3" shadow="md">
           <CardHeader className="flex flex-col items-center gap-2 ">
-            <h2 className="text-lg font-bold text-center">{tiers[0].title}</h2>
-            <p className="text-sm text-default-500">{tiers[0].description}</p>
+            <h2 className="text-lg font-bold text-center">{tiers[0].title[language]}</h2>
+            <p className="text-sm text-default-500">{tiers[0].description[language]}</p>
           </CardHeader>
           <Divider />
           <CardBody className="gap-4">
@@ -120,7 +126,7 @@ export default function Component() {
               }
               value={searchTerm1}
               onChange={(e) => setSearchTerm1(e.target.value)}
-              placeholder="검색어를 입력하세요"
+              placeholder={dictionary?.category?.placeholder[language]}
             />
             <ListboxWrapper>
               <Listbox
@@ -141,7 +147,7 @@ export default function Component() {
                   endContent={<div className="flex gap-2 text-xs">순서</div>}
                   isDisabled
                 >
-                  목차이름
+                  {dictionary?.category?.name[language]}
                 </ListboxItem>
                 {filteredTier1List.map((feature, index) => (
                   <ListboxItem
@@ -172,8 +178,8 @@ export default function Component() {
         </Card>
         <Card key={tiers[1].key} className="relative p-3" shadow="md">
           <CardHeader className="flex flex-col items-center gap-2 ">
-            <h2 className="text-lg font-bold text-center">{tiers[1].title}</h2>
-            <p className="text-sm text-default-500">{tiers[1].description}</p>
+            <h2 className="text-lg font-bold text-center">{tiers[1].title[language]}</h2>
+            <p className="text-sm text-default-500">{tiers[1].description[language]}</p>
           </CardHeader>
           <Divider />
           <CardBody className="gap-4">
@@ -183,7 +189,7 @@ export default function Component() {
               }
               value={searchTerm2}
               onChange={(e) => setSearchTerm2(e.target.value)}
-              placeholder="검색어를 입력하세요"
+              placeholder={dictionary?.category?.placeholder[language]}
             ></Input>
             <ListboxWrapper>
               <Listbox
@@ -203,7 +209,7 @@ export default function Component() {
                   endContent={<div className="flex gap-2 text-xs">순서</div>}
                   isDisabled
                 >
-                  목차이름
+                  {dictionary?.category?.name[language]}
                 </ListboxItem>
                 {filteredTier2List.map((feature, index) => (
                   <ListboxItem
@@ -227,8 +233,8 @@ export default function Component() {
         </Card>
         <Card key={tiers[2].key} className="relative p-3" shadow="md">
           <CardHeader className="flex flex-col items-center gap-2 ">
-            <h2 className="text-lg font-bold text-center">{tiers[2].title}</h2>
-            <p className="text-sm text-default-500">{tiers[2].description}</p>
+            <h2 className="text-lg font-bold text-center">{tiers[2].title[language]}</h2>
+            <p className="text-sm text-default-500">{tiers[2].description[language]}</p>
           </CardHeader>
           <Divider />
           <CardBody className="gap-4">
@@ -238,7 +244,7 @@ export default function Component() {
               }
               value={searchTerm3}
               onChange={(e) => setSearchTerm3(e.target.value)}
-              placeholder="검색어를 입력하세요"
+              placeholder={dictionary?.category?.placeholder[language]}
             ></Input>
             <ListboxWrapper>
               <Listbox
@@ -257,7 +263,7 @@ export default function Component() {
                   endContent={<div className="flex gap-2 text-xs">순서</div>}
                   isDisabled
                 >
-                  목차이름
+                  {dictionary?.category?.name[language]}
                 </ListboxItem>
                 {filteredTier3List.map((feature, index) => (
                   <ListboxItem
@@ -281,8 +287,8 @@ export default function Component() {
         </Card>
         <Card key={tiers[3].key} className="relative p-3" shadow="md">
           <CardHeader className="flex flex-col items-center gap-2 ">
-            <h2 className="text-lg font-bold text-center">{tiers[3].title}</h2>
-            <p className="text-sm text-default-500">{tiers[3].description}</p>
+            <h2 className="text-lg font-bold text-center">{tiers[3].title[language]}</h2>
+            <p className="text-sm text-default-500">{tiers[3].description[language]}</p>
           </CardHeader>
           <Divider />
           <CardBody className="gap-4">
@@ -292,7 +298,7 @@ export default function Component() {
               }
               value={searchTerm4}
               onChange={(e) => setSearchTerm4(e.target.value)}
-              placeholder="검색어를 입력하세요"
+              placeholder={dictionary?.category?.placeholder[language]}
             ></Input>
             <ListboxWrapper>
               <Listbox
@@ -310,7 +316,7 @@ export default function Component() {
                   endContent={<div className="flex gap-2 text-xs">순서</div>}
                   isDisabled
                 >
-                  목차이름
+                  {dictionary?.category?.name[language]}
                 </ListboxItem>
                 {filteredTier4List.map((feature, index) => (
                   <ListboxItem

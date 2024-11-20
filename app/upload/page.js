@@ -32,6 +32,8 @@ import axios from "axios";
 import { IoMdRefresh } from "react-icons/io";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { createClient } from "@/utils/supabase/client";
+import { dictionary } from "@/app/dictionary/dictionary";
+import { useLanguageStore } from "@/app/components/languageStore";
 // 가상의 버킷 및 파일 데이터
 const initialBuckets = [
   { id: 1, name: "버킷1" },
@@ -56,6 +58,7 @@ export default function BucketFileManager() {
   const [selectedBucket, setSelectedBucket] = useState(null);
   const [files, setFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const { language } = useLanguageStore();
   const supabase = createClient();
   const {
     isOpen: isOpen1,
@@ -79,7 +82,6 @@ export default function BucketFileManager() {
   const apiKey = process.env.NEXT_PUBLIC_SCIONIC_API_KEY;
   const baseUrl = process.env.NEXT_PUBLIC_SCIONIC_BASE_URL;
   const agentId = process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID;
-  console.log(apiKey, baseUrl, agentId);
 
   const fetchBuckets = async () => {
     const ENDPOINT = `/api/v2/buckets`;
@@ -340,14 +342,12 @@ export default function BucketFileManager() {
     fetchBuckets();
   }, []);
 
-  console.log("files:", files);
-  console.log("buckets:", buckets);
 
   return (
     <div className="flex h-[calc(100vh-6rem)] p-12">
       <Card className="w-1/4 mr-4 p-3">
         <CardHeader>
-          <h2 className="text-lg font-bold">폴더명</h2>
+          <h2 className="text-lg font-bold">{dictionary.upload.folder[language]}</h2>
         </CardHeader>
         <CardBody className="overflow-y-auto h-[calc(100vh-12rem)]">
           {buckets.map((bucket) => (
@@ -379,7 +379,7 @@ export default function BucketFileManager() {
             className="mt-4 w-full min-h-12"
             onPress={openAddBucketModal}
           >
-            폴더 추가
+            {dictionary.upload.addfolder[language]}
           </Button>
         </CardFooter>
       </Card>
@@ -390,7 +390,7 @@ export default function BucketFileManager() {
           <div className="w-full flex justify-between items-center">
             <div>
               <h2 className="text-lg font-bold">
-                {selectedBucket?.name} 파일리스트
+                {selectedBucket?.name} {dictionary.upload.filelist[language]}
               </h2>
             </div>
             <div className="flex items-center justify-center">
@@ -408,7 +408,7 @@ export default function BucketFileManager() {
         </CardHeader>
         <CardBody>
           <div className="flex">
-            <p className="text-sm text-gray-500 mb-4">기본자료 리스트 </p>
+            <p className="text-sm text-gray-500 mb-4">{dictionary.upload.basicFileList[language]}</p>
             <Tooltip
               className="z-50"
               content={
@@ -449,12 +449,11 @@ export default function BucketFileManager() {
             {isDragActive ? (
               <p>Drop the files here ...</p>
             ) : (
-              <p>파일을 드래그해주시거나 PC에서 직접 선택해주세요</p>
+              <p>{dictionary.upload.dragInstruction[language]}</p>
             )}
             <div className="flex">
               <p className="text-sm text-gray-500">
-                확장자:PDF, DOCX, XLSX, XLS, PPTX, PPT, HWP, HWPX, CSV
-                (최대50MB)
+                {dictionary.upload.fileTypeInstruction[language]}
               </p>
               <Tooltip
                 className="z-50"
@@ -475,11 +474,11 @@ export default function BucketFileManager() {
           </div>
           <Table aria-label="Files table">
             <TableHeader>
-              <TableColumn className="w-1/5 text-center">파일명</TableColumn>
-              <TableColumn className="w-1/5 text-center">날짜</TableColumn>
-              <TableColumn className="w-1/5 text-center">글자수</TableColumn>
-              <TableColumn className="w-1/5 text-center">상태</TableColumn>
-              <TableColumn className="w-1/5 text-center">비고</TableColumn>
+              <TableColumn className="w-1/5 text-center">{dictionary.upload.header1[language]}</TableColumn>
+              <TableColumn className="w-1/5 text-center">{dictionary.upload.header2[language]}</TableColumn>
+              <TableColumn className="w-1/5 text-center">{dictionary.upload.header3[language]}</TableColumn>
+              <TableColumn className="w-1/5 text-center">{dictionary.upload.header4[language]}</TableColumn>
+              <TableColumn className="w-1/5 text-center">{dictionary.upload.header5[language]}</TableColumn>
             </TableHeader>
             <TableBody>
               {files?.map((file, index) => (
@@ -498,14 +497,14 @@ export default function BucketFileManager() {
                         : "text-red-500"
                     }`}
                   >
-                    {file.status === "completed" ? "AI 학습 완료" : "AI 학습 중"}
+                    {file.status === "completed" ? dictionary.upload.AIStudyComplete[language] : dictionary.upload.AIStudyProcessing[language]}
                     </TableCell>
                   <TableCell className="text-center">
                     <Button
                       variant="light"
                       onPress={() => deleteDocument(file.id)}
                     >
-                      삭제
+                      {dictionary.upload.delete[language]}
                     </Button>
                   </TableCell>
                 </TableRow>

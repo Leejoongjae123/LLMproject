@@ -39,8 +39,9 @@ import { createClient } from "@/utils/supabase/client";
 import { animals } from "./animals";
 import { useLanguageStore } from "@/app/components/languageStore";
 import RowSteps from "./row-steps";
-
+import { dictionary } from "@/app/dictionary/dictionary";
 function AvatarDropdownIcon(props) {
+  const { language, setLanguage } = useLanguageStore();
   return (
     <svg
       {...props}
@@ -176,7 +177,7 @@ export default function Component({
   const [buckets, setBuckets] = useState([]);
   const [selectedBucket, setSelectedBucket] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { language, setLanguage } = useLanguageStore();
+  const {language, setLanguage } = useLanguageStore();
   const supabase = createClient();
   const fetchBuckets = async () => {
     const ENDPOINT = `/api/v2/buckets`;
@@ -269,49 +270,49 @@ export default function Component({
               key="financial-planning"
               className="group h-[44px] px-[12px] py-5 text-gray-400"
             >
-              대시보드
+              {dictionary.sidebar.dashboard[language]}
             </ListboxItem>
             <ListboxItem
               key="email-template"
               className="h-[44px] px-[12px] py-[10px] text-gray-400"
             >
-              인벤토리
+              {dictionary.sidebar.inventory[language]}
             </ListboxItem>
             <ListboxItem
               key="react-19-example"
               className="h-[44px] px-[12px] py-[10px] text-gray-400"
             >
-              진단
+              {dictionary.sidebar.diagnosis[language]}
             </ListboxItem>
             <ListboxItem
               key="custom-support-message"
               className="h-[44px] px-[12px] py-[10px] text-gray-400"
             >
-              보고서
+              {dictionary.sidebar.report[language]}
             </ListboxItem>
             <ListboxItem
               key="how-a-taximeter-works"
               className="h-[44px] px-[12px] py-[10px] bg-gradient-to-r bg-gray-600 text-white font-bold rounded-lg hover:scale-105 transition-transform"
             >
-              AI 보고서
+              {dictionary.sidebar.aireport[language]}
             </ListboxItem>
             <ListboxItem
               key="resignation-letter"
               className="h-[44px] px-[12px] py-[10px] text-gray-400"
             >
-              공시
+              {dictionary.sidebar.notice[language]}
             </ListboxItem>
             <ListboxItem
               key="design-test-review"
               className="h-[44px] px-[12px] py-[10px] text-gray-400"
             >
-              게시판
+              {dictionary.sidebar.board[language]}
             </ListboxItem>
             <ListboxItem
               key="design-system-modules"
               className="h-[44px] px-[12px] py-[10px] text-gray-400"
             >
-              설정{" "}
+              {dictionary.sidebar.setting[language]}
             </ListboxItem>
 
           </ListboxSection>
@@ -358,7 +359,7 @@ export default function Component({
                     }
                   }}
                 >
-                  AI 초안 생성
+                  다음으로
                 </Button>
               </ModalFooter>
             </>
@@ -408,16 +409,16 @@ export default function Component({
             defaultStep={2}
             steps={[
               {
-                title: "기준 선택",
+                title: dictionary?.select?.step1[language],
               },
               {
-                title: "목차 선택",
+                title: dictionary?.select?.step2[language],
               },
               {
-                title: "폴더 선택",
+                title: dictionary?.select?.step3[language],
               },
               {
-                title: "보고서 작성",
+                title: dictionary?.select?.step4[language],
               },
             ]}
           />
@@ -428,7 +429,7 @@ export default function Component({
               className="w-[10vw] h-10 font-bold text-lg text-[#f25b2b] border-primary"
               onPress={() => router.back()}
             >
-              이전
+              {dictionary?.select?.previous[language]}
             </Button>
             <Button
               radius="full"
@@ -439,12 +440,12 @@ export default function Component({
                   handleAIReport();
                 } else if (pathname === "/category") {
                   router.push("/upload");
-                } else {
-                  router.push("/upload");
+                } else if (pathname === "/select") {
+                  router.push("/category");
                 }
               }}
             >
-              다음
+              {dictionary?.select?.next[language]}
             </Button>
           </div>
         </header>
