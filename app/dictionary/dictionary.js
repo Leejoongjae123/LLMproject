@@ -22,15 +22,15 @@ export const dictionary = {
     },
     'notice':{
       'korean': '공시',
-      'english': "notification",
+      'english': "Disclosures",
     },
     'board':{
       'korean': '게시판',
-      'english': 'Board',
+      'english': 'Bulletin Board',
     },
     'setting':{
       'korean': '설정',
-      'english': 'Setting',
+      'english': 'Settings',
     }
   },
     'select': {
@@ -82,27 +82,27 @@ export const dictionary = {
     'category':{
       'assign1':{
         'korean': '담당자 지정',
-        'english': 'Assign Manager',
+        'english': 'Assign Person in Charge',
       },
       'assign2':{
         'korean': '담당자 일괄 지정',
-        'english': 'Assign Managers',
+        'english': 'Assign All',
       },
       'mainTitle':{
         'korean': '메인목차',
-        'english': 'Main Menu',
+        'english': 'Main Contents',
       },
       'bigTitle':{
         'korean': '대제목',
-        'english': 'Big Title',
+        'english': 'Main Title',
       },
       'middleTitle':{
         'korean': '중제목',
-        'english': 'Middle Title',
+        'english': 'Subtitle',
       },
       'smallTitle':{
         'korean': '소제목',
-        'english': 'Small Title',
+        'english': 'Subheading',
       },
       'placeholder':{
         'korean': '검색어를 입력하세요',
