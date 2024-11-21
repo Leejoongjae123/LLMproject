@@ -229,11 +229,11 @@ export default function Component({
       </div>
 
       <Select
-        defaultSelectedKeys={[localStorage.getItem('selectedLanguage') || "korean"]}
+        defaultSelectedKeys={[window.localStorage.getItem('selectedLanguage') || "korean"]}
         className="max-w-xs"
         onChange={(e) => {
           setLanguage(e.target.value);
-          localStorage.setItem('selectedLanguage', e.target.value);
+          window.localStorage.setItem('selectedLanguage', e.target.value);
         }}
       >
         {animals.map((animal) => (

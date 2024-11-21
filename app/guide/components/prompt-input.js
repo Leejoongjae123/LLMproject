@@ -34,14 +34,14 @@ const PromptInputContent = React.forwardRef(
     const { language } = useLanguageStore();
 
     useEffect(() => {
-
+      const regarding=language==='korean'?'에 대하여':'Regarding this,';
           if (props.writeLonger) {
             props.setWriteLonger(false);
             props.setChatList([
               ...props.chatList,
               {
                 role: 'user',
-                message: dictionary.guide.writeInstruction1[language],
+                message: props.selectedText+regarding+ dictionary.guide.writeInstruction1[language],
                 category:dictionary.guide.write1[language],
                 chatId: uuidv4()
 
@@ -53,7 +53,7 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: dictionary.guide.writeInstruction2[language],
+                message: props.selectedText+regarding+ dictionary.guide.writeInstruction2[language],
                 category:dictionary.guide.write2[language],
                 chatId: uuidv4()
                 
@@ -65,7 +65,7 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: dictionary.guide.writeInstruction3[language],
+                message: props.selectedText+regarding+ dictionary.guide.writeInstruction3[language],
                 category:dictionary.guide.write3[language],
                 chatId: uuidv4()
               }

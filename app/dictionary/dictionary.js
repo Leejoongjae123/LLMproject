@@ -187,8 +187,8 @@ export const dictionary = {
         'english': 'However, please refrain from uploading confidential documents or sensitive materials.',
       },
       'uploadInstruction5':{
-        'korean': '추천 데이터 : 사업보고서,지속가능경영보고서,기업지배구조보고서,TCFD,CDP,SASB 등',
-        'english': 'Recommended data: Business Report, Sustainability Report, Corporate Governance Report, TCFD, CDP, SASB, etc.',
+        'korean': '추천 데이터 : TCFD 보고서, CDP 답변서, 지속가능경영보고서, 기업지배구조보고서, 사업보고서, SASB 보고서 등',
+        'english': 'Recommended data: TCFD Reports, CDP Disclosures, Sustainability Reports, Corporate Governance Reports, Annual Reports, SASB Reports, etc.',
       },
       'uploadFileList':{
         'korean': '업로드 파일 목록',
@@ -400,6 +400,104 @@ export const dictionary = {
       'writeInstruction3':{
         'korean':'방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 paraphrase 해줘.',
         'english':'Keep the content and data source of the sentence you just wrote, and paraphrase it.',
+      },
+    },
+    'tableCreationModal':{
+      'makeTable':{
+        'korean':'테이블 생성하기',
+        'english':'Create Table',
+      },
+      'step1':{
+        'korean':'Step 1: 공시할 데이터의 범위를 선택해 주세요',
+        'english':'Step 1: Please select the scope of data.',
+      },
+      'step2':{
+        'korean':'Step 2: 공시할 데이터의 연도를 선택해 주세요',
+        'english':'Step 2: Please select the year of the data for disclosure.',
+      },
+      'step3':{
+        'korean':'Step 3: 공시할 데이터의 보고에 포함할 종속기업을 모두 선택해 주세요',
+        'english':'Step 3: Please select all subsidiaries.',
+      },
+      'step4':{
+        'korean':'Step 4: Scope3에 공시할 데이터의 카테고리를 선택해주세요',
+        'english':'Step 4: Please select the categories of data to disclose for Scope 3.',
+      },
+      'step1select1':{
+        'korean':'Scope 1(직접 배출)',
+        'english':'Scope 1 (Direct Emissions)',
+      },
+      'step1select2':{
+        'korean':'Scope 2(간접 배출)',
+        'english':'Scope 2 (Indirect Emissions)',
+      },
+      'step1select3':{
+        'korean':'Scope 3(기타 간접 배출)',
+        'english':'Scope 3(Other Indirect Emissions)',
+      },
+      'step3select1':{
+        'korean':'종속기업 없음(지배 기업만 공시)',
+        'english':'No Subsidiaries (Only Parent Company Disclosure)',
+      },
+      'step4category1':{
+        'korean':'Category 1 구매한 상품 및 서비스',
+        'english':'Category 1Purchase Goods and Services',
+      },
+      'step4category2':{
+        'korean':'Category 2 자본재',
+        'english':'Category 2 Capital Goods',
+      },
+      'step4category3':{
+        'korean':'Category 3 연료 및 에너지 관련 활동',
+        'english':'Category 3 Fuel and Energy-Related Activities',
+      },
+      'step4category4':{
+        'korean':'Category 4 Upstream Transportation and Distribution',
+        'english':'Category 4 Upstream Transportation and Distribution',
+      },
+      'step4category5':{
+        'korean':'Category 5 Waste Generated in Operations',
+        'english':'Category 5 Waste Generated in Operations',
+      },
+      'step4category6':{
+        'korean':'Category 6 Business Travel',
+        'english':'Category 6 Business Travel',
+      },
+      'step4category7':{
+        'korean':'Category 7 Employee Commuting',
+        'english':'Category 7 Employee Commuting',
+      },
+      'step4category8':{
+        'korean':'Category 8 Upstream Leased Assets',
+        'english':'Category 8 Upstream Leased Assets',
+      },
+      'step4category9':{
+        'korean':'Category 9 Downstream Transport and Distribution',
+        'english':'Category 9 Downstream Transport and Distribution',
+      },
+      'step4category10':{
+        'korean':'Category 10 Processing of Sold Products',
+        'english':'Category 10 Processing of Sold Products',
+      },
+      'step4category11':{
+        'korean':'Category 11 Use of Sold Products',
+        'english':'Category 11 Use of Sold Products',
+      },
+      'step4category12':{
+        'korean':'Category 12 End-of-life treatment of sold products',
+        'english':'Category 12 End-of-life treatment of sold products',
+      },
+      'step4category13':{
+        'korean':'Category 13 Downstream Leased Assets',
+        'english':'Category 13 Downstream Leased Assets',
+      },
+      'step4category14':{
+        'korean':'Category 14 Franchises',
+        'english':'Category 14 Franchises',
+      },
+      'step4category15':{
+        'korean':'Category 15 Investment',
+        'english':'Category 15 Investment',
       },
     }
 

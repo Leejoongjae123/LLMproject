@@ -13,6 +13,8 @@ import {
   Input,
   Checkbox,
 } from "@nextui-org/react";
+import { useLanguageStore } from "./languageStore";
+import { dictionary } from "../dictionary/dictionary";
 
 const TableCreationModal = ({
   isOpen,
@@ -27,10 +29,11 @@ const TableCreationModal = ({
   categories,
   setCategories,
 }) => {
+  const { language } = useLanguageStore();
   const [step, setStep] = useState(1);
   const [scopes, setScopes] = useState([
-    "Scope 1(직접 배출)",
-    "Scope 2(간접 배출)",
+    dictionary.tableCreationModal.step1select1[language],
+    dictionary.tableCreationModal.step1select2[language],
   ]);
   // const [years, setYears] = useState(["2024"]);
   // const [subsidiaries, setSubsidiaries] = useState([
@@ -58,11 +61,11 @@ const TableCreationModal = ({
       case 1:
         return (
           <>
-            <h3>Step 1: 공시할 데이터의 범위를 선택해 주세요</h3>
+            <h3>{dictionary.tableCreationModal.step1[language]}</h3>
             {[
-              "Scope 1(직접 배출)",
-              "Scope 2(간접 배출)",
-              "Scope 3(기타 간접 배출)",
+              dictionary.tableCreationModal.step1select1[language],
+              dictionary.tableCreationModal.step1select2[language],
+              dictionary.tableCreationModal.step1select3[language],
             ].map((scope) => (
               <Checkbox
                 classNames={{
@@ -72,7 +75,7 @@ const TableCreationModal = ({
                 key={scope}
                 isSelected={scopes.includes(scope)}
                 onValueChange={(isSelected) => {
-                  if (scope === "Scope 3(기타 간접 배출)") {
+                  if (scope === dictionary.tableCreationModal.step1select3[language]) {
                     setScopes(
                       isSelected
                         ? [...scopes, scope]
@@ -81,7 +84,7 @@ const TableCreationModal = ({
                     setHasScope3(isSelected);
                   }
                 }}
-                isDisabled={scope !== "Scope 3(기타 간접 배출)"}
+                isDisabled={scope !== dictionary.tableCreationModal.step1select3[language]}
               >
                 {scope}
               </Checkbox>
@@ -91,7 +94,7 @@ const TableCreationModal = ({
       case 2:
         return (
           <>
-            <h3>Step 2: 공시할 데이터의 연도를 선택해 주세요</h3>
+            <h3>{dictionary.tableCreationModal.step2[language]}</h3>
             {["2022", "2023", "2024"].map((year) => (
               <Checkbox
                 key={year}
@@ -116,11 +119,10 @@ const TableCreationModal = ({
         return (
           <>
             <h3>
-              Step 3: 공시할 데이터의 보고에 포함할 종속기업을 모두 선택해
-              주세요
+              {dictionary.tableCreationModal.step3[language]}
             </h3>
             {[
-              "종속기업 없음(지배 기업만 공시)",
+              dictionary.tableCreationModal.step3select1[language],
               "Linkedin",
               "GitHub",
               "Skype",
@@ -129,7 +131,7 @@ const TableCreationModal = ({
                 key={subsidiary}
                 isSelected={subsidiaries.includes(subsidiary)}
                 onValueChange={(isSelected) => {
-                  if (subsidiary === "종속기업 없음(지배 기업만 공시)") {
+                  if (subsidiary === dictionary.tableCreationModal.step3select1[language]) {
                     setSubsidiaries(isSelected ? [subsidiary] : []);
                   } else {
                     setSubsidiaries((prevSubsidiaries) => {
@@ -137,7 +139,7 @@ const TableCreationModal = ({
                         ? [...prevSubsidiaries, subsidiary]
                         : prevSubsidiaries.filter((s) => s !== subsidiary);
                       newSubsidiaries = newSubsidiaries.filter(
-                        (s) => s !== "종속기업 없음(지배 기업만 공시)"
+                        (s) => s !== dictionary.tableCreationModal.step3select1[language]
                       );
                       // Ensure at least one subsidiary is selected
                       return newSubsidiaries.length === 0
@@ -156,23 +158,23 @@ const TableCreationModal = ({
       case 4:
         return (
           <>
-            <h3>Step 4: Scope3에 공시할 데이터의 카테고리를 선택해주세요</h3>
+            <h3>{dictionary.tableCreationModal.step4[language]}</h3>
             {[
-              "Category 1 제품 서비스 구매",
-              "Category 2 자본",
-              "Category 3 구매연료/에너지",
-              "Category 4 Upstream 운송&유통",
-              "Category 5 사업장 발생 폐기물",
-              "Category 6 임직원 출장",
-              "Category 7 통근",
-              "Category 8 리스자산(Upstream)",
-              "Category 9 Downstream 운송&유통",
-              "Category 10 판매제품 가공",
-              "Category 11 판매 제품 사용",
-              "Category 12 판매 제품 폐기",
-              "Category 13 리스자산(Downstream)",
-              "Category 14 프랜차이즈",
-              "Category 15 투자",
+              dictionary.tableCreationModal.step4category1[language],
+              dictionary.tableCreationModal.step4category2[language],
+              dictionary.tableCreationModal.step4category3[language],
+              dictionary.tableCreationModal.step4category4[language],
+              dictionary.tableCreationModal.step4category5[language],
+              dictionary.tableCreationModal.step4category6[language],
+              dictionary.tableCreationModal.step4category7[language],
+              dictionary.tableCreationModal.step4category8[language],
+              dictionary.tableCreationModal.step4category9[language],
+              dictionary.tableCreationModal.step4category10[language],
+              dictionary.tableCreationModal.step4category11[language],
+              dictionary.tableCreationModal.step4category12[language],
+              dictionary.tableCreationModal.step4category13[language],
+              dictionary.tableCreationModal.step4category14[language],
+              dictionary.tableCreationModal.step4category15[language],
             ].map((category) => (
               <Checkbox
                 key={category}
@@ -199,7 +201,7 @@ const TableCreationModal = ({
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              테이블 생성하기
+              {dictionary.tableCreationModal.makeTable[language]}
             </ModalHeader>
             <ModalBody>{renderStepContent()}</ModalBody>
             <ModalFooter>
