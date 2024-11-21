@@ -462,6 +462,7 @@ function Page() {
               chatReference={chatReference}
               setChatReference={setChatReference}
             ></TipTap>
+            
           </div>
         </Panel>
         <PanelResizeHandle className="w-1 flex items-center justify-center">
