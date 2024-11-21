@@ -7,7 +7,7 @@ import { Plugin, PluginKey } from "prosemirror-state";
 import { Decoration, DecorationSet } from "prosemirror-view";
 import HardBreak from "@tiptap/extension-hard-break";
 import "./EditorStyles.css";
-
+import TextAlign from '@tiptap/extension-text-align'
 // shadcn UI 컴포넌트 import
 import { Toggle } from "../components/ui/toggle";
 import { Separator } from "../components/ui/separator";
@@ -160,6 +160,7 @@ const StyledEditorContent = styled(EditorContent)`
         text-align: left;
       }
     }
+
   }
 `;
 
@@ -197,17 +198,17 @@ const CustomEditor = ({
   const [subsidiaries, setSubsidiaries] = useState([
     "종속기업 없음(지배 기업만 공시)",
   ]);
+  const { language } = useLanguageStore();
   const [categories, setCategories] = useState([
-    "Category 1 제품 서비스 구매",
-    "Category 2 자본",
-    "Category 3 구매연료/에너지",
-    "Category 4 Upstream 운송&유통",
-    "Category 5 사업장 발생 폐기물",
+    dictionary.tableCreationModal.step4category1[language],
+    dictionary.tableCreationModal.step4category2[language],
+    dictionary.tableCreationModal.step4category3[language],
+    dictionary.tableCreationModal.step4category4[language],
+    dictionary.tableCreationModal.step4category5[language],
   ]);
   // console.log('selectedText:',selectedText)
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { language } = useLanguageStore();
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -217,6 +218,11 @@ const CustomEditor = ({
       }),
       CustomFocus.configure({
         language: language // language 값을 Extension에 전달
+      }),
+      TextAlign.configure({
+        types: ['paragraph'],
+        alignments: ['left', 'right'],
+        defaultAlignment: 'left',
       }),
       HardBreak.extend({
         addKeyboardShortcuts() {
@@ -241,9 +247,9 @@ const CustomEditor = ({
   const handleCategoryChange = () => {
     setCategory("");
     const categories = {
-      "이사회의 역할 및 책임": "가",
-      "관리 감독 체계": "나",
-      "경영진의 역할 및 감독 프로세스": "다",
+      [dictionary.guide.smallTitle1[language]]: "가",
+      [dictionary.guide.smallTitle2[language]]: "나",
+      [dictionary.guide.smallTitle3[language]]: "다",
       "(라)": "라",
       "(마)": "마",
       "(바)": "바",
@@ -390,7 +396,7 @@ const CustomEditor = ({
     const sortedYears = [...years].sort((a, b) => a - b);
 
     // subsidiaries에서 특정 회사들을 확인
-    const specialSubsidiaries = ["마이크로소프트"];
+    const specialSubsidiaries = [dictionary.table.tableMicrosoft[language]];
     ["Linkedin", "Github", "Skype"].forEach((sub) => {
       if (
         subsidiaries.some((s) => s.toLowerCase().includes(sub.toLowerCase()))
@@ -425,8 +431,8 @@ const CustomEditor = ({
               content: [
                 {
                   type: "paragraph",
-                  content: [{ type: "text", text: "합계" }],
-                },
+                    content: [{ type: "text", text: dictionary.table.tableHeader4[language] }],
+                  },
               ],
             },
             ...specialSubsidiaries.map((sub) => ({
@@ -443,7 +449,7 @@ const CustomEditor = ({
               content: [
                 {
                   type: "paragraph",
-                  content: [{ type: "text", text: "합계" }],
+                  content: [{ type: "text", text: dictionary.table.tableHeader4[language] }],
                 },
               ],
             },
@@ -536,7 +542,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "구분" }],
+                      content: [{ type: "text", text: dictionary.table.tableHeader1[language] }],
                     },
                   ],
                 },
@@ -546,7 +552,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "목" }],
+                      content: [{ type: "text", text: dictionary.table.tableHeader2[language] }],
                     },
                   ],
                 },
@@ -556,7 +562,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "단위" }],
+                      content: [{ type: "text", text: dictionary.table.tableHeader3[language] }],
                     },
                   ],
                 },
@@ -578,7 +584,7 @@ const CustomEditor = ({
                     {
                       type: "paragraph",
                       content: [
-                        { type: "text", text: "온실가스 직접배출 (Scope 1)" },
+                        { type: "text", text: dictionary.table.tableCell1[language] },
                       ],
                     },
                   ],
@@ -588,7 +594,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "CO2 총 배출량" }],
+                      content: [{ type: "text", text: dictionary.table.tableCell3[language] }],
                     },
                   ],
                 },
@@ -612,7 +618,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "집약도" }],
+                      content: [{ type: "text", text: dictionary.table.tableCell4[language] }],
                     },
                   ],
                 },
@@ -621,7 +627,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "배출 10억원당 기준" }],
+                      content: [{ type: "text", text: dictionary.table.tableCell5[language] }],
                     },
                   ],
                 },
@@ -636,7 +642,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "집약도" }],
+                      content: [{ type: "text", text: dictionary.table.tableCell4[language] }],
                     },
                   ],
                 },
@@ -645,7 +651,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "직원1인당 기준" }],
+                      content: [{ type: "text", text: dictionary.table.tableCell6[language] }],
                     },
                   ],
                 },
@@ -663,7 +669,7 @@ const CustomEditor = ({
                     {
                       type: "paragraph",
                       content: [
-                        { type: "text", text: "온실가스 간접배출 (Scope 2)" },
+                        { type: "text", text: dictionary.table.tableCell2[language] },
                       ],
                     },
                   ],
@@ -673,7 +679,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "CO2 총 배출량" }],
+                      content: [{ type: "text", text: dictionary.table.tableCell3[language] }],
                     },
                   ],
                 },
@@ -697,7 +703,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "집약도" }],
+                      content: [{ type: "text", text: dictionary.table.tableCell4[language] }],
                     },
                   ],
                 },
@@ -706,7 +712,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "배출 10억원당 기준" }],
+                      content: [{ type: "text", text: dictionary.table.tableCell5[language] }],
                     },
                   ],
                 },
@@ -721,7 +727,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "집약도" }],
+                      content: [{ type: "text", text: dictionary.table.tableCell4[language] }],
                     },
                   ],
                 },
@@ -730,7 +736,7 @@ const CustomEditor = ({
                   content: [
                     {
                       type: "paragraph",
-                      content: [{ type: "text", text: "직원1인당 기준" }],
+                      content: [{ type: "text", text: dictionary.table.tableCell6[language] }],
                     },
                   ],
                 },
@@ -744,7 +750,7 @@ const CustomEditor = ({
           content: [
             {
               type: "text",
-              text: "* 각 연도별 합계 원단위는 A회사의 연결 기준 매출 및 구성원 수 적용",
+              text: dictionary.table.tableExplanation1[language],
             },
           ],
         },
@@ -753,17 +759,13 @@ const CustomEditor = ({
           content: [
             {
               type: "text",
-              text: `각주 1) ${
-                years[0]
-              }년 이전은 관할 당국에서 요구받은 방법으로 산정하였고, ${
-                years[years.length - 1]
-              }년은 GHG 프로토콜로 산정함`,
+              text: dictionary.table.tableExplanation2[language],
             },
           ],
         },
         {
           type: "paragraph",
-          content: [{ type: "text", text: "각주 2) 지역 기반 배출량 기준" }],
+          content: [{ type: "text", text: dictionary.table.tableExplanation3[language] }],
         },
       ])
       .run();
@@ -780,7 +782,7 @@ const CustomEditor = ({
         {
           type: "tableHeader",
           content: [
-            { type: "paragraph", content: [{ type: "text", text: "구분" }] },
+            { type: "paragraph", content: [{ type: "text", text: dictionary.table.tableHeader1[language] }] },
           ],
         },
         ...sortedYears.map((year) => ({
@@ -836,11 +838,11 @@ const CustomEditor = ({
     // 기본 값 매핑 (예시)
     const baseValues = {
       "Scope3": 3000,
-      "Category 1 제품 서비스 구매": 2000,
-      "Category 2 자본재": 25,
-      "Category 3 구매연료/에너지": 39,
-      "Category 4 Upstream 운송&유통": 41,
-      "Category 5 사업장 발생 폐기물": 18,
+      [dictionary.tableCreationModal.step4category1[language]]: 2000,
+      [dictionary.tableCreationModal.step4category2[language]]: 25,
+      [dictionary.tableCreationModal.step4category3[language]]: 39,
+      [dictionary.tableCreationModal.step4category4[language]]: 41,
+      [dictionary.tableCreationModal.step4category5[language]]: 18,
       // ... 다른 카테고리들에 대한 기본값 추가
     };
 
@@ -863,6 +865,11 @@ const CustomEditor = ({
           content: [{ type: "text", text: "◼ Scope 3" }],
         },
         {
+          type: "paragraph",
+          attrs: { textAlign: 'right' },  // 우측 정렬 속성 추가
+          content: [{ type: "text", text: dictionary.table.tableHeaderUpper[language] }],
+        },
+        {
           type: "table",
           content: tableContent,
         },
@@ -871,7 +878,7 @@ const CustomEditor = ({
           content: [
             {
               type: "text",
-              text: "* 집계 범위: A회사 및 자회사(종속기업 1, 2, 3, 4)",
+              text: dictionary.table.tableExplanation4[language],
             },
           ],
         },

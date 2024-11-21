@@ -77,7 +77,7 @@ function Page() {
   const requestMadeRef = useRef(false);
   const [chatReference, setChatReference] = useState([]);
   const { language, setLanguage } = useLanguageStore();
-
+  console.log('sampleText:',sampleText)
   useEffect(() => {
     if (language === "korean") {
       setSelectedLanguage("kr");
@@ -329,6 +329,9 @@ function Page() {
   // console.log('selectedItem:',selectedItem)
   // console.log("sampleText:",sampleText)
   // console.log("category:",category)
+  console.log('selectedItem:',selectedItem)
+  console.log('selectedKeys:',selectedKeys)
+  console.log("sampleText:",sampleText)
   useEffect(() => {
     const selectedSample = sampleText.find(
       (item) =>
@@ -627,16 +630,16 @@ function Page() {
                               }}
                             >
                               <ListboxItem key="edkkor">
-                                EDK샘플(KOR)
+                                {dictionary.guide.samplesTitle1[language]}
                               </ListboxItem>
                               <ListboxItem key="edkeng">
-                                EDK샘플(ENG)
+                                {dictionary.guide.samplesTitle2[language]}
                               </ListboxItem>
                               <ListboxItem key="domestic">
-                                국내 기업 샘플
+                                {dictionary.guide.samplesTitle3[language]}
                               </ListboxItem>
                               <ListboxItem key="foreign">
-                                해외 기업 샘플
+                                {dictionary.guide.samplesTitle4[language]}
                               </ListboxItem>
                             </Listbox>
                           </ListboxWrapper>
@@ -790,12 +793,6 @@ function Page() {
                 </h1>
                 {isLoading ? (
                   <div className="flex justify-center items-center w-full h-full">
-                    {/* <Lottie
-                      animationData={animationData}
-                      loop={true} // 반복 여부 설정
-                      autoplay={true} // 자동 재생 설정
-                      style={{ width: 200, height: 200 }} // 스타일 조정
-                    /> */}
                     <Image
                       src="/lottie/loading.gif"
                       alt="loading"

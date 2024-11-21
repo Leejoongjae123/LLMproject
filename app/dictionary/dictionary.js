@@ -319,11 +319,11 @@ export const dictionary = {
       },
       'AIDiagnosisInstruction1':{
         "korean":"해당 박스에는 아래 내용이 주로 작성되어야 해요.",
-        "english":"The following content is usually written in this box.",
+        "english":"Current box should primarily include the following content:",
       },
       'AIDiagnosisInstruction2':{
         "korean":"AI 진단 결과",
-        "english":"AI Diagnosis Result",
+        "english":"AI Diagnosis Results",
       },
       "seeGuide":{
         "korean":"가이드라인 보기",
@@ -331,7 +331,7 @@ export const dictionary = {
       },
       'seeSample':{
         "korean":"샘플 보기",
-        "english":"View Sample",
+        "english":"Samples",
       },
       'governanceSample':{
         "korean":"거버넌스",
@@ -367,7 +367,7 @@ export const dictionary = {
       },
       "again":{
         'korean':"AI 진단 다시하기",
-        'english':"Retry AI Diagnosis",
+        'english':"Redo",
       },
       'toEnglish':{
         'korean':'영문',
@@ -400,6 +400,30 @@ export const dictionary = {
       'writeInstruction3':{
         'korean':'방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 paraphrase 해줘.',
         'english':'Keep the content and data source of the sentence you just wrote, and paraphrase it.',
+      },
+      'AIDiagnosisTooltip1':{
+        'korean':'보다 더 자세한 가이드 전문은 [가이드 탭]을 확인해 주세요',
+        'english':'For a more detailed guide, please refer to the [Guide Tab].',
+      },
+      'AIDiagnosisTooltip2':{
+        'korean':'보다 더 자세한 가이드 전문은 [가이드 탭]을 확인해 주세요',
+        'english':'AI diagnosis is provided based on ChatGPT-4, but please consult with a consultant for professional advice',
+      },
+      'samplesTitle1':{
+        'korean':'EDK샘플(KOR)',
+        'english':'EDK Sample (KOR)',
+      },
+      'samplesTitle2':{
+        'korean':'EDK샘플(ENG)',
+        'english':'EDK Sample (ENG)',
+      },
+      'samplesTitle3':{
+        'korean':'국내 기업 샘플',
+        'english':'Korean Reports',
+      },
+      'samplesTitle4':{
+        'korean':'해외 기업 샘플',
+        'english':'Global Reports',
       },
     },
     'tableCreationModal':{
@@ -499,6 +523,74 @@ export const dictionary = {
         'korean':'Category 15 Investment',
         'english':'Category 15 Investment',
       },
-    }
+      
+
+    },
+    'table':{
+      'tableHeader1':{
+        'korean':'구분',
+        'english':'Category',
+      },
+      'tableHeader2':{
+        'korean':'항목',
+        'english':'Item',
+      },
+      'tableHeader3':{
+        'korean':'단위',
+        'english':'Unit',
+      },
+      'tableHeader4':{
+        'korean':'합계',
+        'english':'Total',
+      },
+      'tableMicrosoft':{
+        'korean':'Microsoft',
+        'english':'Microsoft',
+      },
+      'tableCell1':{
+        'korean':'온실가스 직접배출 (Scope 1)',
+        'english':'Direct GHG Emissions (Scope 1)',
+      },
+      'tableCell2':{
+        'korean':'온실가스 간접배출 (Scope 2)',
+        'english':'Indirect GHG Emissions (Scope 2)',
+      },
+      'tableCell3':{
+        'korean':'CO2 총 배출량',
+        'english':'Total CO2 Emissions',
+      },
+      'tableCell4':{
+        'korean':'집약도',
+        'english':'Intensity',
+      },
+      'tableCell5':{
+        'korean':'배출 10억 당 기준',
+        'english':'Per 1 Billion KRW Emissions',
+      },
+      'tableCell6':{
+        'korean':'직원 1인 당 기준',
+        'english':'Per Employee Emissions',
+      },
+      'tableExplanation1':{
+        'korean':'*각 연도별 합계 및 원단위는 모회사의 연결 기준 매출 및 구성원 수 적용',
+        'english':'*The total and unit figures for each year are based on the sales and employee count of each entity.',
+      },
+      'tableExplanation2':{
+        'korean':'각주 1) 2023년 이전은 관할 당국에서 요구받은 방법으로 산정하였고, 2024년은 GHG 프로토콜로 산정함',
+        'english':'Footnote 1: Calculations for 2023 and earlier were done using methods required by the relevant authorities, and for 2024, calculations were done based on the GHG Protocol.',
+      },
+      'tableExplanation3':{
+        'korean':'각주 2) 지역 기반 배출량 기준',
+        'english':'Footnote 2: Based on location-based emissions.',
+      },
+      'tableExplanation4':{
+        'korean':'*데이터 보고 범위: Microsoft 및 자회사',
+        'english':'*Data coverage: Microsoft and its subsidiares',
+      },
+      'tableHeaderUpper':{
+        'korean':'(단위: tCO2eq)',
+        'english':'(Unit: tCO2eq)',
+      }
+      }
 
   }

@@ -178,6 +178,17 @@ export default function Component({
   const [selectedBucket, setSelectedBucket] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {language, setLanguage } = useLanguageStore();
+  const [defaultLanguage, setDefaultLanguage] = useState("korean");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setDefaultLanguage(window.localStorage.getItem('selectedLanguage') || "korean");
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   const agentId = language === 'korean' 
   ? process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID 
@@ -229,7 +240,7 @@ export default function Component({
       </div>
 
       <Select
-        defaultSelectedKeys={[window.localStorage.getItem('selectedLanguage') || "korean"]}
+        defaultSelectedKeys={[defaultLanguage]}
         className="max-w-xs"
         onChange={(e) => {
           setLanguage(e.target.value);

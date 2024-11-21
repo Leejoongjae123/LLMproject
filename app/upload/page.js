@@ -73,12 +73,12 @@ export default function BucketFileManager() {
   const [newBucketName, setNewBucketName] = useState(""); // New state for bucket name
   const [isLoading, setIsLoading] = useState(false);
 
-  
   const apiKey = process.env.NEXT_PUBLIC_SCIONIC_API_KEY;
   const baseUrl = process.env.NEXT_PUBLIC_SCIONIC_BASE_URL;
-  const agentId = language === 'korean' 
-  ? process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID 
-  : process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID_ENGLISH
+  const agentId =
+    language === "korean"
+      ? process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID
+      : process.env.NEXT_PUBLIC_SCIONIC_AGENT_ID_ENGLISH;
 
   const fetchBuckets = async () => {
     const ENDPOINT = `/api/v2/buckets`;
@@ -184,7 +184,6 @@ export default function BucketFileManager() {
 
     // Fetch the updated file list after all uploads are complete
     fetchFileList(agentId, selectedBucket.id);
-
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -195,9 +194,6 @@ export default function BucketFileManager() {
   };
 
   const createBucket = async () => {
-
-
-
     if (newBucketName.trim() === "") return; // Prevent empty bucket names
 
     const ENDPOINT = `/api/v2/buckets`;
@@ -224,18 +220,21 @@ export default function BucketFileManager() {
       };
 
       const { data: existingBucket, error: fetchError } = await supabase
-        .from('buckets')
-        .select('bucketId')
-        .eq('bucketId', newBucket.id)
+        .from("buckets")
+        .select("bucketId")
+        .eq("bucketId", newBucket.id)
         .single();
 
       if (!existingBucket) {
         const { data: insertData, error: insertError } = await supabase
-          .from('buckets')
+          .from("buckets")
           .insert([{ bucketId: newBucket.id, bucketName: newBucketName }]);
 
         if (insertError) {
-          console.error("Error inserting new bucket into Supabase:", insertError);
+          console.error(
+            "Error inserting new bucket into Supabase:",
+            insertError
+          );
         } else {
           console.log("New bucket inserted into Supabase:", insertData);
         }
@@ -272,22 +271,22 @@ export default function BucketFileManager() {
       });
 
       const results = response.data;
-      console.log('results:',results)
+      console.log("results:", results);
       const { data: existingBucket, error: fetchError } = await supabase
-        .from('buckets')
-        .select('*')
-        .eq('bucketId', bucketId)
+        .from("buckets")
+        .select("*")
+        .eq("bucketId", bucketId);
       console.log("existingBucket:", existingBucket);
       if (existingBucket.length > 0) {
         const documents = results.data.data.map((file) => ({
           documentId: file.id,
           documentName: file.name,
         }));
-        console.log("업데이트시작")
+        console.log("업데이트시작");
         const { data: updateData, error: updateError } = await supabase
-          .from('buckets')
+          .from("buckets")
           .update({ documents: documents })
-          .eq('bucketId', bucketId);
+          .eq("bucketId", bucketId);
 
         if (updateError) {
           console.error("Error updating documents in Supabase:", updateError);
@@ -339,12 +338,13 @@ export default function BucketFileManager() {
     fetchBuckets();
   }, [language]);
 
-
   return (
     <div className="flex h-[calc(100vh-6rem)] p-12">
       <Card className="w-1/4 mr-4 p-3">
         <CardHeader>
-          <h2 className="text-lg font-bold">{dictionary.upload.folder[language]}</h2>
+          <h2 className="text-lg font-bold">
+            {dictionary.upload.folder[language]}
+          </h2>
         </CardHeader>
         <CardBody className="overflow-y-auto h-[calc(100vh-12rem)]">
           {buckets.map((bucket) => (
@@ -405,22 +405,18 @@ export default function BucketFileManager() {
         </CardHeader>
         <CardBody>
           <div className="flex">
-            <p className="text-sm text-gray-500 mb-4">{dictionary.upload.basicFileList[language]}</p>
+            <p className="text-sm text-gray-500 mb-4">
+              {dictionary.upload.basicFileList[language]}
+            </p>
             <Tooltip
               className="z-50"
               content={
                 <div className="px-1 py-2">
-                  <p>
-                    {dictionary.upload.uploadInstruction2[language]}
-                  </p>
+                  <p>{dictionary.upload.uploadInstruction2[language]}</p>
                   <br />
-                  <p>
-                    {dictionary.upload.uploadInstruction3[language]}
-                  </p>
-                  <p>
-                    {dictionary.upload.uploadInstruction4[language]}
-                  </p>
-                  <br/>
+                  <p>{dictionary.upload.uploadInstruction3[language]}</p>
+                  <p>{dictionary.upload.uploadInstruction4[language]}</p>
+                  <br />
                   <p className="text-xs font-bold">
                     - {dictionary.upload.uploadInstruction5[language]}
                   </p>
@@ -452,9 +448,7 @@ export default function BucketFileManager() {
                 className="z-50"
                 content={
                   <div className="px-1 py-2">
-                    <p>
-                      {dictionary.upload.uploadInstruction1[language]}
-                    </p>
+                    <p>{dictionary.upload.uploadInstruction1[language]}</p>
                   </div>
                 }
               >
@@ -466,11 +460,21 @@ export default function BucketFileManager() {
           </div>
           <Table aria-label="Files table">
             <TableHeader>
-              <TableColumn className="w-1/5 text-center">{dictionary.upload.header1[language]}</TableColumn>
-              <TableColumn className="w-1/5 text-center">{dictionary.upload.header2[language]}</TableColumn>
-              <TableColumn className="w-1/5 text-center">{dictionary.upload.header3[language]}</TableColumn>
-              <TableColumn className="w-1/5 text-center">{dictionary.upload.header4[language]}</TableColumn>
-              <TableColumn className="w-1/5 text-center">{dictionary.upload.header5[language]}</TableColumn>
+              <TableColumn className="w-1/5 text-center">
+                {dictionary.upload.header1[language]}
+              </TableColumn>
+              <TableColumn className="w-1/5 text-center">
+                {dictionary.upload.header2[language]}
+              </TableColumn>
+              <TableColumn className="w-1/5 text-center">
+                {dictionary.upload.header3[language]}
+              </TableColumn>
+              <TableColumn className="w-1/5 text-center">
+                {dictionary.upload.header4[language]}
+              </TableColumn>
+              <TableColumn className="w-1/5 text-center">
+                {dictionary.upload.header5[language]}
+              </TableColumn>
             </TableHeader>
             <TableBody>
               {files?.map((file, index) => (
@@ -489,8 +493,10 @@ export default function BucketFileManager() {
                         : "text-red-500"
                     }`}
                   >
-                    {file.status === "completed" ? dictionary.upload.AIStudyComplete[language] : dictionary.upload.AIStudyProcessing[language]}
-                    </TableCell>
+                    {file.status === "completed"
+                      ? dictionary.upload.AIStudyComplete[language]
+                      : dictionary.upload.AIStudyProcessing[language]}
+                  </TableCell>
                   <TableCell className="text-center">
                     <Button
                       variant="light"
