@@ -548,8 +548,8 @@ function Page() {
                             >
                               <p className="text-xs">
                                 {selectedLanguage === "kr"
-                                  ? dictionary.guide.toEnglish[language]
-                                  : dictionary.guide.toKorean[language]}
+                                  ? dictionary.guide.toKorean[language]
+                                  : dictionary.guide.toEnglish[language]}
                               </p>
                             </Switch>
                           </div>

@@ -7,7 +7,7 @@ export default function DynamicHeader() {
   const { language, setLanguage } = useLanguageStore();
   console.log('dictionary:', dictionary)
   const pathname = usePathname()
-  const title = pathname.includes('select') ? dictionary?.select['IFRS S2'][language] : dictionary.select['IFRS S2'][language]
+  const title = pathname.includes('select') ? dictionary?.select['AIReport'][language] : dictionary.select['IFRS S2'][language]
   
   return title
 }

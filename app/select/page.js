@@ -12,7 +12,7 @@ function page() {
     {
       key: "ISSB",
       title: "ISSB",
-      subtitle:"International Sustainability Standard Board",
+      subtitle:"International Sustainability Standards Board",
       descriptions: ["BETA"],
       tooltipContent: dictionary?.select?.tooltipContent1[language],
     },

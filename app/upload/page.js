@@ -516,18 +516,18 @@ export default function BucketFileManager() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                버킷 만들기
+                {dictionary.createBucket.createBucket[language]}
               </ModalHeader>
               <ModalBody>
                 <Input
-                  label="폴더명"
+                  label={dictionary.createBucket.folderName[language]}
                   value={newBucketName}
                   onChange={(e) => setNewBucketName(e.target.value)} // Update state on input change
                 />
               </ModalBody>
               <ModalFooter>
                 <Button color="primary" onPress={createBucket}>
-                  확인
+                  {dictionary.createBucket.confirm[language]}
                 </Button>
               </ModalFooter>
             </>
@@ -538,14 +538,16 @@ export default function BucketFileManager() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">에러</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">
+                {dictionary.createBucket.error[language]}
+              </ModalHeader>
               <ModalBody>
-                <p>버킷 생성에 실패했습니다.</p>
-                <p>{errorMessage}</p>
+                <p>{dictionary.createBucket.errorDetail1[language]}</p>
+                <p>{dictionary.createBucket.errorDetail2[language]}</p>
               </ModalBody>
               <ModalFooter>
                 <Button color="primary" onPress={onOpenChange2}>
-                  확인
+                  {dictionary.createBucket.confirm[language]}
                 </Button>
               </ModalFooter>
             </>

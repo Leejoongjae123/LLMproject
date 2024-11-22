@@ -220,7 +220,7 @@ const TableCreationModal = ({
                   className="border-[#F25B2B] text-[#F25B2B]"
                   onPress={createDefaultTable}
                 >
-                  기본 테이블 생성
+                  {dictionary.tableCreationModal.basicTable[language]}
                 </Button>
               )}
               {step < 3 || (hasScope3 && step < 4) ? (

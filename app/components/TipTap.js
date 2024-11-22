@@ -133,6 +133,21 @@ const StyledEditorContent = styled(EditorContent)`
       margin-top: 0.75em;
     }
 
+    // 맞춤법 검사 비활성화 스타일 추가
+    -webkit-spell-check: false;
+    -moz-spell-check: false;
+    -ms-spell-check: false;
+    spellcheck: false;
+
+    // 빨간 밑줄 제거
+    *::spelling-error {
+      text-decoration: none;
+    }
+    
+    *::-webkit-spelling-error {
+      text-decoration: none;
+    }
+
     table {
       border-collapse: collapse;
       margin: 0;
@@ -766,6 +781,10 @@ const CustomEditor = ({
         {
           type: "paragraph",
           content: [{ type: "text", text: dictionary.table.tableExplanation3[language] }],
+        },
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "\n" }], // 빈 paragraph로 개행 추가
         },
       ])
       .run();
