@@ -133,21 +133,6 @@ const StyledEditorContent = styled(EditorContent)`
       margin-top: 0.75em;
     }
 
-    // 맞춤법 검사 비활성화 스타일 추가
-    -webkit-spell-check: false;
-    -moz-spell-check: false;
-    -ms-spell-check: false;
-    spellcheck: false;
-
-    // 빨간 밑줄 제거
-    *::spelling-error {
-      text-decoration: none;
-    }
-    
-    *::-webkit-spelling-error {
-      text-decoration: none;
-    }
-
     table {
       border-collapse: collapse;
       margin: 0;
@@ -782,10 +767,6 @@ const CustomEditor = ({
           type: "paragraph",
           content: [{ type: "text", text: dictionary.table.tableExplanation3[language] }],
         },
-        {
-          type: "paragraph",
-          content: [{ type: "text", text: "\n" }], // 빈 paragraph로 개행 추가
-        },
       ])
       .run();
   };
@@ -816,7 +797,58 @@ const CustomEditor = ({
       ];
     };
 
+    // 기본 값 매핑을 실제 데이터로 수정
+    const baseValues = {
+      "Scope3": 14226771, // 첫 번째 연도 기준값
+      [dictionary.tableCreationModal.step4category1[language]]: 4930000,
+      [dictionary.tableCreationModal.step4category2[language]]: 4179000,
+      [dictionary.tableCreationModal.step4category3[language]]: 350000,
+      [dictionary.tableCreationModal.step4category4[language]]: 225000,
+      [dictionary.tableCreationModal.step4category5[language]]: 5700,
+    };
+
+    // generateRow 함수 수정
     const generateRow = (category, baseValue) => {
+      // 카테고리별 연도 데이터 매핑
+      const yearlyData = {
+        "Scope3": [14226771, 16491240, 17020560],
+        [dictionary.tableCreationModal.step4category1[language]]: [4930000, 5780000, 5564000],
+        [dictionary.tableCreationModal.step4category2[language]]: [4179000, 4026000, 5872000],
+        [dictionary.tableCreationModal.step4category3[language]]: [350000, 450000, 521000],
+        [dictionary.tableCreationModal.step4category4[language]]: [225000, 371000, 318000],
+        [dictionary.tableCreationModal.step4category5[language]]: [5700, 8000, 8000],
+        [dictionary.tableCreationModal.step4category6[language]]: [21901, 139000, 133000],
+        [dictionary.tableCreationModal.step4category7[language]]: [80000, 141000, 187000],
+        [dictionary.tableCreationModal.step4category8[language]]: [69000, 69000, 69000],
+        [dictionary.tableCreationModal.step4category9[language]]: [3950000, 5101000, 3941000],
+        [dictionary.tableCreationModal.step4category10[language]]: [19000, 18000, 4000],
+        [dictionary.tableCreationModal.step4category11[language]]: [9600, 8000, 7000],
+        [dictionary.tableCreationModal.step4category12[language]]: [317000, 313000, 327000],
+        [dictionary.tableCreationModal.step4category13[language]]: [65000, 62000, 64000],
+        [dictionary.tableCreationModal.step4category14[language]]: [3400, 3010, 2980],
+        [dictionary.tableCreationModal.step4category15[language]]: [2170, 2230, 2580],
+      };
+
+      // baseValues도 업데이트
+      const baseValues = {
+        "Scope3": 14226771,
+        [dictionary.tableCreationModal.step4category1[language]]: 4930000,
+        [dictionary.tableCreationModal.step4category2[language]]: 4179000,
+        [dictionary.tableCreationModal.step4category3[language]]: 350000,
+        [dictionary.tableCreationModal.step4category4[language]]: 225000,
+        [dictionary.tableCreationModal.step4category5[language]]: 5700,
+        [dictionary.tableCreationModal.step4category6[language]]: 21901,
+        [dictionary.tableCreationModal.step4category7[language]]: 80000,
+        [dictionary.tableCreationModal.step4category8[language]]: 69000,
+        [dictionary.tableCreationModal.step4category9[language]]: 3950000,
+        [dictionary.tableCreationModal.step4category10[language]]: 19000,
+        [dictionary.tableCreationModal.step4category11[language]]: 9600,
+        [dictionary.tableCreationModal.step4category12[language]]: 317000,
+        [dictionary.tableCreationModal.step4category13[language]]: 65000,
+        [dictionary.tableCreationModal.step4category14[language]]: 3400,
+        [dictionary.tableCreationModal.step4category15[language]]: 2170,
+      };
+
       return {
         type: "tableRow",
         content: [
@@ -830,13 +862,17 @@ const CustomEditor = ({
             ],
           },
           ...sortedYears.map((year, index) => {
-            const value = Math.round(baseValue * (1 + index * 0.1));
+            // 실제 데이터가 있으면 사용하고, 없으면 이전 계산 방식 사용
+            const value = yearlyData[category] ? 
+              yearlyData[category][index] || Math.round(baseValue * (1 + index * 0.1)) :
+              Math.round(baseValue * (1 + index * 0.1));
+
             return {
               type: "tableCell",
               content: [
                 {
                   type: "paragraph",
-                  content: [{ type: "text", text: value.toString() }],
+                  content: [{ type: "text", text: value.toLocaleString() }],
                 },
               ],
             };
@@ -852,17 +888,6 @@ const CustomEditor = ({
         const bNum = parseInt(b.match(/\d+/)?.[0] || "0");
         return aNum - bNum;
       });
-    };
-
-    // 기본 값 매핑 (예시)
-    const baseValues = {
-      "Scope3": 3000,
-      [dictionary.tableCreationModal.step4category1[language]]: 2000,
-      [dictionary.tableCreationModal.step4category2[language]]: 25,
-      [dictionary.tableCreationModal.step4category3[language]]: 39,
-      [dictionary.tableCreationModal.step4category4[language]]: 41,
-      [dictionary.tableCreationModal.step4category5[language]]: 18,
-      // ... 다른 카테고리들에 대한 기본값 추가
     };
 
     const sortedCategories = sortCategories(categories);

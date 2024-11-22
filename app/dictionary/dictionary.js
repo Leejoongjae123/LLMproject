@@ -426,15 +426,15 @@ export const dictionary = {
     },
     QuickAIQuestion1:{
       korean: "방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 조금 더 길게 작성해줘.",
-      english: "Keep the content and data source of the sentence you just wrote, and write it a little longer.",
+      english: "Please rewrite the sentence I just wrote while keeping the data sources intact but making the sentence slightly longer.",
     },
     QuickAIQuestion2:{
       korean: "방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 더 짧게 작성해줘.",
-      english: "Keep the content and data source of the sentence you just wrote, and write it a little shorter.",
+      english: "Please rewrite the sentence I just wrote while keeping the data sources intact but making the sentence shorter.",
     },
     QuickAIQuestion3:{
       korean: "방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 paraphrase 해줘",
-      english: "Keep the content and data source of the sentence you just wrote, and paraphrase it.",
+      english: "Please rewrite the sentence I just wrote while keeping the data sources intact but paraphrasing it.",
     },
     samplesTitle1: {
       korean: "EDK샘플(KOR)",
