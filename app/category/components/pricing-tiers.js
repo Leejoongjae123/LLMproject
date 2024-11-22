@@ -36,7 +36,7 @@ export const tiers = [
     key: TiersEnum.Pro,
     title: {
       korean: "대제목",
-      english: "Big Title",
+      english: "Main Title",
     },
     description: {
       korean: "체크 목차:0건",
@@ -69,7 +69,7 @@ export const tiers = [
     key: TiersEnum.Team,
     title: {
       korean: "중제목",
-      english: "Middle Title",
+      english: "Subtitle",
     },
     href: "#",
     featured: true,
@@ -113,7 +113,7 @@ export const tiers = [
     key: TiersEnum.Free,
     title: {
       korean: "소제목",
-      english: "Small Title",
+      english: "Subheading",
     },
     price: "Free",
     href: "#",

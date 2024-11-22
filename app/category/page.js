@@ -116,7 +116,7 @@ export default function Component() {
         <Card key={tiers[0].key} className="relative p-3" shadow="md">
           <CardHeader className="flex flex-col items-center gap-2 ">
             <h2 className="text-lg font-bold text-center">{tiers[0].title[language]}</h2>
-            <p className="text-sm text-default-500">{tiers[0].description[language]}</p>
+            {/* <p className="text-sm text-default-500">{tiers[0].description[language]}</p> */}
           </CardHeader>
           <Divider />
           <CardBody className="gap-4">
@@ -144,7 +144,7 @@ export default function Component() {
                   startContent={<FaCircle className="text-gray-500" />}
                   key="main"
                   className="group bg-gray-300 text-gray-700 hover:text-gray-500 hover:bg-gray-300"
-                  endContent={<div className="flex gap-2 text-xs">순서</div>}
+                  // endContent={<div className="flex gap-2 text-xs">순서</div>}
                   isDisabled
                 >
                   {dictionary?.category?.name[language]}
@@ -179,7 +179,7 @@ export default function Component() {
         <Card key={tiers[1].key} className="relative p-3" shadow="md">
           <CardHeader className="flex flex-col items-center gap-2 ">
             <h2 className="text-lg font-bold text-center">{tiers[1].title[language]}</h2>
-            <p className="text-sm text-default-500">{tiers[1].description[language]}</p>
+            {/* <p className="text-sm text-default-500">{tiers[1].description[language]}</p> */}
           </CardHeader>
           <Divider />
           <CardBody className="gap-4">
@@ -206,7 +206,7 @@ export default function Component() {
                   startContent={<FaCircle className="text-gray-500" />}
                   key="main1"
                   className="group bg-gray-300 text-gray-700 hover:text-gray-500 hover:bg-gray-300"
-                  endContent={<div className="flex gap-2 text-xs">순서</div>}
+                  // endContent={<div className="flex gap-2 text-xs">순서</div>}
                   isDisabled
                 >
                   {dictionary?.category?.name[language]}
@@ -234,7 +234,7 @@ export default function Component() {
         <Card key={tiers[2].key} className="relative p-3" shadow="md">
           <CardHeader className="flex flex-col items-center gap-2 ">
             <h2 className="text-lg font-bold text-center">{tiers[2].title[language]}</h2>
-            <p className="text-sm text-default-500">{tiers[2].description[language]}</p>
+            {/* <p className="text-sm text-default-500">{tiers[2].description[language]}</p> */}
           </CardHeader>
           <Divider />
           <CardBody className="gap-4">
@@ -260,9 +260,10 @@ export default function Component() {
                   startContent={<FaCircle className="text-gray-500" />}
                   key="main1"
                   className="group bg-gray-300 text-gray-700 hover:text-gray-500 hover:bg-gray-300"
-                  endContent={<div className="flex gap-2 text-xs">순서</div>}
+                  // endContent={<div className="flex gap-2 text-xs">순서</div>}
                   isDisabled
                 >
+                  
                   {dictionary?.category?.name[language]}
                 </ListboxItem>
                 {filteredTier3List.map((feature, index) => (
@@ -288,7 +289,7 @@ export default function Component() {
         <Card key={tiers[3].key} className="relative p-3" shadow="md">
           <CardHeader className="flex flex-col items-center gap-2 ">
             <h2 className="text-lg font-bold text-center">{tiers[3].title[language]}</h2>
-            <p className="text-sm text-default-500">{tiers[3].description[language]}</p>
+            {/* <p className="text-sm text-default-500">{tiers[3].description[language]}</p> */}
           </CardHeader>
           <Divider />
           <CardBody className="gap-4">
@@ -313,7 +314,7 @@ export default function Component() {
                   startContent={<FaCircle className="text-gray-500" />}
                   key="main1"
                   className="group bg-gray-300 text-gray-700 hover:text-gray-500 hover:bg-gray-300"
-                  endContent={<div className="flex gap-2 text-xs">순서</div>}
+                  // endContent={<div className="flex gap-2 text-xs">순서</div>}
                   isDisabled
                 >
                   {dictionary?.category?.name[language]}
