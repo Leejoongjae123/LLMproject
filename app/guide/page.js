@@ -77,7 +77,7 @@ function Page() {
   const requestMadeRef = useRef(false);
   const [chatReference, setChatReference] = useState([]);
   const { language, setLanguage } = useLanguageStore();
-  console.log('sampleText:',sampleText)
+  
   useEffect(() => {
     if (language === "korean") {
       setSelectedLanguage("kr");
@@ -95,6 +95,8 @@ function Page() {
     }
   }, [answer]);
 
+  console.log('language:',language)
+
   const handleFirstQuestion = async () => {
     if (answer.length > 0 || requestMadeRef.current) return;
 
@@ -108,10 +110,11 @@ function Page() {
       setIsLoading(true);
       const ENDPOINT = "/api/v2/answer";
       const questions = [
-        question.question1,
+        language === "korean" ? question.question1 : question.question4,
         question.question2,
         question.question3,
       ];
+      console.log('questions222:',questions)
 
       if (
         !process.env.NEXT_PUBLIC_SCIONIC_BASE_URL ||
