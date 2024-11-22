@@ -415,24 +415,6 @@ export const dictionary = {
       english:
         "<strong>Please describe how the <em>reporting and oversight process for addressing climate change</em> by the management is established.</strong> In particular, it would be helpful to explain whether a <strong>dedicated organization for responding to climate-related risks and opportunities</strong> has been designated and <strong>how the regular reporting system operates.</strong><br/><br/>Additionally, please provide specific details on <strong>how climate-related risks are integrated into the enterprise-wide risk management system</strong> and <strong>whether climate risks are effectively managed through the internal control system.</strong>",
     },
-    writeInstruction1: {
-      korean:
-        "방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 조금 더 길게 작성해줘.",
-      english:
-        "You can directly enter requests to the AI Manager",
-    },
-    writeInstruction2: {
-      korean:
-        "방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 조금 더 짧게 작성해줘.",
-      english:
-        "Keep the content and data source of the sentence you just wrote, and write it a little shorter.",
-    },
-    writeInstruction3: {
-      korean:
-        "방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 paraphrase 해줘.",
-      english:
-        "Keep the content and data source of the sentence you just wrote, and paraphrase it.",
-    },
     AIDiagnosisTooltip1: {
       korean: "보다 더 자세한 가이드 전문은 [가이드 탭]을 확인해 주세요",
       english: "AI Diagnosis Results",
@@ -441,6 +423,18 @@ export const dictionary = {
       korean: "보다 더 자세한 가이드 전문은 [가이드 탭]을 확인해 주세요",
       english:
         "AI diagnosis is provided based on ChatGPT-4, but please consult with a consultant for professional advice",
+    },
+    QuickAIQuestion1:{
+      korean: "방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 조금 더 길게 작성해줘.",
+      english: "Keep the content and data source of the sentence you just wrote, and write it a little longer.",
+    },
+    QuickAIQuestion2:{
+      korean: "방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 더 짧게 작성해줘.",
+      english: "Keep the content and data source of the sentence you just wrote, and write it a little shorter.",
+    },
+    QuickAIQuestion3:{
+      korean: "방금 작성한 문장 내용과 데이터 출처를 그대로 유지하면서, 문장을 paraphrase 해줘",
+      english: "Keep the content and data source of the sentence you just wrote, and paraphrase it.",
     },
     samplesTitle1: {
       korean: "EDK샘플(KOR)",

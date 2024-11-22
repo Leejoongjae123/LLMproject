@@ -41,7 +41,7 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: props.selectedText+regarding+ dictionary.guide.writeInstruction1[language],
+                message: props.selectedText+regarding+ dictionary.guide.QuickAIQuestion1[language],
                 category:dictionary.guide.write1[language],
                 chatId: uuidv4()
 
@@ -53,7 +53,7 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: props.selectedText+regarding+ dictionary.guide.writeInstruction2[language],
+                message: props.selectedText+regarding+ dictionary.guide.QuickAIQuestion2[language],
                 category:dictionary.guide.write2[language],
                 chatId: uuidv4()
                 
@@ -65,7 +65,7 @@ const PromptInputContent = React.forwardRef(
               ...props.chatList,
               {
                 role: 'user',
-                message: props.selectedText+regarding+ dictionary.guide.writeInstruction3[language],
+                message: props.selectedText+regarding+ dictionary.guide.QuickAIQuestion3[language],
                 category:dictionary.guide.write3[language],
                 chatId: uuidv4()
               }
