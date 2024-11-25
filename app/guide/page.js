@@ -95,7 +95,6 @@ function Page() {
     }
   }, [answer]);
 
-  console.log('language:',language)
 
   const handleFirstQuestion = async () => {
     if (answer.length > 0 || requestMadeRef.current) return;
@@ -158,12 +157,14 @@ function Page() {
       const responses = await Promise.all(promises);
 
       const answers = responses.map(({ response, questionSeq }) => ({
-        answer: response.data.data.chat.answer.replace(/#/g, ""),
+        answer: response.data.data.chat.answer
+          .replace(/#/g, "")
+          .replace(/\[\[(\d+)\]\]/g, "[$1]"),
         questionSeq,
       }));
 
-      // 순서대로 정렬
       answers.sort((a, b) => a.questionSeq - b.questionSeq);
+    
 
       const references = responses.flatMap(({ response, questionSeq }) =>
         response.data.data.contexts.map(
@@ -179,7 +180,7 @@ function Page() {
 
       // references도 questionSeq 기준으로 정렬하려면 아래 코드 추가
       references.sort((a, b) => a.questionSeq - b.questionSeq);
-
+       
       setAnswer(answers);
       setReference(references);
     } catch (error) {
@@ -193,7 +194,6 @@ function Page() {
       setIsLoading(false);
     }
   };
-  console.log("answer:", answer);
   const handleSecondQuestion = async (input = null) => {
     console.log("input:", input);
     try {
@@ -354,6 +354,8 @@ function Page() {
       localStorage.removeItem("questionRequestMade");
     };
   }, []);
+
+  console.log('selectedText:',selectedText)
 
   return (
     <div className="w-full h-full grid grid-cols-6 gap-4">
