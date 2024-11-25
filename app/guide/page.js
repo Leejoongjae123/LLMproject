@@ -159,7 +159,7 @@ function Page() {
       const answers = responses.map(({ response, questionSeq }) => ({
         answer: response.data.data.chat.answer
           .replace(/#/g, "")
-          .replace(/\[\[(\d+)\]\]/g, "[$1]"),
+          .replace(/\[\[([\d\s\w]+)\]\]/g, "[$1]"),
         questionSeq,
       }));
 
