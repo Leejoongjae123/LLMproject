@@ -206,7 +206,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
                         onOpen();
                       }}
                     >
-                      {dictionary.guide.number[language]}: {item.referenceIdx} / {dictionary.guide.fileName[language]}: {item.fileName} /
+                      {dictionary.guide.number[language]}: [{item.referenceIdx}] / {dictionary.guide.fileName[language]}: {item.fileName} /
                       {dictionary.guide.pageName[language]}: {item.pageName}
                     </Button>
                   </div>
@@ -226,7 +226,7 @@ function AIManager({ reference, setReference, selectedText, setSelectedText, cha
                           onOpen();
                         }}
                       >
-                        {dictionary.guide.number[language]}: {item.referenceIdx} / {dictionary.guide.fileName[language]}: {item.fileName} /
+                        {dictionary.guide.number[language]}: [{item.referenceIdx}] / {dictionary.guide.fileName[language]}: {item.fileName} /
                         {dictionary.guide.pageName[language]}: {item.pageName}
                       </Button>
                     </div>
