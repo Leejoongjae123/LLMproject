@@ -26,10 +26,25 @@ function AIAnalysis({
   const { language } = useLanguageStore();
   const formatAnalysisText = (text) => {
     if (!text) return "";
-    // Bold text between ** markers
-    let formattedText = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-    // Replace - with line breaks
-    formattedText = formattedText.replace(/\s*-\s*/g, "<br/>- ");
+    
+    let formattedText = text;
+    
+    if (language === 'english') {
+      // Bold text between ** markers for English only
+      formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, "<br/><br/><span>- </span><strong>$1</strong>");
+      formattedText = formattedText.replace(/(?<!\w)\s*-\s*/g, "");
+    }
+    if (language === 'korean') {
+      formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+      formattedText = formattedText.replace(/(?<!\w)\s*-\s*/g, "<br/><br/>- ");
+      
+    }
+    formattedText = formattedText.replace(/^(<br\/>)+/, '');
+
+    
+    // Replace - with line breaks for both languages
+
+    
     return formattedText;
   };
 

@@ -417,10 +417,10 @@ export const dictionary = {
     },
     AIDiagnosisTooltip1: {
       korean: "보다 더 자세한 가이드 전문은 [가이드 탭]을 확인해 주세요",
-      english: "AI Diagnosis Results",
+      english: "For a more detailed guide, please refer to the [Guide Tab].",
     },
     AIDiagnosisTooltip2: {
-      korean: "보다 더 자세한 가이드 전문은 [가이드 탭]을 확인해 주세요",
+      korean: "(툴팁) AI진단은 ChatGPT-4o를 기반으로 제공되며, 보다 전문적인 진단은 반드시 컨설턴트와 상의해 주세요.",
       english:
         "AI diagnosis is provided based on ChatGPT-4, but please consult with a consultant for professional advice",
     },
