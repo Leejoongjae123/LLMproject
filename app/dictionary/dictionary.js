@@ -339,7 +339,7 @@ export const dictionary = {
     },
     AIDiagnosisInstruction1: {
       korean: "해당 박스에는 아래 내용이 주로 작성되어야 해요.",
-      english: "Current box should primarily include the following content:",
+      english: "Current box should primarily include the following content",
     },
     AIDiagnosisInstruction2: {
       korean: "AI 진단 결과",
@@ -498,7 +498,7 @@ export const dictionary = {
     },
     step4category1: {
       korean: "Category 1 구매한 상품 및 서비스",
-      english: "Category 1Purchase Goods and Services",
+      english: "Category 1 Purchase Goods and Services",
     },
     step4category2: {
       korean: "Category 2 자본재",

@@ -365,8 +365,8 @@ function Page() {
           <Listbox aria-label="Recent chats" variant="flat">
             <ListboxSection
               classNames={{
-                base: "py-0 space-y-3 w-full flex-1 justify-center items-center",
-                heading: "py-0 pl-[10px] text-small text-default-400 ",
+                base: "py-0 space-y-5 w-full flex-1 justify-center items-center",
+                heading: "py-0 pl-[10px] text-small text-default-400",
               }}
             >
               <ListboxItem
@@ -382,7 +382,7 @@ function Page() {
 
               <ListboxItem
                 key="custom-support-message"
-                className="my-3 group h-12 text-[#1c9ea6] rounded-lg ml-5 hover:none"
+                className="my-5 group h-16 text-[#1c9ea6] rounded-lg ml-5 hover:none "
                 textValue="Governance"
                 onClick={() => setSelectedItem("weather")}
               >
@@ -397,7 +397,7 @@ function Page() {
               </ListboxItem>
               <ListboxItem
                 key="resignation-letter"
-                className="my-3 group h-12 text-[#1c9ea6] rounded-lg ml-5"
+                className="my-5 group h-16 text-[#1c9ea6] rounded-lg ml-5 "
                 textValue="Strategy"
                 onClick={() => setSelectedItem("manager")}
               >
@@ -413,7 +413,7 @@ function Page() {
 
               <ListboxItem
                 key="email-template"
-                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
+                className=" my-5 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="General Requirements"
               >
                 {dictionary.guide.strategy[language]}
@@ -421,21 +421,21 @@ function Page() {
 
               <ListboxItem
                 key="react-19-example"
-                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
+                className=" my-5 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="Climate-related Disclosures"
               >
                 {dictionary.guide.riskManagement[language]}
               </ListboxItem>
               <ListboxItem
                 key="how-a-taximeter-works"
-                className=" my-3 group h-12 text-gray-400 bg-gray-100 rounded-lg"
+                className=" my-5 group h-12 text-gray-400 bg-gray-100 rounded-lg"
                 textValue="Appendix"
               >
                 {dictionary.guide.metric[language]}
               </ListboxItem>
               <ListboxItem
                 key="custom-support-message2"
-                className="my-3 group h-12 text-[#1c9ea6] rounded-lg ml-5 hover:none"
+                className="my-5 group h-12 text-[#1c9ea6] rounded-lg ml-5 hover:none"
                 textValue="Indicator"
                 onClick={() => setSelectedItem("indicator")}
               >

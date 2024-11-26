@@ -129,7 +129,7 @@ function AIAnalysis({
         <div className="flex gap-3 justify-between items-center w-full">
           <div className="flex flex-row">
           <h1 className="font-bold">
-            {dictionary.guide.AIDiagnosisTooltip1[language]}
+            {dictionary.guide.AIDiagnosisInstruction2[language]}
           </h1>
           <Tooltip
             className="z-50"

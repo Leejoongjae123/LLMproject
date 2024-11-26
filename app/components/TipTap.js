@@ -9,8 +9,8 @@ import HardBreak from "@tiptap/extension-hard-break";
 import "./EditorStyles.css";
 import TextAlign from '@tiptap/extension-text-align'
 // shadcn UI 컴포넌트 import
-import { Toggle } from "./ui/toggle";
-import { Separator } from "./ui/separator";
+import { Toggle } from "../components/ui/toggle";
+import { Separator } from "../components/ui/separator";
 import {
   Bold,
   Italic,
@@ -148,6 +148,8 @@ const StyledEditorContent = styled(EditorContent)`
         padding: 3px 5px;
         position: relative;
         vertical-align: top;
+        font-size: 0.7em; // Adjusted font size
+
 
         > * {
           margin-bottom: 0;
@@ -159,6 +161,10 @@ const StyledEditorContent = styled(EditorContent)`
         font-weight: bold;
         text-align: left;
       }
+      .footnote {
+        font-size: 0.75em;
+        color: #666;
+    }
     }
 
   }
@@ -179,6 +185,21 @@ const StyledTable = styled.table`
     font-weight: bold;
   }
 `;
+
+const SmallText = Extension.create({
+  name: 'smallText',
+
+  addAttributes() {
+    return {
+      fontSize: {
+        default: '0.75em',
+        renderHTML: attributes => ({
+          style: `font-size: ${attributes.fontSize}`
+        })
+      }
+    }
+  }
+})
 
 const CustomEditor = ({
   category,
@@ -237,6 +258,7 @@ const CustomEditor = ({
       TableRow,
       TableHeader,
       TableCell,
+      SmallText,
     ],
     content: "", // 초기 내용을 비워둡니다.
     onFocus: () => setIsFocused(true),
@@ -765,9 +787,14 @@ const CustomEditor = ({
         },
         {
           type: "paragraph",
+          attrs: { style: 'font-size: 0.75em;' }, // 작은 글씨 크기 적용
           content: [{ type: "text", text: dictionary.table.tableExplanation3[language]+"\n" }],
         },
-        
+        {
+          type: "paragraph",
+          attrs: { style: 'font-size: 0.75em;' }, // 작은 글씨 크기 적용
+          content: [{ type: "text", text: dictionary.table.tableExplanation4[language]+"\n" }],
+        },
       ])
       .run();
   };
@@ -858,7 +885,10 @@ const CustomEditor = ({
             content: [
               {
                 type: "paragraph",
-                content: [{ type: "text", text: category }],
+                content: [{ 
+                  type: "text", 
+                  text: category.replace(/(\d+)/, '$1\n') // 숫자 다음에 개행 추가
+                }],
               },
             ],
           },
@@ -920,6 +950,7 @@ const CustomEditor = ({
         },
         {
           type: "paragraph",
+          attrs: { class: 'footnote' },  // footnote 클래스 추가
           content: [
             {
               type: "text",
