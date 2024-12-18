@@ -185,6 +185,7 @@ const PromptInputContent = React.forwardRef(
     
 
     // console.log("selectedText:", props.selectedText)
+    console.log('buckets:',buckets)
 
     return (
       <>
@@ -232,25 +233,29 @@ const PromptInputContent = React.forwardRef(
             </PopoverContent>
           </Popover>
           <div className="flex gap-2 flex-wrap">
-            {buckets
+            {Array.from(new Set(buckets
               .filter((bucket) => selectedBuckets.includes(bucket.bucketId))
-              .map((bucket) => (
-                <Chip
-                  key={bucket.bucketId}
-                  size="sm"
-                  color="primary"
-                  onClose={() =>
-                    setSelectedBuckets(
-                      selectedBuckets.filter((id) => id !== bucket.bucketId)
-                    )
-                  }
-                  className="max-w-[100px]"
-                >
-                  <span className="truncate max-w-12 block">
-                    {bucket.documentName}
-                  </span>
-                </Chip>
-              ))}
+              .map((bucket) => bucket.bucketId)))
+              .map((uniqueBucketId) => {
+                const bucket = buckets.find(b => b.bucketId === uniqueBucketId);
+                return (
+                  <Chip
+                    key={bucket.bucketId}
+                    size="sm"
+                    color="primary"
+                    onClose={() =>
+                      setSelectedBuckets(
+                        selectedBuckets.filter((id) => id !== bucket.bucketId)
+                      )
+                    }
+                    className="max-w-[100px]"
+                  >
+                    <span className="truncate max-w-12 block">
+                      {bucket.documentName}
+                    </span>
+                  </Chip>
+                );
+              })}
           </div>
         </div>
       </>
